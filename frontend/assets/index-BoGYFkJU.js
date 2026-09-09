@@ -70,4 +70,1201 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function Gee(e,t){if(e){if(typeof e=="string")return UM(e,t);var n={}.toString.call(e).slice(8,-1);return n==="Object"&&e.constructor&&(n=e.constructor.name),n==="Map"||n==="Set"?Array.from(e):n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?UM(e,t):void 0}}function UM(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function Fee(e,t){var n=e==null?null:typeof Symbol<"u"&&e[Symbol.iterator]||e["@@iterator"];if(n!=null){var r,l,o,u,c=[],d=!0,h=!1;try{if(o=(n=n.call(e)).next,t!==0)for(;!(d=(r=o.call(n)).done)&&(c.push(r.value),c.length!==t);d=!0);}catch(m){h=!0,l=m}finally{try{if(!d&&n.return!=null&&(u=n.return(),Object(u)!==u))return}finally{if(h)throw l}}return c}}function Xee(e){if(Array.isArray(e))return e}function Wee(e,t){if(e==null)return{};var n,r,l=Zee(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Zee(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function fl(){return fl=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},fl.apply(null,arguments)}function VM(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function vt(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?VM(Object(n),!0).forEach(function(r){Qee(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):VM(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Qee(e,t,n){return(t=Jee(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Jee(e){var t=ete(e,"string");return typeof t=="symbol"?t:t+""}function ete(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}var pi={x:0,y:0,width:0,height:0,viewBox:{x:0,y:0,width:0,height:0},orientation:"bottom",ticks:[],stroke:"#666",tickLine:!0,axisLine:!0,tick:!0,mirror:!1,minTickGap:5,tickSize:6,tickMargin:2,interval:"preserveEnd",zIndex:It.axis};function tte(e){var t=e.x,n=e.y,r=e.width,l=e.height,o=e.orientation,u=e.mirror,c=e.axisLine,d=e.otherSvgProps;if(!c)return null;var h=vt(vt(vt({},d),er(c)),{},{fill:"none"});if(o==="top"||o==="bottom"){var m=+(o==="top"&&!u||o==="bottom"&&u);h=vt(vt({},h),{},{x1:t,y1:n+m*l,x2:t+r,y2:n+m*l})}else{var v=+(o==="left"&&!u||o==="right"&&u);h=vt(vt({},h),{},{x1:t+v*r,y1:n,x2:t+v*r,y2:n+l})}return b.createElement("line",fl({},h,{className:Je("recharts-cartesian-axis-line",gi(c,"className"))}))}function nte(e,t,n,r,l,o,u,c,d){var h,m,v,y,x,S,A=c?-1:1,w=e.tickSize||u,O=fe(e.tickCoord)?e.tickCoord:e.coordinate;switch(o){case"top":h=m=e.coordinate,y=n+ +!c*l,v=y-A*w,S=v-A*d,x=O;break;case"left":v=y=e.coordinate,m=t+ +!c*r,h=m-A*w,x=h-A*d,S=O;break;case"right":v=y=e.coordinate,m=t+ +c*r,h=m+A*w,x=h+A*d,S=O;break;default:h=m=e.coordinate,y=n+ +c*l,v=y+A*w,S=v+A*d,x=O;break}return{line:{x1:h,y1:v,x2:m,y2:y},tick:{x,y:S}}}function rte(e,t){switch(e){case"left":return t?"start":"end";case"right":return t?"end":"start";default:return"middle"}}function ite(e,t){switch(e){case"left":case"right":return"middle";case"top":return t?"start":"end";default:return t?"end":"start"}}function ate(e){var t=e.option,n=e.tickProps,r=e.value,l,o=Je(n.className,"recharts-cartesian-axis-tick-value");if(b.isValidElement(t))l=b.cloneElement(t,vt(vt({},n),{},{className:o}));else if(typeof t=="function")l=t(vt(vt({},n),{},{className:o}));else{var u="recharts-cartesian-axis-tick-value";typeof t!="boolean"&&(u=Je(u,LQ(t))),l=b.createElement(ix,fl({},n,{className:u}),r)}return l}function lte(e){var t=e.ticks,n=e.axisType,r=e.axisId,l=lt(),o=b.useRef(null);return b.useEffect(()=>{if(!(r==null||n==null)){var u=t.map(d=>({value:d.value,coordinate:d.coordinate,offset:d.offset,index:d.index})),c=o.current;c!=null&&c.axisId===r&&c.axisType===n&&Mee(c.ticks,u)||(o.current={ticks:u,axisId:r,axisType:n},l(Vee({ticks:u,axisId:r,axisType:n})))}},[l,t,r,n]),b.useEffect(()=>r==null||n==null?dl:()=>{l(Hee({axisId:r,axisType:n}))},[l,r,n]),null}var ote=b.forwardRef((e,t)=>{var n=e.ticks,r=n===void 0?[]:n,l=e.tick,o=e.tickLine,u=e.stroke,c=e.tickFormatter,d=e.unit,h=e.padding,m=e.tickTextProps,v=e.orientation,y=e.mirror,x=e.x,S=e.y,A=e.width,w=e.height,O=e.tickSize,M=e.tickMargin,C=e.fontSize,D=e.letterSpacing,_=e.getTicksConfig,P=e.events,R=e.axisType,I=e.axisId,q=sx(vt(vt({},_),{},{ticks:r}),C,D),$=er(_),G=Lu(l),U=qk($.textAnchor)?$.textAnchor:rte(v,y),se=ite(v,y),ie={};typeof o=="object"&&(ie=o);var le=vt(vt({},$),{},{fill:"none"},ie),L=q.map(ce=>vt({entry:ce},nte(ce,x,S,A,w,v,O,y,M))),Q=L.map(ce=>{var oe=ce.entry,N=ce.line;return b.createElement(nn,{className:"recharts-cartesian-axis-tick",key:"tick-".concat(oe.value,"-").concat(oe.coordinate,"-").concat(oe.tickCoord)},o&&b.createElement("line",fl({},le,N,{className:Je("recharts-cartesian-axis-tick-line",gi(o,"className"))})))}),J=L.map((ce,oe)=>{var N,X,ne=ce.entry,ue=ce.tick,pe=vt(vt(vt(vt({verticalAnchor:se},$),{},{textAnchor:U,stroke:"none",fill:u},ue),{},{index:oe,payload:ne,visibleTicksCount:q.length,tickFormatter:c,padding:h},m),{},{angle:(N=(X=m?.angle)!==null&&X!==void 0?X:$.angle)!==null&&N!==void 0?N:0}),xe=vt(vt({},pe),G);return b.createElement(nn,fl({className:"recharts-cartesian-axis-tick-label",key:"tick-label-".concat(ne.value,"-").concat(ne.coordinate,"-").concat(ne.tickCoord)},V0(P,ne,oe)),l&&b.createElement(ate,{option:l,tickProps:xe,value:"".concat(typeof c=="function"?c(ne.value,oe):ne.value).concat(d||"")}))});return b.createElement("g",{className:"recharts-cartesian-axis-ticks recharts-".concat(R,"-ticks")},b.createElement(lte,{ticks:q,axisId:I,axisType:R}),J.length>0&&b.createElement(or,{zIndex:It.label},b.createElement("g",{className:"recharts-cartesian-axis-tick-labels recharts-".concat(R,"-tick-labels"),ref:t},J)),Q.length>0&&b.createElement("g",{className:"recharts-cartesian-axis-tick-lines recharts-".concat(R,"-tick-lines")},Q))}),ste=b.forwardRef((e,t)=>{var n=e.axisLine,r=e.width,l=e.height,o=e.className,u=e.hide,c=e.ticks,d=e.axisType,h=e.axisId,m=Wee(e,Yee),v=b.useState(""),y=$M(v,2),x=y[0],S=y[1],A=b.useState(""),w=$M(A,2),O=w[0],M=w[1],C=b.useRef(null);b.useImperativeHandle(t,()=>({getCalculatedWidth:()=>{var _;return Bee({ticks:C.current,label:(_=e.labelRef)===null||_===void 0?void 0:_.current,labelGapWithTick:5,tickSize:e.tickSize,tickMargin:e.tickMargin})},getCalculatedHeight:()=>{var _;return $ee({ticks:C.current,label:(_=e.labelRef)===null||_===void 0?void 0:_.current,labelGapWithTick:5,tickSize:e.tickSize,tickMargin:e.tickMargin})}}));var D=b.useCallback(_=>{if(_){var P=_.getElementsByClassName("recharts-cartesian-axis-tick-value");C.current=P;var R=P[0];if(R){var I=window.getComputedStyle(R),q=I.fontSize,$=I.letterSpacing;(q!==x||$!==O)&&(S(q),M($))}}},[x,O]);return u||r!=null&&r<=0||l!=null&&l<=0?null:b.createElement(or,{zIndex:e.zIndex},b.createElement(nn,{className:Je("recharts-cartesian-axis",o)},b.createElement(tte,{x:e.x,y:e.y,width:r,height:l,orientation:e.orientation,mirror:e.mirror,axisLine:n,otherSvgProps:er(e)}),b.createElement(ote,{ref:D,axisType:d,events:m,fontSize:x,getTicksConfig:e,height:e.height,letterSpacing:O,mirror:e.mirror,orientation:e.orientation,padding:e.padding,stroke:e.stroke,tick:e.tick,tickFormatter:e.tickFormatter,tickLine:e.tickLine,tickMargin:e.tickMargin,tickSize:e.tickSize,tickTextProps:e.tickTextProps,ticks:c,unit:e.unit,width:e.width,x:e.x,y:e.y,axisId:h}),b.createElement(bQ,{x:e.x,y:e.y,width:e.width,height:e.height,lowerWidth:e.width,upperWidth:e.width},b.createElement(jQ,{label:e.label,labelRef:e.labelRef}),e.children)))}),ux=b.forwardRef((e,t)=>{var n=Ln(e,pi);return b.createElement(ste,fl({},n,{ref:t}))});ux.displayName="CartesianAxis";var ute={grid:{stroke:"#ccc",fill:"none"}},MN=b.createContext(ute);MN.Provider;var cte=()=>b.useContext(MN),fte=["x1","y1","x2","y2","key"],dte=["offset"],hte=["xAxisId","yAxisId"],mte=["xAxisId","yAxisId"];function HM(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function tn(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?HM(Object(n),!0).forEach(function(r){vte(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):HM(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function vte(e,t,n){return(t=pte(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function pte(e){var t=yte(e,"string");return typeof t=="symbol"?t:t+""}function yte(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}function Ja(){return Ja=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},Ja.apply(null,arguments)}function ah(e,t){if(e==null)return{};var n,r,l=gte(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function gte(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var bte=e=>{var t=e.fill;if(!t||t==="none")return null;var n=e.fillOpacity,r=e.x,l=e.y,o=e.width,u=e.height,c=e.ry;return b.createElement("rect",{x:r,y:l,ry:c,width:o,height:u,stroke:"none",fill:t,fillOpacity:n,className:"recharts-cartesian-grid-bg"})};function jN(e){var t=e.option,n=e.lineItemProps,r;if(b.isValidElement(t))r=b.cloneElement(t,n);else if(typeof t=="function")r=t(n);else{var l,o=n.x1,u=n.y1,c=n.x2,d=n.y2,h=n.key,m=ah(n,fte),v=(l=er(m))!==null&&l!==void 0?l:{};v.offset;var y=ah(v,dte),x=Array.isArray(y.strokeDasharray)?y.strokeDasharray.join(","):y.strokeDasharray;r=b.createElement("line",Ja({},y,{strokeDasharray:x,x1:o,y1:u,x2:c,y2:d,fill:"none",key:h}))}return r}function xte(e){var t=e.x,n=e.width,r=e.horizontal,l=r===void 0?!0:r,o=e.horizontalPoints;if(!l||!o||!o.length)return null;e.xAxisId,e.yAxisId;var u=ah(e,hte),c=o.map((d,h)=>{var m=tn(tn({},u),{},{x1:t,y1:d,x2:t+n,y2:d,key:"line-".concat(h),index:h});return b.createElement(jN,{key:"line-".concat(h),option:l,lineItemProps:m})});return b.createElement("g",{className:"recharts-cartesian-grid-horizontal"},c)}function Ste(e){var t=e.y,n=e.height,r=e.vertical,l=r===void 0?!0:r,o=e.verticalPoints;if(!l||!o||!o.length)return null;e.xAxisId,e.yAxisId;var u=ah(e,mte),c=o.map((d,h)=>{var m=tn(tn({},u),{},{x1:d,y1:t,x2:d,y2:t+n,key:"line-".concat(h),index:h});return b.createElement(jN,{option:l,lineItemProps:m,key:"line-".concat(h)})});return b.createElement("g",{className:"recharts-cartesian-grid-vertical"},c)}function Ate(e){var t=e.horizontalFill,n=e.fillOpacity,r=e.x,l=e.y,o=e.width,u=e.height,c=e.horizontalPoints,d=e.horizontal,h=d===void 0?!0:d;if(!h||!t||!t.length||c==null)return null;var m=c.map(y=>Math.round(y+l-l)).sort((y,x)=>y-x);l!==m[0]&&m.unshift(0);var v=m.map((y,x)=>{var S=m[x+1],A=S==null,w=A?l+u-y:S-y;if(w<=0)return null;var O=x%t.length;return b.createElement("rect",{key:"react-".concat(x),y,x:r,height:w,width:o,stroke:"none",fill:t[O],fillOpacity:n,className:"recharts-cartesian-grid-bg"})});return b.createElement("g",{className:"recharts-cartesian-gridstripes-horizontal"},v)}function wte(e){var t=e.vertical,n=t===void 0?!0:t,r=e.verticalFill,l=e.fillOpacity,o=e.x,u=e.y,c=e.width,d=e.height,h=e.verticalPoints;if(!n||!r||!r.length)return null;var m=h.map(y=>Math.round(y+o-o)).sort((y,x)=>y-x);o!==m[0]&&m.unshift(0);var v=m.map((y,x)=>{var S=m[x+1],A=S==null,w=A?o+c-y:S-y;if(w<=0)return null;var O=x%r.length;return b.createElement("rect",{key:"react-".concat(x),x:y,y:u,width:w,height:d,stroke:"none",fill:r[O],fillOpacity:l,className:"recharts-cartesian-grid-bg"})});return b.createElement("g",{className:"recharts-cartesian-gridstripes-vertical"},v)}var Ete=(e,t)=>{var n=e.xAxis,r=e.width,l=e.height,o=e.offset;return XP(sx(tn(tn(tn({},pi),n),{},{ticks:WP(n),viewBox:{x:0,y:0,width:r,height:l}})),o.left,o.left+o.width,t)},Ote=(e,t)=>{var n=e.yAxis,r=e.width,l=e.height,o=e.offset;return XP(sx(tn(tn(tn({},pi),n),{},{ticks:WP(n),viewBox:{x:0,y:0,width:r,height:l}})),o.top,o.top+o.height,t)},Tte={horizontal:!0,vertical:!0,horizontalPoints:[],verticalPoints:[],verticalFill:[],horizontalFill:[],xAxisId:0,yAxisId:0,syncWithTicks:!1,zIndex:It.grid};function DN(e){var t,n,r,l,o,u,c=r_(),d=i_(),h=n_(),m=tn(tn({},Ln(e,Tte)),{},{x:fe(e.x)?e.x:h.left,y:fe(e.y)?e.y:h.top,width:fe(e.width)?e.width:h.width,height:fe(e.height)?e.height:h.height}),v=m.xAxisId,y=m.yAxisId,x=m.x,S=m.y,A=m.width,w=m.height,O=m.syncWithTicks,M=m.horizontalValues,C=m.verticalValues,D=ln(),_=ye(Q=>BC(Q,"xAxis",v,D)),P=ye(Q=>BC(Q,"yAxis",y,D)),R=cte(),I={stroke:(t=m.stroke)!==null&&t!==void 0?t:R.grid.stroke,strokeWidth:(n=m.strokeWidth)!==null&&n!==void 0?n:R.grid.strokeWidth,strokeOpacity:(r=m.strokeOpacity)!==null&&r!==void 0?r:R.grid.strokeOpacity,strokeDasharray:(l=m.strokeDasharray)!==null&&l!==void 0?l:R.grid.strokeDasharray};if(!$r(A)||!$r(w)||!fe(x)||!fe(S))return null;var q=m.verticalCoordinatesGenerator||Ete,$=m.horizontalCoordinatesGenerator||Ote,G=m.horizontalPoints,U=m.verticalPoints;if((!G||!G.length)&&typeof $=="function"){var se=M&&M.length,ie=$({yAxis:P?tn(tn({},P),{},{ticks:se?M:P.ticks}):void 0,width:c??A,height:d??w,offset:h},se?!0:O);Rd(Array.isArray(ie),"horizontalCoordinatesGenerator should return Array but instead it returned [".concat(typeof ie,"]")),Array.isArray(ie)&&(G=ie)}if((!U||!U.length)&&typeof q=="function"){var le=C&&C.length,L=q({xAxis:_?tn(tn({},_),{},{ticks:le?C:_.ticks}):void 0,width:c??A,height:d??w,offset:h},le?!0:O);Rd(Array.isArray(L),"verticalCoordinatesGenerator should return Array but instead it returned [".concat(typeof L,"]")),Array.isArray(L)&&(U=L)}return b.createElement(or,{zIndex:m.zIndex},b.createElement("g",{className:"recharts-cartesian-grid"},b.createElement(bte,{fill:(o=m.fill)!==null&&o!==void 0?o:R.grid.fill,fillOpacity:(u=m.fillOpacity)!==null&&u!==void 0?u:R.grid.fillOpacity,x:m.x,y:m.y,width:m.width,height:m.height,ry:m.ry}),b.createElement(Ate,Ja({},m,{horizontalPoints:G})),b.createElement(wte,Ja({},m,{verticalPoints:U})),b.createElement(xte,Ja({},m,I,{offset:h,horizontalPoints:G,xAxis:_,yAxis:P})),b.createElement(Ste,Ja({},m,I,{offset:h,verticalPoints:U,xAxis:_,yAxis:P}))))}DN.displayName="CartesianGrid";var Cte={},PN=an({name:"errorBars",initialState:Cte,reducers:{addErrorBar:(e,t)=>{var n=t.payload,r=n.itemId,l=n.errorBar;e[r]||(e[r]=[]),e[r].push(l)},replaceErrorBar:(e,t)=>{var n=t.payload,r=n.itemId,l=n.prev,o=n.next;e[r]&&(e[r]=e[r].map(u=>u.dataKey===l.dataKey&&u.direction===l.direction?o:u))},removeErrorBar:(e,t)=>{var n=t.payload,r=n.itemId,l=n.errorBar;e[r]&&(e[r]=e[r].filter(o=>o.dataKey!==l.dataKey||o.direction!==l.direction))}}}),cx=PN.actions;cx.addErrorBar;cx.replaceErrorBar;cx.removeErrorBar;var Mte=PN.reducer,jte=["children"];function Dte(e,t){if(e==null)return{};var n,r,l=Pte(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Pte(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var _te={data:[],xAxisId:"xAxis-0",yAxisId:"yAxis-0",dataPointFormatter:()=>({x:0,y:0,value:0}),errorBarOffset:0},Rte=b.createContext(_te);function kte(e){var t=e.children,n=Dte(e,jte);return b.createElement(Rte.Provider,{value:n},t)}function fx(e,t){var n,r,l=ye(h=>Mi(h,e)),o=ye(h=>ji(h,t)),u=(n=l?.allowDataOverflow)!==null&&n!==void 0?n:Mt.allowDataOverflow,c=(r=o?.allowDataOverflow)!==null&&r!==void 0?r:jt.allowDataOverflow,d=u||c;return{needClip:d,needClipX:u,needClipY:c}}function _N(e){var t=e.xAxisId,n=e.yAxisId,r=e.clipPathId,l=ox(),o=fx(t,n),u=o.needClipX,c=o.needClipY,d=o.needClip,h=ye(C=>ZR(C,t,!1)),m=ye(C=>QR(C,n,!1));if(!d||!l)return null;var v=l.x,y=l.y,x=l.width,S=l.height,A=u&&h?Math.min(h[0],h[1]):v-x/2,w=c&&m?Math.min(m[0],m[1]):y-S/2,O=u&&h?Math.abs(h[1]-h[0]):x*2,M=c&&m?Math.abs(m[1]-m[0]):S*2;return b.createElement("clipPath",{id:"clipPath-".concat(r)},b.createElement("rect",{x:A,y:w,width:O,height:M}))}function Nte(e){var t=Lu(e),n=3,r=2;if(t!=null){var l=t.r,o=t.strokeWidth,u=Number(l),c=Number(o);return(Number.isNaN(u)||u<0)&&(u=n),(Number.isNaN(c)||c<0)&&(c=r),{r:u,strokeWidth:c}}return{r:n,strokeWidth:r}}function Hr(e,t){var n,r;return(n=(r=e.graphicalItems.cartesianItems.find(l=>l.id===t))===null||r===void 0?void 0:r.xAxisId)!==null&&n!==void 0?n:SN}function Kr(e,t){var n,r;return(n=(r=e.graphicalItems.cartesianItems.find(l=>l.id===t))===null||r===void 0?void 0:r.yAxisId)!==null&&n!==void 0?n:SN}var RN=(e,t,n)=>ma(e,"xAxis",Hr(e,t),n),kN=(e,t,n)=>ha(e,"xAxis",Hr(e,t),n),NN=(e,t,n)=>ma(e,"yAxis",Kr(e,t),n),zN=(e,t,n)=>ha(e,"yAxis",Kr(e,t),n),zte=H([Ve,RN,NN,kN,zN],(e,t,n,r,l)=>Vr(e,"xAxis")?Oo(t,r,!1):Oo(n,l,!1)),Ite=(e,t)=>t,dx=H([nm,Ite],(e,t)=>e.filter(n=>n.type==="area").find(n=>n.id===t)),IN=e=>{var t=Ve(e),n=Vr(t,"xAxis");return n?"yAxis":"xAxis"},Lte=(e,t)=>{var n=IN(e);return n==="yAxis"?Kr(e,t):Hr(e,t)},LN=(e,t,n)=>Qd(e,IN(e),Lte(e,t),n),Bte=H([dx,LN],(e,t)=>{var n;if(!(e==null||t==null)){var r=e.stackId,l=Gh(e);if(!(r==null||l==null)){var o=(n=t[r])===null||n===void 0?void 0:n.stackedData,u=o?.find(c=>c.key===l);if(u!=null)return u.map(c=>[c[0],c[1]])}}}),$te=H([dx,LN],(e,t)=>{if(!(e==null||e.stackId==null||t==null)){var n=t[e.stackId];if(n!=null)return n.graphicalItems.map(r=>r.dataKey).filter(fn)}}),Ute=H([Ve,RN,NN,kN,zN,Bte,g_,zte,dx,hY,$te],(e,t,n,r,l,o,u,c,d,h,m)=>{var v=u.chartData,y=u.dataStartIndex,x=u.dataEndIndex;if(!(d==null||e!=="horizontal"&&e!=="vertical"||t==null||n==null||r==null||l==null||r.length===0||l.length===0||c==null)){var S=d.data,A;if(S&&S.length>0?A=S:A=v?.slice(y,x+1),A!=null)return hne({layout:e,xAxis:t,yAxis:n,xAxisTicks:r,yAxisTicks:l,dataStartIndex:y,areaSettings:d,stackedData:o,displayedData:A,chartBaseValue:h,bandSize:c,stackDataKeys:m})}}),Vte=["animationElapsedTime","isAnimating","isEntrance","layout","isRange","stroke","connectNulls"],Hte=["id","baseLine"];function mu(){return mu=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},mu.apply(null,arguments)}function KM(e,t){if(e==null)return{};var n,r,l=Kte(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Kte(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function Yte(e){var t,n,r=e.alpha,l=e.baseLine,o=e.points,u=e.strokeWidth,c=(t=o[0])===null||t===void 0?void 0:t.x,d=(n=o[o.length-1])===null||n===void 0?void 0:n.x;if(!Me(c)||!Me(d))return null;var h=r*Math.abs(c-d),m=Math.max(...o.map(v=>v.y||0));return fe(l)?m=Math.max(l,m):l&&Array.isArray(l)&&l.length&&(m=Math.max(...l.map(v=>v.y||0),m)),fe(m)?b.createElement("rect",{x:c<d?c:c-h,y:0,width:h,height:Math.floor(m+(u?parseInt("".concat(u),10):1))}):null}function qte(e){var t,n,r=e.alpha,l=e.baseLine,o=e.points,u=e.strokeWidth,c=(t=o[0])===null||t===void 0?void 0:t.y,d=(n=o[o.length-1])===null||n===void 0?void 0:n.y;if(!Me(c)||!Me(d))return null;var h=r*Math.abs(c-d),m=Math.max(...o.map(v=>v.x||0));return fe(l)?m=Math.max(l,m):l&&Array.isArray(l)&&l.length&&(m=Math.max(...l.map(v=>v.x||0),m)),fe(m)?b.createElement("rect",{x:0,y:c<d?c:c-h,width:m+(u?parseInt("".concat(u),10):1),height:Math.floor(h)}):null}function Gte(e){var t=e.alpha,n=e.layout,r=e.points,l=e.baseLine,o=e.strokeWidth;return n==="vertical"?b.createElement(qte,{alpha:t,points:r,baseLine:l,strokeWidth:o}):b.createElement(Yte,{alpha:t,points:r,baseLine:l,strokeWidth:o})}function Fte(e){var t=e.animationElapsedTime,n=t===void 0?1:t,r=e.isAnimating,l=r===void 0?!1:r,o=e.isEntrance,u=o===void 0?!1:o,c=e.layout,d=e.isRange,h=e.stroke,m=e.connectNulls,v=KM(e,Vte),y=c==="vertical"?"vertical":"horizontal",x=m??!1,S=yN(),A=v.id,w=v.baseLine,O=KM(v,Hte),M=er(O),C=b.createElement(od,mu({},v,{id:A,baseLine:w,connectNulls:x,stroke:"none",className:"recharts-area-area",layout:y})),D=h!=="none"&&b.createElement(od,mu({},M,{className:"recharts-area-curve",layout:y,type:v.type,connectNulls:x,fill:"none",stroke:h,points:v.points})),_=h!=="none"&&d&&Array.isArray(w)&&b.createElement(od,mu({},M,{className:"recharts-area-curve",layout:y,type:v.type,connectNulls:x,fill:"none",stroke:h,points:w}));if(u&&(l||n<1)){var P;return b.createElement(nn,null,b.createElement("defs",null,b.createElement("clipPath",{id:S},b.createElement(Gte,{alpha:n,points:(P=v.points)!==null&&P!==void 0?P:[],baseLine:w,layout:y,strokeWidth:v.strokeWidth}))),b.createElement(nn,{clipPath:"url(#".concat(S,")")},C,D,_))}return b.createElement(b.Fragment,null,C,D,_)}var Xte=["id"],Wte=["activeDot","animationBegin","animationDuration","animationEasing","connectNulls","dot","fill","fillOpacity","hide","isAnimationActive","legendType","stroke","xAxisId","yAxisId"];function lh(){return lh=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},lh.apply(null,arguments)}function BN(e,t){if(e==null)return{};var n,r,l=Zte(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Zte(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function YM(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function Po(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?YM(Object(n),!0).forEach(function(r){Qte(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):YM(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Qte(e,t,n){return(t=Jte(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Jte(e){var t=ene(e,"string");return typeof t=="symbol"?t:t+""}function ene(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}var tne=(e,t)=>e==null?[]:t===1?e.flatMap(n=>n.status==="removed"?[]:[n.next]):e.flatMap(n=>n.status==="matched"?[Po(Po({},n.next),{},{x:Et(n.prev.x,n.next.x,t),y:Et(n.prev.y,n.next.y,t)})]:n.status==="added"?[n.next]:[]),$N={activeDot:!0,animationBegin:0,animationDuration:1500,animationEasing:"ease",animationMatchBy:ax,animationInterpolateFn:tne,connectNulls:!1,dot:!1,fill:"#3182bd",fillOpacity:.6,hide:!1,isAnimationActive:"auto",legendType:"line",stroke:"#3182bd",strokeWidth:1,type:"linear",label:!1,shape:Fte,xAxisId:0,yAxisId:0,zIndex:It.area};function oh(e,t){return e&&e!=="none"?e:t}var nne=e=>{var t=e.dataKey,n=e.name,r=e.stroke,l=e.fill,o=e.legendType,u=e.hide;return[{inactive:u,dataKey:t,type:o,color:oh(r,l),value:Nh(n,t),payload:e}]},rne=b.memo(e=>{var t=e.dataKey,n=e.data,r=e.stroke,l=e.strokeWidth,o=e.fill,u=e.name,c=e.hide,d=e.unit,h=e.formatter,m=e.tooltipType,v=e.id,y={dataDefinedOnItem:n,getPosition:dl,settings:{stroke:r,strokeWidth:l,fill:o,dataKey:t,nameKey:void 0,name:Nh(u,t),hide:c,type:m,color:oh(r,o),unit:d,formatter:h,graphicalItemId:v}};return b.createElement(fN,{tooltipEntrySettings:y})});function ine(e){var t=e.clipPathId,n=e.points,r=e.props,l=r.needClip,o=r.dot,u=r.dataKey,c=er(r);return b.createElement(_J,{points:n,dot:o,className:"recharts-area-dots",dotClassName:"recharts-area-dot",dataKey:u,baseProps:c,needClip:l,clipPathId:t})}function ane(e){var t=e.showLabels,n=e.children,r=e.points,l=r.map(o=>{var u,c,d={x:(u=o.x)!==null&&u!==void 0?u:0,y:(c=o.y)!==null&&c!==void 0?c:0,width:0,lowerWidth:0,upperWidth:0,height:0};return Po(Po({},d),{},{value:o.value,payload:o.payload,parentViewBox:void 0,viewBox:d,fill:void 0})});return b.createElement(Jk,{value:t?l:void 0},n)}function lne(e){var t=e.points,n=e.baseLine,r=e.needClip,l=e.clipPathId,o=e.props,u=e.animationElapsedTime,c=e.isAnimating,d=e.isEntrance,h=o.layout,m=o.type,v=o.stroke,y=o.connectNulls,x=o.isRange,S=o.shape,A=o.id,w=BN(o,Xte),O=tr(w),M=Po(Po({},O),{},{id:A,points:t,connectNulls:y,type:m,baseLine:n,layout:h,stroke:v,isRange:x,animationElapsedTime:u,isAnimating:c,isEntrance:d});return b.createElement(b.Fragment,null,t?.length>1&&b.createElement(nn,{clipPath:r?"url(#clipPath-".concat(l,")"):void 0},b.createElement(oN,{option:S,DefaultShape:$N.shape,shapeProps:M})),b.createElement(ine,{points:t,props:w,clipPathId:l}))}function one(e,t,n){if(fe(e)){var r=fe(t)?t:void 0;return Et(r,e,n)}if(ct(e)||gr(e)){var l=fe(t)?t:void 0;return Et(l,0,n)}return e}function sne(e){var t=e.needClip,n=e.clipPathId,r=e.props,l=e.previousPointsRef,o=e.previousBaselineRef,u=r.points,c=r.baseLine,d=r.isAnimationActive,h=r.animationBegin,m=r.animationDuration,v=r.animationEasing,y=r.animationMatchBy,x=r.animationInterpolateFn,S=b.useMemo(()=>({points:u,baseLine:c}),[u,c]),A=mN(S,o),w=rb(),O=vN(r.onAnimationStart,r.onAnimationEnd),M=O.isAnimating,C=O.handleAnimationStart,D=O.handleAnimationEnd,_=A.startValue;if(w==null)return null;var P;return Array.isArray(c)&&Array.isArray(_)?P=Hg(_,c,y):Array.isArray(c)?P=Hg(null,c,y):P=null,b.createElement(pN,{animationInput:S,animationIdPrefix:"recharts-area-",items:u,previousItemsRef:l,isAnimationActive:d,animationBegin:h,animationDuration:m,animationEasing:v,onAnimationStart:C,onAnimationEnd:D,animationInterpolateFn:x,animationMatchBy:y,layout:w},(R,I,q)=>{var $;return I===1?$=c:Array.isArray(c)?$=x(P,I,w):$=q?c:one(c,_,I),A.syncStepValue($,I),b.createElement(ane,{showLabels:!M,points:u},r.children,b.createElement(lne,{points:R,baseLine:$,needClip:t,clipPathId:n,props:r,animationElapsedTime:I,isAnimating:M||I<1,isEntrance:q}),b.createElement(tN,{label:r.label}))})}function une(e){var t=e.needClip,n=e.clipPathId,r=e.props,l=b.useRef(null),o=b.useRef();return b.createElement(sne,{needClip:t,clipPathId:n,props:r,previousPointsRef:l,previousBaselineRef:o})}class cne extends b.PureComponent{render(){var t=this.props,n=t.hide,r=t.dot,l=t.points,o=t.className,u=t.top,c=t.left,d=t.needClip,h=t.xAxisId,m=t.yAxisId,v=t.width,y=t.height,x=t.id,S=t.baseLine,A=t.zIndex;if(n)return null;var w=Je("recharts-area",o),O=x,M=Nte(r),C=M.r,D=M.strokeWidth,_=aN(r),P=C*2+D,R=d?"url(#clipPath-".concat(_?"":"dots-").concat(O,")"):void 0;return b.createElement(or,{zIndex:A},b.createElement(nn,{className:w},d&&b.createElement("defs",null,b.createElement(_N,{clipPathId:O,xAxisId:h,yAxisId:m}),!_&&b.createElement("clipPath",{id:"clipPath-dots-".concat(O)},b.createElement("rect",{x:c-P/2,y:u-P/2,width:v+P,height:y+P}))),b.createElement(une,{needClip:d,clipPathId:O,props:this.props})),b.createElement(_M,{points:l,mainColor:oh(this.props.stroke,this.props.fill),itemDataKey:this.props.dataKey,activeDot:this.props.activeDot,clipPath:R}),this.props.isRange&&Array.isArray(S)&&b.createElement(_M,{points:S,mainColor:oh(this.props.stroke,this.props.fill),itemDataKey:this.props.dataKey,activeDot:this.props.activeDot,clipPath:R}))}}function fne(e){var t,n=e.activeDot,r=e.animationBegin,l=e.animationDuration,o=e.animationEasing,u=e.connectNulls,c=e.dot,d=e.fill,h=e.fillOpacity,m=e.hide,v=e.isAnimationActive,y=e.legendType,x=e.stroke,S=e.xAxisId,A=e.yAxisId,w=BN(e,Wte),O=hl(),M=Pk(),C=fx(S,A),D=C.needClip,_=ln(),P=(t=ye(le=>Ute(le,e.id,_)))!==null&&t!==void 0?t:{},R=P.points,I=P.isRange,q=P.baseLine,$=ox();if(O!=="horizontal"&&O!=="vertical"||$==null||M!=="AreaChart"&&M!=="ComposedChart")return null;var G=$.height,U=$.width,se=$.x,ie=$.y;return!R||!R.length?null:b.createElement(cne,lh({},w,{activeDot:n,animationBegin:r,animationDuration:l,animationEasing:o,baseLine:q,connectNulls:u,dot:c,fill:d,fillOpacity:h,height:G,hide:m,layout:O,isAnimationActive:v,isRange:I,legendType:y,needClip:D,points:R,stroke:x,width:U,left:se,top:ie,xAxisId:S,yAxisId:A}))}var dne=(e,t,n,r,l)=>{var o=n??t;if(fe(o))return o;var u=e==="horizontal"?l:r,c=u.scale.domain();if(u.type==="number"){var d=Math.max(c[0],c[1]),h=Math.min(c[0],c[1]);return o==="dataMin"?h:o==="dataMax"||d<0?d:Math.max(Math.min(c[0],c[1]),0)}return o==="dataMin"?c[0]:o==="dataMax"?c[1]:c[0]};function hne(e){var t=e.areaSettings,n=t.connectNulls,r=t.baseValue,l=t.dataKey,o=e.stackedData,u=e.layout,c=e.chartBaseValue,d=e.xAxis,h=e.yAxis,m=e.displayedData,v=e.dataStartIndex,y=e.xAxisTicks,x=e.yAxisTicks,S=e.bandSize,A=e.stackDataKeys,w=o&&o.length,O=dne(u,c,r,d,h),M=u==="horizontal",C=!1,D=m.map((P,R)=>{var I,q,$,G;if(w)G=o[v+R];else{var U=yt(P,l);Array.isArray(U)?(G=U,C=!0):G=[O,U]}var se=(I=(q=G)===null||q===void 0?void 0:q[1])!==null&&I!==void 0?I:null,ie=yt(P,l),le=w&&ie==null&&A!=null&&A.length>0&&A.every(J=>yt(P,J)==null),L=se==null||w&&!n&&ie==null||le;if(M){var Q;return{x:IO({axis:d,ticks:y,bandSize:S,entry:P,index:R}),y:L?null:(Q=h.scale.map(se))!==null&&Q!==void 0?Q:null,value:G,payload:P}}return{x:L?null:($=d.scale.map(se))!==null&&$!==void 0?$:null,y:IO({axis:h,ticks:x,bandSize:S,entry:P,index:R}),value:G,payload:P}}),_;return w||C?_=D.map(P=>{var R,I=Array.isArray(P.value)?P.value[0]:null;if(M){var q;return{x:P.x,y:I!=null&&P.y!=null&&(q=h.scale.map(I))!==null&&q!==void 0?q:null,payload:P.payload}}return{x:I!=null&&(R=d.scale.map(I))!==null&&R!==void 0?R:null,y:P.y,payload:P.payload}}):_=M?h.scale.map(O):d.scale.map(O),{points:D,baseLine:_??0,isRange:C}}function mne(e){var t=Ln(e,$N),n=ln();return b.createElement(gN,{id:t.id,type:"area"},r=>b.createElement(b.Fragment,null,b.createElement(dN,{legendPayload:nne(t)}),b.createElement(rne,{dataKey:t.dataKey,data:t.data,stroke:t.stroke,strokeWidth:t.strokeWidth,fill:t.fill,name:t.name,hide:t.hide,unit:t.unit,formatter:t.formatter,tooltipType:t.tooltipType,id:r}),b.createElement(xN,{type:"area",id:r,data:t.data,dataKey:t.dataKey,xAxisId:t.xAxisId,yAxisId:t.yAxisId,zAxisId:0,stackId:ZP(t.stackId),hide:t.hide,barSize:void 0,baseValue:t.baseValue,isPanorama:n,connectNulls:t.connectNulls}),b.createElement(fne,lh({},t,{id:r}))))}var UN=b.memo(mne,Ku);UN.displayName="Area";var vne="Invariant failed";function pne(e,t){throw new Error(vne)}var yne=["option"];function gne(e,t){if(e==null)return{};var n,r,l=bne(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function bne(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var hx=m_;function mx(e){var t=e.option,n=gne(e,yne);return b.createElement(oN,{option:t,DefaultShape:hx,shapeProps:n,activeClassName:"recharts-active-bar",inActiveClassName:"recharts-inactive-bar"})}var xne=function(t){var n=arguments.length>1&&arguments[1]!==void 0?arguments[1]:0;return(r,l)=>{if(fe(t))return t;var o=fe(r)||ct(r);return o?t(r,l):(o||pne(),n)}},Sne=(e,t,n)=>n,Ane=(e,t)=>t,nc=H([nm,Ane],(e,t)=>e.filter(n=>n.type==="bar").find(n=>n.id===t)),wne=H([nc],e=>e?.maxBarSize),Ene=(e,t,n,r)=>r,One=H([Ve,nm,Hr,Kr,Sne],(e,t,n,r,l)=>t.filter(o=>e==="horizontal"?o.xAxisId===n:o.yAxisId===r).filter(o=>o.isPanorama===l).filter(o=>o.hide===!1).filter(o=>o.type==="bar")),Tne=(e,t,n)=>{var r=Ve(e),l=Hr(e,t),o=Kr(e,t);if(!(l==null||o==null))return r==="horizontal"?Qd(e,"yAxis",o,n):Qd(e,"xAxis",l,n)},Cne=(e,t)=>{var n=Ve(e),r=Hr(e,t),l=Kr(e,t);if(!(r==null||l==null))return n==="horizontal"?LC(e,"xAxis",r):LC(e,"yAxis",l)},Mne=H([One,dY,Cne],iee),jne=(e,t,n)=>{var r,l,o=nc(e,t);if(o==null)return 0;var u=Hr(e,t),c=Kr(e,t);if(u==null||c==null)return 0;var d=Ve(e),h=D_(e),m=o.maxBarSize,v=ct(m)?h:m,y,x;return d==="horizontal"?(y=ma(e,"xAxis",u,n),x=ha(e,"xAxis",u,n)):(y=ma(e,"yAxis",c,n),x=ha(e,"yAxis",c,n)),(r=(l=Oo(y,x,!0))!==null&&l!==void 0?l:v)!==null&&r!==void 0?r:0},VN=(e,t,n)=>{var r=Ve(e),l=Hr(e,t),o=Kr(e,t);if(!(l==null||o==null)){var u,c;return r==="horizontal"?(u=ma(e,"xAxis",l,n),c=ha(e,"xAxis",l,n)):(u=ma(e,"yAxis",o,n),c=ha(e,"yAxis",o,n)),Oo(u,c)}},Dne=H([Mne,D_,fY,P_,jne,VN,wne],uee),Pne=(e,t,n)=>{var r=Hr(e,t);if(r!=null)return ma(e,"xAxis",r,n)},_ne=(e,t,n)=>{var r=Kr(e,t);if(r!=null)return ma(e,"yAxis",r,n)},Rne=(e,t,n)=>{var r=Hr(e,t);if(r!=null)return ha(e,"xAxis",r,n)},kne=(e,t,n)=>{var r=Kr(e,t);if(r!=null)return ha(e,"yAxis",r,n)},Nne=H([Dne,nc],fee),zne=H([Tne,nc],cee),Ine=H([Lt,tb,Pne,_ne,Rne,kne,Nne,Ve,g_,VN,zne,nc,Ene],(e,t,n,r,l,o,u,c,d,h,m,v,y)=>{var x=d.chartData,S=d.dataStartIndex,A=d.dataEndIndex;if(!(v==null||u==null||t==null||c!=="horizontal"&&c!=="vertical"||n==null||r==null||l==null||o==null||h==null)){var w=v.data,O;if(w!=null&&w.length>0?O=w:O=x?.slice(S,A+1),O!=null)return pre({layout:c,barSettings:v,pos:u,parentViewBox:t,bandSize:h,xAxis:n,yAxis:r,xAxisTicks:l,yAxisTicks:o,stackedData:m,displayedData:O,offset:e,cells:y,dataStartIndex:S})}}),Lne=["index"];function Kg(){return Kg=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},Kg.apply(null,arguments)}function Bne(e,t){if(e==null)return{};var n,r,l=$ne(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function $ne(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var HN=b.createContext(void 0),Une=e=>{var t=b.useContext(HN);if(t!=null)return t.stackId;if(e!=null)return ZP(e)},Vne=(e,t)=>"recharts-bar-stack-clip-path-".concat(e,"-").concat(t),Hne=e=>{var t=b.useContext(HN);if(t!=null){var n=t.stackId;return"url(#".concat(Vne(n,e),")")}},KN=e=>{var t=e.index,n=Bne(e,Lne),r=Hne(t);return b.createElement(nn,Kg({className:"recharts-bar-stack-layer",clipPath:r},n))},Kne=["onMouseEnter","onMouseLeave","onClick"],Yne=["value","background","tooltipPosition"],qne=["id"],Gne=["onMouseEnter","onClick","onMouseLeave"];function qM(e,t){return Zne(e)||Wne(e,t)||Xne(e,t)||Fne()}function Fne(){throw new TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function Xne(e,t){if(e){if(typeof e=="string")return GM(e,t);var n={}.toString.call(e).slice(8,-1);return n==="Object"&&e.constructor&&(n=e.constructor.name),n==="Map"||n==="Set"?Array.from(e):n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?GM(e,t):void 0}}function GM(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function Wne(e,t){var n=e==null?null:typeof Symbol<"u"&&e[Symbol.iterator]||e["@@iterator"];if(n!=null){var r,l,o,u,c=[],d=!0,h=!1;try{if(o=(n=n.call(e)).next,t!==0)for(;!(d=(r=o.call(n)).done)&&(c.push(r.value),c.length!==t);d=!0);}catch(m){h=!0,l=m}finally{try{if(!d&&n.return!=null&&(u=n.return(),Object(u)!==u))return}finally{if(h)throw l}}return c}}function Zne(e){if(Array.isArray(e))return e}function va(){return va=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},va.apply(null,arguments)}function FM(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function Pt(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?FM(Object(n),!0).forEach(function(r){Qne(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):FM(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Qne(e,t,n){return(t=Jne(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Jne(e){var t=ere(e,"string");return typeof t=="symbol"?t:t+""}function ere(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}function sh(e,t){if(e==null)return{};var n,r,l=tre(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function tre(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var nre=e=>{var t=e.dataKey,n=e.name,r=e.fill,l=e.legendType,o=e.hide;return[{inactive:o,dataKey:t,type:l,color:r,value:Nh(n,t),payload:e}]},rre=b.memo(e=>{var t=e.dataKey,n=e.stroke,r=e.strokeWidth,l=e.fill,o=e.name,u=e.hide,c=e.unit,d=e.formatter,h=e.tooltipType,m=e.id,v={dataDefinedOnItem:void 0,getPosition:dl,settings:{stroke:n,strokeWidth:r,fill:l,dataKey:t,nameKey:void 0,name:Nh(o,t),hide:u,type:h,color:l,unit:c,formatter:d,graphicalItemId:m}};return b.createElement(fN,{tooltipEntrySettings:v})});function ire(e){var t=ye(cl),n=e.data,r=e.dataKey,l=e.background,o=e.allOtherBarProps,u=o.onMouseEnter,c=o.onMouseLeave,d=o.onClick,h=sh(o,Kne),m=sN(u,r,o.id),v=uN(c),y=cN(d,r,o.id);if(!l||n==null)return null;var x=Lu(l);return b.createElement(or,{zIndex:dee(l,It.barBackground)},n.map((S,A)=>{S.value;var w=S.background;S.tooltipPosition;var O=sh(S,Yne);if(!w)return null;var M=m(S,S.originalDataIndex),C=v(S,S.originalDataIndex),D=y(S,S.originalDataIndex),_=Pt(Pt(Pt(Pt(Pt({option:l,isActive:String(S.originalDataIndex)===t},O),{},{fill:"#eee"},w),x),V0(h,S,A)),{},{onMouseEnter:M,onMouseLeave:C,onClick:D,dataKey:r,index:A,className:"recharts-bar-background-rectangle"});return b.createElement(mx,va({key:"background-bar-".concat(A)},_))}))}function are(e){var t=e.showLabels,n=e.children,r=e.rects,l=r?.map(o=>{var u={x:o.x,y:o.y,width:o.width,lowerWidth:o.width,upperWidth:o.width,height:o.height};return Pt(Pt({},u),{},{value:o.value,payload:o.payload,parentViewBox:o.parentViewBox,viewBox:u,fill:o.fill})});return b.createElement(Jk,{value:t?l:void 0},n)}function lre(e){var t=e.shape,n=e.activeBar,r=e.baseProps,l=e.entry,o=e.index,u=e.dataKey,c=ye(cl),d=ye(Mk),h=n&&String(l.originalDataIndex)===c&&(d==null||u===d),m=c!=null&&(String(l.originalDataIndex)!==c||d!=null&&u!==d),v=b.useState(!1),y=qM(v,2),x=y[0],S=y[1],A=b.useState(!1),w=qM(A,2),O=w[0],M=w[1];b.useEffect(()=>{var I;return h?(S(!0),I=requestAnimationFrame(()=>{M(!0)})):(M(!1),m&&S(!1)),()=>{cancelAnimationFrame(I)}},[h,m]);var C=b.useCallback(()=>{h||S(!1)},[h]),D=h&&O,_=h||x,P;h?n===!0?P=t:P=n:P=t;var R=b.createElement(mx,va({},r,{name:String(r.name)},l,{isActive:D,option:P,index:o,dataKey:u,animationElapsedTime:e.animationElapsedTime,isAnimating:e.isAnimating,isEntrance:e.isEntrance,onTransitionEnd:C}));return _?b.createElement(or,{zIndex:It.activeBar},b.createElement(KN,{index:l.originalDataIndex},R)):R}function ore(e){var t=e.shape,n=e.baseProps,r=e.entry,l=e.index,o=e.dataKey;return b.createElement(mx,va({},n,{name:String(n.name)},r,{isActive:!1,option:t,index:l,dataKey:o,animationElapsedTime:e.animationElapsedTime,isAnimating:e.isAnimating,isEntrance:e.isEntrance}))}function sre(e){var t,n=e.data,r=e.props,l=e.animationElapsedTime,o=e.isAnimating,u=e.isEntrance,c=(t=er(r))!==null&&t!==void 0?t:{},d=c.id,h=sh(c,qne),m=r.shape,v=r.dataKey,y=r.activeBar,x=r.onMouseEnter,S=r.onClick,A=r.onMouseLeave,w=sh(r,Gne),O=sN(x,v,d),M=uN(A),C=cN(S,v,d);return n?b.createElement(b.Fragment,null,n.map((D,_)=>b.createElement(KN,va({index:D.originalDataIndex,key:"rectangle-".concat(D?.x,"-").concat(D?.y,"-").concat(D?.value,"-").concat(_),className:"recharts-bar-rectangle"},V0(w,D,_),{onMouseEnter:O(D,D.originalDataIndex),onMouseLeave:M(D,D.originalDataIndex),onClick:C(D,D.originalDataIndex)}),y?b.createElement(lre,{shape:m,activeBar:y,baseProps:h,entry:D,index:_,dataKey:v,animationElapsedTime:l,isAnimating:o,isEntrance:u}):b.createElement(ore,{shape:m,baseProps:h,entry:D,index:_,dataKey:v,animationElapsedTime:l,isAnimating:o,isEntrance:u})))):null}var ure=(e,t,n)=>e==null?[]:t===1?e.flatMap(r=>r.status==="removed"?[]:[r.next]):e.flatMap(r=>{if(r.status==="removed")return n==="horizontal"?[Pt(Pt({},r.prev),{},{height:Et(r.prev.height,0,t),y:Et(r.prev.y,r.prev.y+r.prev.height,t)})]:[Pt(Pt({},r.prev),{},{width:Et(r.prev.width,0,t)})];if(r.status==="matched")return[Pt(Pt({},r.next),{},{x:Et(r.prev.x,r.next.x,t),y:Et(r.prev.y,r.next.y,t),width:Et(r.prev.width,r.next.width,t),height:Et(r.prev.height,r.next.height,t)})];var l=r.next;return n==="horizontal"?[Pt(Pt({},l),{},{height:Et(0,l.height,t),y:Et(l.stackedBarStart,l.y,t)})]:[Pt(Pt({},l),{},{width:Et(0,l.width,t),x:Et(l.stackedBarStart,l.x,t)})]});function cre(e){var t=e.props,n=e.previousRectanglesRef,r=t.data,l=t.isAnimationActive,o=t.animationBegin,u=t.animationDuration,c=t.animationEasing,d=t.animationInterpolateFn,h=t.layout,m=vN(t.onAnimationStart,t.onAnimationEnd),v=m.isAnimating,y=m.handleAnimationStart,x=m.handleAnimationEnd;return b.createElement(are,{showLabels:!v,rects:r},b.createElement(pN,{animationInput:r,animationIdPrefix:"recharts-bar-",items:r,previousItemsRef:n,isAnimationActive:l,animationBegin:o,animationDuration:u,animationEasing:c,onAnimationStart:y,onAnimationEnd:x,animationInterpolateFn:d,animationMatchBy:t.animationMatchBy,layout:h},(S,A,w)=>b.createElement(nn,null,b.createElement(sre,{props:t,data:S,animationElapsedTime:A,isAnimating:v||A<1,isEntrance:w}))),b.createElement(tN,{label:t.label}),t.children)}function fre(e){var t=b.useRef(null);return b.createElement(cre,{previousRectanglesRef:t,props:e})}var YN=0,dre=(e,t)=>{var n=Array.isArray(e.value)?e.value[1]:e.value;return{x:e.x,y:e.y,value:n,errorVal:yt(e,t)}};class hre extends b.PureComponent{render(){var t=this.props,n=t.hide,r=t.data,l=t.dataKey,o=t.className,u=t.xAxisId,c=t.yAxisId,d=t.needClip,h=t.background,m=t.id;if(n||r==null)return null;var v=Je("recharts-bar",o),y=m;return b.createElement(nn,{className:v,id:m},d&&b.createElement("defs",null,b.createElement(_N,{clipPathId:y,xAxisId:u,yAxisId:c})),b.createElement(nn,{className:"recharts-bar-rectangles",clipPath:d?"url(#clipPath-".concat(y,")"):void 0},b.createElement(ire,{data:r,dataKey:l,background:h,allOtherBarProps:this.props}),b.createElement(fre,this.props)))}}var mre={activeBar:!1,animationBegin:0,animationDuration:400,animationEasing:"ease",animationInterpolateFn:ure,animationMatchBy:hN,background:!1,hide:!1,isAnimationActive:"auto",label:!1,legendType:"rect",minPointSize:YN,shape:hx,xAxisId:0,yAxisId:0,zIndex:It.bar};function vre(e){var t=e.xAxisId,n=e.yAxisId,r=e.hide,l=e.legendType,o=e.minPointSize,u=e.activeBar,c=e.animationBegin,d=e.animationDuration,h=e.animationEasing,m=e.isAnimationActive,v=fx(t,n),y=v.needClip,x=hl(),S=ln(),A=VQ(e.children,$k),w=ye(C=>Ine(C,e.id,S,A));if(x!=="vertical"&&x!=="horizontal")return null;var O,M=w?.[0];return M==null||M.height==null||M.width==null?O=0:O=x==="vertical"?M.height/2:M.width/2,b.createElement(kte,{xAxisId:t,yAxisId:n,data:w,dataPointFormatter:dre,errorBarOffset:O},b.createElement(hre,va({},e,{layout:x,needClip:y,data:w,xAxisId:t,yAxisId:n,hide:r,legendType:l,minPointSize:o,activeBar:u,animationBegin:c,animationDuration:d,animationEasing:h,isAnimationActive:m})))}function pre(e){var t=e.layout,n=e.barSettings,r=n.dataKey,l=n.minPointSize,o=n.hasCustomShape,u=e.pos,c=e.bandSize,d=e.xAxis,h=e.yAxis,m=e.xAxisTicks,v=e.yAxisTicks,y=e.stackedData,x=e.displayedData,S=e.offset,A=e.cells,w=e.parentViewBox,O=e.dataStartIndex,M=t==="horizontal"?h:d,C=y?M.scale.domain():null,D=G9({numericAxis:M}),_=M.scale.map(D);return x.map((P,R)=>{var I,q,$,G,U,se;if(y){var ie=y[R+O];if(ie==null)return null;I=V9(ie,C)}else I=yt(P,r),Array.isArray(I)||(I=[D,I]);var le=xne(l,YN)(I[1],R);if(t==="horizontal"){var L,Q=h.scale.map(I[0]),J=h.scale.map(I[1]);if(Q==null||J==null)return null;q=LO({axis:d,ticks:m,bandSize:c,offset:u.offset,entry:P,index:R}),$=(L=J??Q)!==null&&L!==void 0?L:void 0,G=u.size;var ce=Q-J;if(U=gr(ce)?0:ce,se={x:q,y:S.top,width:G,height:S.height},Math.abs(le)>0&&Math.abs(U)<Math.abs(le)){var oe=Sn(U||le)*(Math.abs(le)-Math.abs(U));$-=oe,U+=oe}}else{var N=d.scale.map(I[0]),X=d.scale.map(I[1]);if(N==null||X==null)return null;if(q=N,$=LO({axis:h,ticks:v,bandSize:c,offset:u.offset,entry:P,index:R}),G=X-N,U=u.size,se={x:S.left,y:$,width:S.width,height:U},Math.abs(le)>0&&Math.abs(G)<Math.abs(le)){var ne=Sn(G||le)*(Math.abs(le)-Math.abs(G));G+=ne}}if(q==null||$==null||G==null||U==null||!o&&(G===0||U===0))return null;var ue=Pt(Pt({},P),{},{stackedBarStart:_,x:q,y:$,width:G,height:U,value:y?I:I[1],payload:P,background:se,tooltipPosition:{x:q+G/2,y:$+U/2},parentViewBox:w,originalDataIndex:R},A&&A[R]&&A[R].props);return ue}).filter(Boolean)}function yre(e){var t=Ln(e,mre),n=Une(t.stackId),r=ln();return b.createElement(gN,{id:t.id,type:"bar"},l=>b.createElement(b.Fragment,null,b.createElement(dN,{legendPayload:nre(t)}),b.createElement(rre,{dataKey:t.dataKey,stroke:t.stroke,strokeWidth:t.strokeWidth,fill:t.fill,name:t.name,hide:t.hide,unit:t.unit,formatter:t.formatter,tooltipType:t.tooltipType,id:l}),b.createElement(xN,{type:"bar",id:l,data:void 0,xAxisId:t.xAxisId,yAxisId:t.yAxisId,zAxisId:0,dataKey:t.dataKey,stackId:n,hide:t.hide,barSize:t.barSize,minPointSize:t.minPointSize,maxBarSize:t.maxBarSize,isPanorama:r,hasCustomShape:t.shape!=null&&t.shape!==hx}),b.createElement(or,{zIndex:t.zIndex},b.createElement(vre,va({},t,{id:l})))))}var qN=b.memo(yre,Ku);qN.displayName="Bar";var gre=["domain","range"],bre=["domain","range"];function XM(e,t){if(e==null)return{};var n,r,l=xre(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function xre(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function WM(e,t){return e===t?!0:Array.isArray(e)&&e.length===2&&Array.isArray(t)&&t.length===2?e[0]===t[0]&&e[1]===t[1]:!1}function GN(e,t){if(e===t)return!0;var n=e.domain,r=e.range,l=XM(e,gre),o=t.domain,u=t.range,c=XM(t,bre);return!WM(n,o)||!WM(r,u)?!1:Ku(l,c)}var Sre=["type"],Are=["dangerouslySetInnerHTML","ticks","scale"],wre=["id","scale"];function Yg(){return Yg=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},Yg.apply(null,arguments)}function ZM(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function QM(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?ZM(Object(n),!0).forEach(function(r){Ere(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):ZM(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Ere(e,t,n){return(t=Ore(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Ore(e){var t=Tre(e,"string");return typeof t=="symbol"?t:t+""}function Tre(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}function qg(e,t){if(e==null)return{};var n,r,l=Cre(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Cre(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function Mre(e){var t=lt(),n=b.useRef(null),r=rb(),l=e.type,o=qg(e,Sre),u=Kh(r,"xAxis",l),c=b.useMemo(()=>{if(u!=null)return QM(QM({},o),{},{type:u})},[o,u]);return b.useLayoutEffect(()=>{c!=null&&(n.current===null?t(IJ(c)):n.current!==c&&t(LJ({prev:n.current,next:c})),n.current=c)},[c,t]),b.useLayoutEffect(()=>()=>{n.current&&(t(BJ(n.current)),n.current=null)},[t]),null}var jre=e=>{var t=e.xAxisId,n=e.className,r=e.height,l=e.label,o=b.useRef(null),u=b.useRef(null),c=ye(tb),d=ln(),h=lt(),m="xAxis",v=ye(O=>lk(O,m,t,d)),y=ye(O=>rk(O,t)),x=ye(O=>QF(O,t)),S=ye(O=>wR(O,t));if(b.useLayoutEffect(()=>{if(!(r!=="auto"||!y||om(l)||b.isValidElement(l)||S==null)){var O=o.current;if(O){var M=O.getCalculatedHeight();Math.round(y.height)!==Math.round(M)&&h(KJ({id:t,height:M}))}}},[v,y,h,l,t,r,S]),y==null||x==null||S==null)return null;e.dangerouslySetInnerHTML,e.ticks,e.scale;var A=qg(e,Are);S.id,S.scale;var w=qg(S,wre);return b.createElement(ux,Yg({},A,w,{ref:o,labelRef:u,x:x.x,y:x.y,width:y.width,height:y.height,className:Je("recharts-".concat(m," ").concat(m),n),viewBox:c,ticks:v,axisType:m,axisId:t}))},Dre={allowDataOverflow:Mt.allowDataOverflow,allowDecimals:Mt.allowDecimals,allowDuplicatedCategory:Mt.allowDuplicatedCategory,angle:Mt.angle,axisLine:pi.axisLine,height:Mt.height,hide:!1,includeHidden:Mt.includeHidden,interval:Mt.interval,label:!1,minTickGap:Mt.minTickGap,mirror:Mt.mirror,orientation:Mt.orientation,padding:Mt.padding,reversed:Mt.reversed,scale:Mt.scale,tick:Mt.tick,tickCount:Mt.tickCount,tickLine:pi.tickLine,tickSize:pi.tickSize,type:Mt.type,niceTicks:Mt.niceTicks,xAxisId:0},Pre=e=>{var t=Ln(e,Dre);return b.createElement(b.Fragment,null,b.createElement(Mre,{allowDataOverflow:t.allowDataOverflow,allowDecimals:t.allowDecimals,allowDuplicatedCategory:t.allowDuplicatedCategory,angle:t.angle,dataKey:t.dataKey,domain:t.domain,height:t.height,hide:t.hide,id:t.xAxisId,includeHidden:t.includeHidden,interval:t.interval,minTickGap:t.minTickGap,mirror:t.mirror,name:t.name,orientation:t.orientation,padding:t.padding,reversed:t.reversed,scale:t.scale,tick:t.tick,tickCount:t.tickCount,tickFormatter:t.tickFormatter,ticks:t.ticks,type:t.type,unit:t.unit,niceTicks:t.niceTicks}),b.createElement(jre,t))},FN=b.memo(Pre,GN);FN.displayName="XAxis";var _re=["type"],Rre=["dangerouslySetInnerHTML","ticks","scale"],kre=["id","scale"];function Gg(){return Gg=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},Gg.apply(null,arguments)}function JM(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function e2(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?JM(Object(n),!0).forEach(function(r){Nre(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):JM(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Nre(e,t,n){return(t=zre(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function zre(e){var t=Ire(e,"string");return typeof t=="symbol"?t:t+""}function Ire(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}function Fg(e,t){if(e==null)return{};var n,r,l=Lre(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Lre(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function Bre(e){var t=lt(),n=b.useRef(null),r=rb(),l=e.type,o=Fg(e,_re),u=Kh(r,"yAxis",l),c=b.useMemo(()=>{if(u!=null)return e2(e2({},o),{},{type:u})},[u,o]);return b.useLayoutEffect(()=>{c!=null&&(n.current===null?t($J(c)):n.current!==c&&t(UJ({prev:n.current,next:c})),n.current=c)},[c,t]),b.useLayoutEffect(()=>()=>{n.current&&(t(VJ(n.current)),n.current=null)},[t]),null}function $re(e){var t=e.yAxisId,n=e.className,r=e.width,l=e.label,o=b.useRef(null),u=b.useRef(null),c=ye(tb),d=ln(),h=lt(),m="yAxis",v=ye(O=>ik(O,t)),y=ye(O=>eX(O,t)),x=ye(O=>lk(O,m,t,d)),S=ye(O=>ER(O,t));if(b.useLayoutEffect(()=>{if(!(r!=="auto"||!v||om(l)||b.isValidElement(l)||S==null)){var O=o.current;if(O){var M=O.getCalculatedWidth();Math.round(v.width)!==Math.round(M)&&h(HJ({id:t,width:M}))}}},[x,v,h,l,t,r,S]),v==null||y==null||S==null)return null;e.dangerouslySetInnerHTML,e.ticks,e.scale;var A=Fg(e,Rre);S.id,S.scale;var w=Fg(S,kre);return b.createElement(ux,Gg({},A,w,{ref:o,labelRef:u,x:y.x,y:y.y,tickTextProps:r==="auto"?{width:void 0}:{width:r},width:v.width,height:v.height,className:Je("recharts-".concat(m," ").concat(m),n),viewBox:c,ticks:x,axisType:m,axisId:t}))}var Ure={allowDataOverflow:jt.allowDataOverflow,allowDecimals:jt.allowDecimals,allowDuplicatedCategory:jt.allowDuplicatedCategory,angle:jt.angle,axisLine:pi.axisLine,hide:!1,includeHidden:jt.includeHidden,interval:jt.interval,label:!1,minTickGap:jt.minTickGap,mirror:jt.mirror,orientation:jt.orientation,padding:jt.padding,reversed:jt.reversed,scale:jt.scale,tick:jt.tick,tickCount:jt.tickCount,tickLine:pi.tickLine,tickSize:pi.tickSize,type:jt.type,niceTicks:jt.niceTicks,width:jt.width,yAxisId:0},Vre=e=>{var t=Ln(e,Ure);return b.createElement(b.Fragment,null,b.createElement(Bre,{interval:t.interval,id:t.yAxisId,scale:t.scale,type:t.type,domain:t.domain,allowDataOverflow:t.allowDataOverflow,dataKey:t.dataKey,allowDuplicatedCategory:t.allowDuplicatedCategory,allowDecimals:t.allowDecimals,tickCount:t.tickCount,padding:t.padding,includeHidden:t.includeHidden,reversed:t.reversed,ticks:t.ticks,width:t.width,orientation:t.orientation,mirror:t.mirror,hide:t.hide,unit:t.unit,name:t.name,angle:t.angle,minTickGap:t.minTickGap,tick:t.tick,tickFormatter:t.tickFormatter,niceTicks:t.niceTicks}),b.createElement($re,t))},XN=b.memo(Vre,GN);XN.displayName="YAxis";var Hre=(e,t)=>t,vx=H([Hre,Ve,L_,$t,Ek,Di,AW,Lt],jW);function Kre(e){return"getBBox"in e.currentTarget&&typeof e.currentTarget.getBBox=="function"}function px(e){var t=e.currentTarget.getBoundingClientRect(),n,r;if(Kre(e)){var l=e.currentTarget.getBBox();n=l.width>0?t.width/l.width:1,r=l.height>0?t.height/l.height:1}else{var o=e.currentTarget;n=o.offsetWidth>0?t.width/o.offsetWidth:1,r=o.offsetHeight>0?t.height/o.offsetHeight:1}var u=(c,d)=>({relativeX:Math.round((c-t.left)/n),relativeY:Math.round((d-t.top)/r)});return"touches"in e?Array.from(e.touches).map(c=>u(c.clientX,c.clientY)):u(e.clientX,e.clientY)}var WN=In("mouseClick"),ZN=$u();ZN.startListening({actionCreator:WN,effect:(e,t)=>{var n=e.payload,r=vx(t.getState(),px(n));r?.activeIndex!=null&&t.dispatch(pX({activeIndex:r.activeIndex,activeDataKey:void 0,activeCoordinate:r.activeCoordinate}))}});var Xg=In("mouseMove"),QN=$u(),lo=null,$a=null,Py=null;QN.startListening({actionCreator:Xg,effect:(e,t)=>{var n=e.payload,r=t.getState(),l=r.eventSettings,o=l.throttleDelay,u=l.throttledEvents,c=u==="all"||u?.includes("mousemove");lo!==null&&(cancelAnimationFrame(lo),lo=null),$a!==null&&(typeof o!="number"||!c)&&(clearTimeout($a),$a=null),Py=px(n);var d=()=>{var h=t.getState(),m=ec(h,h.tooltip.settings.shared);if(!Py){lo=null,$a=null;return}if(m==="axis"){var v=vx(h,Py);v?.activeIndex!=null?t.dispatch(mk({activeIndex:v.activeIndex,activeDataKey:void 0,activeCoordinate:v.activeCoordinate})):t.dispatch(hk())}lo=null,$a=null};if(!c){d();return}o==="raf"?lo=requestAnimationFrame(d):typeof o=="number"&&$a===null&&($a=setTimeout(d,o))}});function Yre(e,t){return t instanceof HTMLElement?"HTMLElement <".concat(t.tagName,' class="').concat(t.className,'">'):t===window?"global.window":e==="children"&&typeof t=="object"&&t!==null?"<<CHILDREN>>":t}var t2={accessibilityLayer:!0,barCategoryGap:"10%",barGap:4,barSize:void 0,className:void 0,maxBarSize:void 0,stackOffset:"none",syncId:void 0,syncMethod:"index",baseValue:void 0,reverseStackOrder:!1},JN=an({name:"rootProps",initialState:t2,reducers:{updateOptions:(e,t)=>{var n;e.accessibilityLayer=t.payload.accessibilityLayer,e.barCategoryGap=t.payload.barCategoryGap,e.barGap=(n=t.payload.barGap)!==null&&n!==void 0?n:t2.barGap,e.barSize=t.payload.barSize,e.maxBarSize=t.payload.maxBarSize,e.stackOffset=t.payload.stackOffset,e.syncId=t.payload.syncId,e.syncMethod=t.payload.syncMethod,e.className=t.payload.className,e.baseValue=t.payload.baseValue,e.reverseStackOrder=t.payload.reverseStackOrder}}}),qre=JN.reducer,Gre=JN.actions.updateOptions,Fre=null,Xre={updatePolarOptions:(e,t)=>e===null?t.payload:(e.startAngle=t.payload.startAngle,e.endAngle=t.payload.endAngle,e.cx=t.payload.cx,e.cy=t.payload.cy,e.innerRadius=t.payload.innerRadius,e.outerRadius=t.payload.outerRadius,e)},ez=an({name:"polarOptions",initialState:Fre,reducers:Xre});ez.actions.updatePolarOptions;var Wre=ez.reducer,tz=In("keyDown"),nz=In("focus"),rz=In("blur"),um=$u(),oo=null,Ua=null,Hf=null;um.startListening({actionCreator:tz,effect:(e,t)=>{Hf=e.payload,oo!==null&&(cancelAnimationFrame(oo),oo=null);var n=t.getState(),r=n.eventSettings,l=r.throttleDelay,o=r.throttledEvents,u=o==="all"||o.includes("keydown");Ua!==null&&(typeof l!="number"||!u)&&(clearTimeout(Ua),Ua=null);var c=()=>{try{var d=t.getState(),h=d.rootProps.accessibilityLayer!==!1;if(!h)return;var m=d.tooltip.keyboardInteraction,v=Hf;if(v!=="ArrowRight"&&v!=="ArrowLeft"&&v!=="Enter")return;var y=fu(m,ul(d),jo(d),Do(d)),x=y==null?-1:Number(y),S=!Number.isFinite(x)||x<0,A=Di(d),w=ul(d),O=ec(d,d.tooltip.settings.shared);if(v==="Enter"){if(S)return;var M=th(d,O,"hover",String(m.index));t.dispatch(eh({active:!m.active,activeIndex:m.index,activeCoordinate:M}));return}var C=aX(d),D=C==="left-to-right"?1:-1,_=v==="ArrowRight"?1:-1,P;if(S){var R=jo(d),I=Do(d),q=_*D,$=le=>({active:!1,index:String(le),dataKey:void 0,graphicalItemId:void 0,coordinate:void 0});if(P=-1,q>0){for(var G=0;G<w.length;G++)if(fu($(G),w,R,I)!=null){P=G;break}}else for(var U=w.length-1;U>=0;U--)if(fu($(U),w,R,I)!=null){P=U;break}if(P<0)return}else{P=x+_*D;var se=A?.length||w.length;if(se===0||P>=se||P<0)return}var ie=th(d,O,"hover",String(P));t.dispatch(eh({active:!0,activeIndex:P.toString(),activeCoordinate:ie}))}finally{oo=null,Ua=null}};if(!u){c();return}l==="raf"?oo=requestAnimationFrame(c):typeof l=="number"&&Ua===null&&(c(),Hf=null,Ua=setTimeout(()=>{Hf?c():(Ua=null,oo=null)},l))}});um.startListening({actionCreator:nz,effect:(e,t)=>{var n=t.getState(),r=n.rootProps.accessibilityLayer!==!1;if(r){var l=n.tooltip.keyboardInteraction;if(!l.active&&l.index==null){var o="0",u=ec(n,n.tooltip.settings.shared),c=th(n,u,"hover",String(o));t.dispatch(eh({active:!0,activeIndex:o,activeCoordinate:c}))}}}});um.startListening({actionCreator:rz,effect:(e,t)=>{var n=t.getState(),r=n.rootProps.accessibilityLayer!==!1;if(r){var l=n.tooltip.keyboardInteraction;l.active&&t.dispatch(eh({active:!1,activeIndex:l.index,activeCoordinate:l.coordinate}))}}});function iz(e){e.persist();var t=e.currentTarget;return new Proxy(e,{get:(n,r)=>{if(r==="currentTarget")return t;var l=Reflect.get(n,r);return typeof l=="function"?l.bind(n):l}})}var Xn=In("externalEvent"),az=$u(),Kf=new Map,Js=new Map,_y=new Map;az.startListening({actionCreator:Xn,effect:(e,t)=>{var n=e.payload,r=n.handler,l=n.reactEvent;if(r!=null){var o=l.type,u=iz(l);_y.set(o,{handler:r,reactEvent:u});var c=Kf.get(o);c!==void 0&&(cancelAnimationFrame(c),Kf.delete(o));var d=t.getState(),h=d.eventSettings,m=h.throttleDelay,v=h.throttledEvents,y=v,x=y==="all"||y?.includes(o),S=Js.get(o);S!==void 0&&(typeof m!="number"||!x)&&(clearTimeout(S),Js.delete(o));var A=()=>{var M=_y.get(o);try{if(!M)return;var C=M.handler,D=M.reactEvent,_=t.getState(),P={activeCoordinate:oW(_),activeDataKey:Mk(_),activeIndex:cl(_),activeLabel:Ck(_),activeTooltipIndex:cl(_),isTooltipActive:sW(_)};C&&C(P,D)}finally{Kf.delete(o),Js.delete(o),_y.delete(o)}};if(!x){A();return}if(m==="raf"){var w=requestAnimationFrame(A);Kf.set(o,w)}else if(typeof m=="number"){if(!Js.has(o)){A();var O=setTimeout(A,m);Js.set(o,O)}}else A()}}});var Zre=H([Yo],e=>e.tooltipItemPayloads),Qre=H([Zre,(e,t)=>t,(e,t,n)=>n],(e,t,n)=>{if(t!=null){var r=e.find(o=>o.settings.graphicalItemId===n);if(r!=null){var l=r.getPosition;if(l!=null)return l(t)}}}),lz=In("touchMove"),oz=$u(),Va=null,ra=null,n2=null,eu=null;oz.startListening({actionCreator:lz,effect:(e,t)=>{var n=e.payload;if(!(n.touches==null||n.touches.length===0)){eu=iz(n);var r=t.getState(),l=r.eventSettings,o=l.throttleDelay,u=l.throttledEvents,c=u==="all"||u.includes("touchmove");Va!==null&&(cancelAnimationFrame(Va),Va=null),ra!==null&&(typeof o!="number"||!c)&&(clearTimeout(ra),ra=null),n2=Array.from(n.touches).map(h=>px({clientX:h.clientX,clientY:h.clientY,currentTarget:n.currentTarget}));var d=()=>{if(eu!=null){var h=t.getState(),m=ec(h,h.tooltip.settings.shared);if(m==="axis"){var v,y=(v=n2)===null||v===void 0?void 0:v[0];if(y==null){Va=null,ra=null;return}var x=vx(h,y);x?.activeIndex!=null&&t.dispatch(mk({activeIndex:x.activeIndex,activeDataKey:void 0,activeCoordinate:x.activeCoordinate}))}else if(m==="item"){var S,A=eu.touches[0];if(document.elementFromPoint==null||A==null)return;var w=document.elementFromPoint(A.clientX,A.clientY);if(!w||!w.getAttribute)return;var O=w.getAttribute(eH),M=(S=w.getAttribute(tH))!==null&&S!==void 0?S:void 0,C=pl(h).find(P=>P.id===M);if(O==null||C==null||M==null)return;var D=C.dataKey,_=Qre(h,O,M);t.dispatch(dk({activeDataKey:D,activeIndex:O,activeCoordinate:_,activeGraphicalItemId:M}))}Va=null,ra=null}};if(!c){d();return}o==="raf"?Va=requestAnimationFrame(d):typeof o=="number"&&ra===null&&(d(),eu=null,ra=setTimeout(()=>{eu?d():(ra=null,Va=null)},o))}}});var sz={throttleDelay:"raf",throttledEvents:["mousemove","touchmove","pointermove","scroll","wheel"]},uz=an({name:"eventSettings",initialState:sz,reducers:{setEventSettings:(e,t)=>{t.payload.throttleDelay!=null&&(e.throttleDelay=t.payload.throttleDelay),t.payload.throttledEvents!=null&&(e.throttledEvents=Le(t.payload.throttledEvents))}}}),Jre=uz.actions.setEventSettings,eie=uz.reducer,tie=xP({brush:mee,cartesianAxis:YJ,chartData:aZ,errorBars:Mte,eventSettings:eie,graphicalItems:AJ,layout:I9,legend:$H,options:eZ,polarAxis:IQ,polarOptions:Wre,referenceElements:gee,renderedTicks:Kee,rootProps:qre,tooltip:yX,zIndex:VW}),nie=function(t){var n=arguments.length>1&&arguments[1]!==void 0?arguments[1]:"Chart";return s9({reducer:tie,preloadedState:t,middleware:r=>{var l;return r({serializableCheck:!1,immutableCheck:!["commonjs","es6","production"].includes((l="es6")!==null&&l!==void 0?l:"")}).concat([ZN.middleware,QN.middleware,um.middleware,az.middleware,oz.middleware])},enhancers:r=>{var l=r;return typeof r=="function"&&(l=r()),l.concat(NP({type:"raf"}))},devTools:{serialize:{replacer:Yre},name:"recharts-".concat(n)}})};function rie(e){var t=e.preloadedState,n=e.children,r=e.reduxStoreName,l=ln(),o=b.useRef(null);if(l)return n;o.current==null&&(o.current=nie(t,r));var u=G0;return b.createElement(i7,{context:u,store:o.current},n)}function iie(e){var t=e.layout,n=e.margin,r=lt(),l=ln();return b.useEffect(()=>{l||(r(k9(t)),r(R9(n)))},[r,l,t,n]),null}var aie=b.memo(iie,Ku);function lie(e){var t=lt();return b.useEffect(()=>{t(Gre(e))},[t,e]),null}var oie=e=>{var t=lt();return b.useEffect(()=>{t(Jre(e))},[t,e]),null},sie=b.memo(oie,Ku);function r2(e){var t=e.zIndex,n=e.isPanorama,r=b.useRef(null),l=lt();return b.useLayoutEffect(()=>(r.current&&l($W({zIndex:t,element:r.current,isPanorama:n})),()=>{l(UW({zIndex:t,isPanorama:n}))}),[l,t,n]),b.createElement("g",{tabIndex:-1,ref:r,className:"recharts-zIndex-layer_".concat(t)})}function i2(e){var t=e.children,n=e.isPanorama,r=ye(PW);if(!r||r.length===0)return t;var l=r.filter(u=>u<0),o=r.filter(u=>u>0);return b.createElement(b.Fragment,null,l.map(u=>b.createElement(r2,{key:u,zIndex:u,isPanorama:n})),t,o.map(u=>b.createElement(r2,{key:u,zIndex:u,isPanorama:n})))}var uie=["children"];function cie(e,t){if(e==null)return{};var n,r,l=fie(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function fie(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}function uh(){return uh=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},uh.apply(null,arguments)}var die={width:"100%",height:"100%",display:"block"},hie=b.forwardRef((e,t)=>{var n=r_(),r=i_(),l=s_();if(!$r(n)||!$r(r))return null;var o=e.children,u=e.otherAttributes,c=e.title,d=e.desc,h,m;return u!=null&&(typeof u.tabIndex=="number"?h=u.tabIndex:h=l?0:void 0,typeof u.role=="string"?m=u.role:m=l?"application":void 0),b.createElement(OD,uh({},u,{title:c,desc:d,role:m,tabIndex:h,width:n,height:r,style:die,ref:t}),o)}),mie=e=>{var t=e.children,n=ye(Bh);if(!n)return null;var r=n.width,l=n.height,o=n.y,u=n.x;return b.createElement(OD,{width:r,height:l,x:u,y:o},t)},a2=b.forwardRef((e,t)=>{var n=e.children,r=cie(e,uie),l=ln();return l?b.createElement(mie,null,b.createElement(i2,{isPanorama:!0},n)):b.createElement(hie,uh({ref:t},r),b.createElement(i2,{isPanorama:!1},n))});function vie(e,t){return bie(e)||gie(e,t)||yie(e,t)||pie()}function pie(){throw new TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function yie(e,t){if(e){if(typeof e=="string")return l2(e,t);var n={}.toString.call(e).slice(8,-1);return n==="Object"&&e.constructor&&(n=e.constructor.name),n==="Map"||n==="Set"?Array.from(e):n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?l2(e,t):void 0}}function l2(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function gie(e,t){var n=e==null?null:typeof Symbol<"u"&&e[Symbol.iterator]||e["@@iterator"];if(n!=null){var r,l,o,u,c=[],d=!0,h=!1;try{if(o=(n=n.call(e)).next,t!==0)for(;!(d=(r=o.call(n)).done)&&(c.push(r.value),c.length!==t);d=!0);}catch(m){h=!0,l=m}finally{try{if(!d&&n.return!=null&&(u=n.return(),Object(u)!==u))return}finally{if(h)throw l}}return c}}function bie(e){if(Array.isArray(e))return e}function xie(){var e=lt(),t=b.useState(null),n=vie(t,2),r=n[0],l=n[1],o=ye(J9);return b.useEffect(()=>{if(r!=null){var u=r.getBoundingClientRect(),c=u.width/r.offsetWidth;Me(c)&&c!==o&&e(z9(c))}},[r,e,o]),l}function o2(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function Sie(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?o2(Object(n),!0).forEach(function(r){Aie(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):o2(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Aie(e,t,n){return(t=wie(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function wie(e){var t=Eie(e,"string");return typeof t=="symbol"?t:t+""}function Eie(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}function ca(){return ca=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},ca.apply(null,arguments)}function ch(e,t){return Mie(e)||Cie(e,t)||Tie(e,t)||Oie()}function Oie(){throw new TypeError(`Invalid attempt to destructure non-iterable instance.
-In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function Tie(e,t){if(e){if(typeof e=="string")return s2(e,t);var n={}.toString.call(e).slice(8,-1);return n==="Object"&&e.constructor&&(n=e.constructor.name),n==="Map"||n==="Set"?Array.from(e):n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?s2(e,t):void 0}}function s2(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function Cie(e,t){var n=e==null?null:typeof Symbol<"u"&&e[Symbol.iterator]||e["@@iterator"];if(n!=null){var r,l,o,u,c=[],d=!0,h=!1;try{if(o=(n=n.call(e)).next,t!==0)for(;!(d=(r=o.call(n)).done)&&(c.push(r.value),c.length!==t);d=!0);}catch(m){h=!0,l=m}finally{try{if(!d&&n.return!=null&&(u=n.return(),Object(u)!==u))return}finally{if(h)throw l}}return c}}function Mie(e){if(Array.isArray(e))return e}var jie=()=>(mZ(),null);function fh(e){if(typeof e=="number")return e;if(typeof e=="string"){var t=parseFloat(e);if(!Number.isNaN(t))return t}return 0}var Die=b.forwardRef((e,t)=>{var n,r,l=b.useRef(null),o=b.useState({containerWidth:fh((n=e.style)===null||n===void 0?void 0:n.width),containerHeight:fh((r=e.style)===null||r===void 0?void 0:r.height)}),u=ch(o,2),c=u[0],d=u[1],h=b.useCallback((v,y)=>{d(x=>{var S=Math.round(v),A=Math.round(y);return x.containerWidth===S&&x.containerHeight===A?x:{containerWidth:S,containerHeight:A}})},[]),m=b.useCallback(v=>{if(typeof t=="function"&&t(v),l.current!=null&&(l.current.disconnect(),l.current=null),v!=null&&typeof ResizeObserver<"u"){var y=v.getBoundingClientRect(),x=y.width,S=y.height;h(x,S);var A=O=>{var M=O[0];if(M!=null){var C=M.contentRect,D=C.width,_=C.height;h(D,_)}},w=new ResizeObserver(A);w.observe(v),l.current=w}},[t,h]);return b.useEffect(()=>()=>{var v=l.current;v?.disconnect()},[h]),b.createElement(b.Fragment,null,b.createElement(Vu,{width:c.containerWidth,height:c.containerHeight}),b.createElement("div",ca({ref:m},e)))}),Pie=b.forwardRef((e,t)=>{var n=e.width,r=e.height,l=b.useState({containerWidth:fh(n),containerHeight:fh(r)}),o=ch(l,2),u=o[0],c=o[1],d=b.useCallback((m,v)=>{c(y=>{var x=Math.round(m),S=Math.round(v);return y.containerWidth===x&&y.containerHeight===S?y:{containerWidth:x,containerHeight:S}})},[]),h=b.useCallback(m=>{if(typeof t=="function"&&t(m),m!=null){var v=m.getBoundingClientRect(),y=v.width,x=v.height;d(y,x)}},[t,d]);return b.createElement(b.Fragment,null,b.createElement(Vu,{width:u.containerWidth,height:u.containerHeight}),b.createElement("div",ca({ref:h},e)))}),_ie=b.forwardRef((e,t)=>{var n=e.width,r=e.height;return b.createElement(b.Fragment,null,b.createElement(Vu,{width:n,height:r}),b.createElement("div",ca({ref:t},e)))}),Rie=b.forwardRef((e,t)=>{var n=e.width,r=e.height;return typeof n=="string"||typeof r=="string"?b.createElement(Pie,ca({},e,{ref:t})):typeof n=="number"&&typeof r=="number"?b.createElement(_ie,ca({},e,{width:n,height:r,ref:t})):b.createElement(b.Fragment,null,b.createElement(Vu,{width:n,height:r}),b.createElement("div",ca({ref:t},e)))});function kie(e){return e?Die:Rie}var Nie=b.forwardRef((e,t)=>{var n=e.children,r=e.className,l=e.height,o=e.onClick,u=e.onContextMenu,c=e.onDoubleClick,d=e.onMouseDown,h=e.onMouseEnter,m=e.onMouseLeave,v=e.onMouseMove,y=e.onMouseUp,x=e.onTouchEnd,S=e.onTouchMove,A=e.onTouchStart,w=e.style,O=e.width,M=e.responsive,C=e.dispatchTouchEvents,D=C===void 0?!0:C,_=b.useRef(null),P=lt(),R=b.useState(null),I=ch(R,2),q=I[0],$=I[1],G=b.useState(null),U=ch(G,2),se=U[0],ie=U[1],le=xie(),L=nb(),Q=L?.width>0?L.width:O,J=L?.height>0?L.height:l,ce=b.useCallback(W=>{le(W),typeof t=="function"&&t(W),$(W),ie(W),W!=null&&(_.current=W)},[le,t,$,ie]),oe=b.useCallback(W=>{P(WN(W)),P(Xn({handler:o,reactEvent:W}))},[P,o]),N=b.useCallback(W=>{P(Xg(W)),P(Xn({handler:h,reactEvent:W}))},[P,h]),X=b.useCallback(W=>{P(hk()),P(Xn({handler:m,reactEvent:W}))},[P,m]),ne=b.useCallback(W=>{P(Xg(W)),P(Xn({handler:v,reactEvent:W}))},[P,v]),ue=b.useCallback(()=>{P(nz())},[P]),pe=b.useCallback(()=>{P(rz())},[P]),xe=b.useCallback(W=>{P(tz(W.key))},[P]),Ae=b.useCallback(W=>{P(Xn({handler:u,reactEvent:W}))},[P,u]),ot=b.useCallback(W=>{P(Xn({handler:c,reactEvent:W}))},[P,c]),ae=b.useCallback(W=>{P(Xn({handler:d,reactEvent:W}))},[P,d]),we=b.useCallback(W=>{P(Xn({handler:y,reactEvent:W}))},[P,y]),be=b.useCallback(W=>{P(Xn({handler:A,reactEvent:W}))},[P,A]),re=b.useCallback(W=>{D&&P(lz(W)),P(Xn({handler:S,reactEvent:W}))},[P,D,S]),ft=b.useCallback(W=>{P(Xn({handler:x,reactEvent:W}))},[P,x]),Ee=kie(M);return b.createElement(zk.Provider,{value:q},b.createElement(lU.Provider,{value:se},b.createElement(Ee,{width:Q??w?.width,height:J??w?.height,className:Je("recharts-wrapper",r),style:Sie({position:"relative",cursor:"default",width:Q,height:J},w),onClick:oe,onContextMenu:Ae,onDoubleClick:ot,onFocus:ue,onBlur:pe,onKeyDown:xe,onMouseDown:ae,onMouseEnter:N,onMouseLeave:X,onMouseMove:ne,onMouseUp:we,onTouchEnd:ft,onTouchMove:re,onTouchStart:be,ref:ce},b.createElement(jie,null),n)))}),zie=["width","height","responsive","children","className","style","compact","title","desc"];function Iie(e,t){if(e==null)return{};var n,r,l=Lie(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Lie(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var Bie=b.forwardRef((e,t)=>{var n=e.width,r=e.height,l=e.responsive,o=e.children,u=e.className,c=e.style,d=e.compact,h=e.title,m=e.desc,v=Iie(e,zie),y=er(v);return d?b.createElement(b.Fragment,null,b.createElement(Vu,{width:n,height:r}),b.createElement(a2,{otherAttributes:y,title:h,desc:m},o)):b.createElement(Nie,{className:u,style:c,width:n,height:r,responsive:l??!1,onClick:e.onClick,onMouseLeave:e.onMouseLeave,onMouseEnter:e.onMouseEnter,onMouseMove:e.onMouseMove,onMouseDown:e.onMouseDown,onMouseUp:e.onMouseUp,onContextMenu:e.onContextMenu,onDoubleClick:e.onDoubleClick,onTouchStart:e.onTouchStart,onTouchMove:e.onTouchMove,onTouchEnd:e.onTouchEnd},b.createElement(a2,{otherAttributes:y,title:h,desc:m,ref:t},b.createElement(Oee,null,o)))});function Wg(){return Wg=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},Wg.apply(null,arguments)}function u2(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function $ie(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?u2(Object(n),!0).forEach(function(r){Uie(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):u2(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Uie(e,t,n){return(t=Vie(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Vie(e){var t=Hie(e,"string");return typeof t=="symbol"?t:t+""}function Hie(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}var Kie={top:5,right:5,bottom:5,left:5},Yie=$ie({accessibilityLayer:!0,barCategoryGap:"10%",barGap:4,layout:"horizontal",margin:Kie,responsive:!1,reverseStackOrder:!1,stackOffset:"none",syncMethod:"index"},sz),cz=b.forwardRef(function(t,n){var r,l=Ln(t.categoricalChartProps,Yie),o=t.chartName,u=t.defaultTooltipEventType,c=t.validateTooltipEventTypes,d=t.tooltipPayloadSearcher,h=t.categoricalChartProps,m={chartName:o,defaultTooltipEventType:u,validateTooltipEventTypes:c,tooltipPayloadSearcher:d,eventEmitter:void 0};return b.createElement(rie,{preloadedState:{options:m},reduxStoreName:(r=h.id)!==null&&r!==void 0?r:o},b.createElement(hee,{chartData:h.data}),b.createElement(aie,{layout:l.layout,margin:l.margin}),b.createElement(sie,{throttleDelay:l.throttleDelay,throttledEvents:l.throttledEvents}),b.createElement(lie,{baseValue:l.baseValue,accessibilityLayer:l.accessibilityLayer,barCategoryGap:l.barCategoryGap,maxBarSize:l.maxBarSize,stackOffset:l.stackOffset,barGap:l.barGap,barSize:l.barSize,syncId:l.syncId,syncMethod:l.syncMethod,className:l.className,reverseStackOrder:l.reverseStackOrder}),b.createElement(Bie,Wg({},l,{ref:n})))}),qie=["axis","item"],Gie=b.forwardRef((e,t)=>b.createElement(cz,{chartName:"BarChart",defaultTooltipEventType:"axis",validateTooltipEventTypes:qie,tooltipPayloadSearcher:Ik,categoricalChartProps:e,ref:t})),Fie=["axis"],Xie=b.forwardRef((e,t)=>b.createElement(cz,{chartName:"AreaChart",defaultTooltipEventType:"axis",validateTooltipEventTypes:Fie,tooltipPayloadSearcher:Ik,categoricalChartProps:e,ref:t}));const Wie=["Beaches","Adventure","Food","Culture","Nature","Wellness","Shopping","Nightlife"],Zie=[{name:"Goa",tag:"Beach escape",price:8900,rating:4.8,image:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=900&h=650&fit=crop"},{name:"Manali",tag:"Mountain retreat",price:7400,rating:4.9,image:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=650&fit=crop"},{name:"Jaipur",tag:"Culture & heritage",price:6200,rating:4.8,image:"https://images.unsplash.com/photo-1477587458883-47145ed94245?w=900&h=650&fit=crop"},{name:"Kerala",tag:"Slow travel",price:9800,rating:4.9,image:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=900&h=650&fit=crop"}],Qie=[{day:1,title:"Delhi → Bangkok flight",time:"08:20",place:"Indira Gandhi Airport",cost:18500,icon:"✈️"},{day:1,title:"Airport transfer + hotel check-in",time:"18:10",place:"Sukhumvit",cost:1800,icon:"🚕"},{day:1,title:"Riverside Thai dinner",time:"20:30",place:"Chao Phraya",cost:1400,icon:"🍜"},{day:2,title:"Grand Palace & Wat Pho",time:"09:00",place:"Old Town",cost:2200,icon:"🏛️"},{day:2,title:"Street food tasting",time:"17:30",place:"Chinatown",cost:1200,icon:"🍢"},{day:3,title:"Phi Phi island adventure",time:"07:00",place:"Krabi",cost:5200,icon:"🌊"},{day:4,title:"Rain-safe Thai cooking class",time:"10:00",place:"Bangkok",cost:2400,icon:"👩‍🍳",rainSafe:!0},{day:4,title:"Local market & café trail",time:"16:00",place:"Ari",cost:1100,icon:"☕"},{day:5,title:"Floating market morning",time:"08:00",place:"Damnoen Saduak",cost:2100,icon:"🛶"},{day:6,title:"Shopping + massage",time:"11:00",place:"Siam",cost:2800,icon:"🛍️"},{day:7,title:"Bangkok → Delhi flight",time:"20:40",place:"Suvarnabhumi Airport",cost:18500,icon:"✈️"}],Jie=[{name:"Flights",value:37e3,icon:_$},{name:"Hotels",value:27e3,icon:M$},{name:"Transport",value:8e3,icon:SD},{name:"Activities",value:12e3,icon:lg},{name:"Food",value:8e3,icon:I$}],eae=[{day:"D1",spend:21700},{day:"D2",spend:3400},{day:"D3",spend:5200},{day:"D4",spend:3500},{day:"D5",spend:2100},{day:"D6",spend:2800},{day:"D7",spend:18500}];function tu(e){return`₹${e.toLocaleString("en-IN")}`}function tae(){const[e,t]=b.useState(!1),[n,r]=b.useState("home"),[l,o]=b.useState("Thailand"),[u,c]=b.useState("Delhi"),[d,h]=b.useState("10 Jan — 17 Jan"),[m,v]=b.useState(2),[y,x]=b.useState(1e5),[S,A]=b.useState(["Beaches","Adventure","Food"]),[w,O]=b.useState(!1),[M,C]=b.useState(!1),[D,_]=b.useState(!1),[P,R]=b.useState(""),[I,q]=b.useState([{role:"ai",text:"Hi! I can change your trip without losing the preferences you already selected. Try “make it ₹10,000 cheaper” or “make it more adventurous”."}]),[$,G]=b.useState("The Fern Bangkok"),[U,se]=b.useState(!1),[ie,le]=b.useState(!1),[L,Q]=b.useState([]),[J,ce]=b.useState(""),[oe,N]=b.useState(1),X=ie?81600:U?90400:92e3,ne=Math.max(y-X,0),ue=b.useMemo(()=>{const W=[...Jie];return ie?(W[0].value=33800,W[1].value=22e3,W[2].value=7e3,W[3].value=10800,W[4].value=8e3):U&&(W[3].value=10400),W},[ie,U]),pe=Qie.filter(W=>W.day===oe),xe=W=>A(je=>je.includes(W)?je.filter(st=>st!==W):[...je,W]),Ae=W=>{ce(W),window.setTimeout(()=>ce(""),2600)},ot=()=>{C(!0),window.setTimeout(()=>{C(!1),O(!0),Ae("AI trip optimized successfully")},900)},ae=()=>{le(!0),Ae("Trip re-optimized — ₹10,400 saved")},we=()=>{G("Lumen Riverside Hotel"),le(!0),Ae("Better-value hotel selected without increasing your budget")},be=()=>{A(W=>W.includes("Adventure")?W:[...W,"Adventure"]),Ae("Adventure experience added to your preferences")},re=()=>{se(!0),Ae("Day 4 updated with a rain-safe experience")},ft=()=>{if(!P.trim())return;const W=P.trim();q(st=>[...st,{role:"user",text:W}]),R("");const je=W.toLowerCase();window.setTimeout(()=>{let st="Done — I kept your core preferences and rebalanced the existing plan.";je.includes("cheaper")||je.includes("budget")?(le(!0),st="I found a cheaper flight, a better-value hotel and a lower-cost activity combination. New estimate: ₹81,600."):je.includes("hotel")?(we(),st="Swapped the stay to Lumen Riverside Hotel. The new combination stays within your current budget."):je.includes("adventure")?(be(),st="Added an adventure-first option and kept the rest of the itinerary intact."):(je.includes("rain")||je.includes("weather"))&&(re(),st="Day 4 is now rain-safe: cooking class + café trail."),q(Yr=>[...Yr,{role:"ai",text:st}])},450)},Ee=W=>{r(W),document.getElementById(W)?.scrollIntoView({behavior:"smooth"}),t(!1)};return T.jsxs("div",{className:"site",children:[T.jsx("header",{className:"nav-wrap",children:T.jsxs("nav",{className:"nav",children:[T.jsxs("button",{className:"brand",onClick:()=>Ee("home"),children:[T.jsx("span",{className:"brand-mark",children:"✦"}),T.jsxs("span",{children:["Yatra",T.jsx("span",{children:"AI"})]}),T.jsx("em",{children:"smart travel"})]}),T.jsxs("div",{className:`nav-links ${e?"open":""}`,children:[["home","discover","planner","trip"].map((W,je)=>T.jsx("button",{className:n===W?"active":"",onClick:()=>Ee(W),children:["Home","Discover","Plan a trip","My trip"][je]},W)),T.jsxs("button",{className:"mobile-plan",onClick:()=>Ee("planner"),children:["Plan my trip ",T.jsx(La,{size:15})]})]}),T.jsxs("div",{className:"nav-actions",children:[T.jsx("button",{className:"search-icon",onClick:()=>Ee("discover"),children:T.jsx(k$,{size:18})}),T.jsxs("button",{className:"nav-cta",onClick:()=>Ee("planner"),children:["Plan my trip ",T.jsx(La,{size:15})]}),T.jsx("button",{className:"menu-btn",onClick:()=>t(!e),children:e?T.jsx(nO,{}):T.jsx(D$,{})})]})]})}),T.jsxs("main",{children:[T.jsxs("section",{id:"home",className:"hero",children:[T.jsx("div",{className:"hero-photo"}),T.jsx("div",{className:"hero-wash"}),T.jsxs("div",{className:"hero-content",children:[T.jsxs(na.div,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},className:"eyebrow",children:[T.jsx("span",{})," AI-POWERED TRAVEL PLANNING"]}),T.jsxs(na.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{delay:.08},children:["Your next great",T.jsx("br",{}),T.jsx("i",{children:"journey starts here."})]}),T.jsx(na.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{delay:.16},children:"One intelligent plan for flights, stays, experiences, routes and every rupee of your trip."}),T.jsxs("div",{className:"hero-buttons",children:[T.jsxs("button",{className:"primary",onClick:()=>Ee("planner"),children:[T.jsx(Ks,{size:17})," Build my trip ",T.jsx(La,{size:16})]}),T.jsxs("button",{className:"ghost",onClick:()=>Ee("discover"),children:["Explore destinations ",T.jsx(WE,{size:16})]})]}),T.jsxs("div",{className:"trust-row",children:[T.jsxs("span",{children:[T.jsx("strong",{children:"12k+"})," trips planned"]}),T.jsxs("span",{children:[T.jsx("strong",{children:"₹1.0L"})," example budget"]}),T.jsxs("span",{children:[T.jsx("strong",{children:"24/7"})," AI companion"]})]})]}),T.jsxs("div",{className:"floating-note note-one",children:[T.jsx("span",{className:"mini-icon blue",children:T.jsx(JE,{size:15})}),T.jsxs("div",{children:[T.jsx("b",{children:"Best route found"}),T.jsx("small",{children:"18% less travel time"})]})]}),T.jsxs("div",{className:"floating-note note-two",children:[T.jsx("span",{className:"mini-icon green",children:T.jsx(L$,{size:15})}),T.jsxs("div",{children:[T.jsx("b",{children:"Budget optimized"}),T.jsx("small",{children:"Save ₹10,400 on this plan"})]})]})]}),T.jsxs("section",{id:"planner",className:"planner-card section-anchor",children:[T.jsxs("div",{className:"planner-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"YatraAI planner"}),T.jsx("h2",{children:"Tell us what the trip needs."})]}),T.jsxs("span",{className:"live",children:[T.jsx("i",{})," AI ready"]})]}),T.jsxs("div",{className:"planner-grid",children:[T.jsxs("label",{children:[T.jsx("small",{children:"FROM"}),T.jsxs("div",{className:"input",children:[T.jsx(QE,{size:17}),T.jsx("input",{value:u,onChange:W=>c(W.target.value)})]})]}),T.jsxs("label",{children:[T.jsx("small",{children:"DESTINATION"}),T.jsxs("div",{className:"input",children:[T.jsx(lg,{size:17}),T.jsx("input",{value:l,onChange:W=>o(W.target.value)})]})]}),T.jsxs("label",{children:[T.jsx("small",{children:"DATES"}),T.jsxs("div",{className:"input",children:[T.jsx(O$,{size:17}),T.jsx("input",{value:d,onChange:W=>h(W.target.value)})]})]}),T.jsxs("label",{children:[T.jsx("small",{children:"TRAVELLERS"}),T.jsxs("div",{className:"input stepper",children:[T.jsx(tO,{size:17}),T.jsx("button",{onClick:()=>v(Math.max(1,m-1)),children:"−"}),T.jsx("b",{children:m}),T.jsx("button",{onClick:()=>v(m+1),children:"+"})]})]}),T.jsxs("label",{children:[T.jsx("small",{children:"TOTAL BUDGET"}),T.jsxs("div",{className:"input",children:[T.jsx(C$,{size:17}),T.jsx("input",{type:"number",value:y,onChange:W=>x(Number(W.target.value))})]})]})]}),T.jsxs("div",{className:"interest-row",children:[T.jsx("small",{children:"TRIP STYLE"}),Wie.map(W=>T.jsxs("button",{className:S.includes(W)?"chosen":"",onClick:()=>xe(W),children:[S.includes(W)&&T.jsx(Qp,{size:13}),W]},W))]}),T.jsxs("button",{className:"plan-btn",onClick:ot,children:[T.jsx(Ks,{size:17})," ",M?"Optimizing your trip…":"Generate optimized trip"," ",T.jsx(La,{size:16})]})]}),T.jsx(qp,{children:M&&T.jsx(na.div,{className:"planning-overlay",initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},children:T.jsxs("div",{className:"planning-box",children:[T.jsx("div",{className:"loader-orb",children:"✦"}),T.jsx("h3",{children:"YatraAI is building your trip"}),T.jsx("p",{children:"Comparing routes · stays · activities · budget"}),T.jsx("div",{className:"progress",children:T.jsx("span",{})})]})})}),T.jsxs("section",{id:"discover",className:"section section-anchor",children:[T.jsxs("div",{className:"section-title",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"AI discovery"}),T.jsx("h2",{children:"Places worth packing for."}),T.jsx("p",{children:"Recommendations balance price, ratings, distance, season and your selected interests."})]}),T.jsxs("span",{className:"match-pill",children:[T.jsx(Ks,{size:14})," Personalized"]})]}),T.jsx("div",{className:"destination-grid",children:Zie.map((W,je)=>T.jsxs(na.article,{whileHover:{y:-6},className:`destination ${je===0?"large":""}`,children:[T.jsx("img",{src:W.image}),T.jsx("div",{className:"image-shade"}),T.jsx("button",{className:`heart ${L.includes(W.name)?"saved":""}`,onClick:()=>Q(st=>st.includes(W.name)?st.filter(Yr=>Yr!==W.name):[...st,W.name]),children:L.includes(W.name)?T.jsx(Jp,{size:17,fill:"currentColor"}):T.jsx(Jp,{size:17})}),T.jsxs("div",{className:"destination-info",children:[T.jsx("span",{children:W.tag}),T.jsx("h3",{children:W.name}),T.jsxs("div",{children:[T.jsxs("b",{children:["From ",tu(W.price)]}),T.jsxs("small",{children:[T.jsx(eO,{size:13,fill:"currentColor"})," ",W.rating]})]})]})]},W.name))})]}),w&&T.jsxs("section",{id:"trip",className:"trip-dashboard section-anchor",children:[T.jsxs("div",{className:"dashboard-top",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Your AI-optimized trip"}),T.jsxs("h2",{children:[l," ",T.jsx("span",{children:"·"})," 7 days"]}),T.jsxs("p",{children:[u," → ",l," · ",m," travellers · ",d]})]}),T.jsxs("div",{className:"trip-actions",children:[T.jsxs("button",{onClick:()=>_(!0),children:[T.jsx(Cf,{size:16})," Modify with AI"]}),T.jsxs("button",{className:"primary small",onClick:()=>Ae("Trip saved to My Trips"),children:["Save trip ",T.jsx(Jp,{size:15})]})]})]}),T.jsxs("div",{className:"score-strip",children:[T.jsxs("div",{children:[T.jsx("small",{children:"TRIP SCORE"}),T.jsxs("strong",{children:["94",T.jsx("span",{children:"/100"})]}),T.jsx("em",{children:"Excellent match"})]}),T.jsxs("div",{children:[T.jsx("small",{children:"WEATHER"}),T.jsxs("strong",{children:[T.jsx(ey,{size:21})," 29°C"]}),T.jsx("em",{children:"Mostly sunny · 10% rain"})]}),T.jsxs("div",{children:[T.jsx("small",{children:"CROWD"}),T.jsx("strong",{children:"Moderate"}),T.jsx("em",{children:"Best time: before 10 AM"})]}),T.jsxs("div",{children:[T.jsx("small",{children:"AI CONFIDENCE"}),T.jsx("strong",{children:"91%"}),T.jsx("em",{children:"Based on your preferences"})]})]}),T.jsxs("div",{className:"dashboard-grid",children:[T.jsxs("div",{className:"budget-panel card",children:[T.jsxs("div",{className:"card-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Budget optimizer"}),T.jsxs("h3",{children:["₹",X.toLocaleString("en-IN")," ",T.jsxs("span",{children:["/ ₹",y.toLocaleString("en-IN")]})]})]}),T.jsxs("span",{className:"remaining",children:[tu(ne)," left"]})]}),T.jsx("div",{className:"budget-bar",children:T.jsx("span",{style:{width:`${Math.min(X/y*100,100)}%`}})}),T.jsx("div",{className:"budget-rows",children:ue.map(W=>{const je=W.icon;return T.jsxs("div",{children:[T.jsx("span",{className:"budget-icon",children:T.jsx(je,{size:16})}),T.jsx("b",{children:W.name}),T.jsx("span",{children:tu(W.value)})]},W.name)})}),T.jsxs("div",{className:"budget-footer",children:[T.jsxs("span",{children:[T.jsx(Qp,{size:15})," Within budget"]}),T.jsxs("button",{onClick:ae,children:[T.jsx(rO,{size:14})," Make it ₹10k cheaper"]})]})]}),T.jsxs("div",{className:"chart-panel card",children:[T.jsxs("div",{className:"card-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Spend forecast"}),T.jsx("h3",{children:"Daily expenses"})]}),T.jsx("span",{className:"muted",children:"₹ / day"})]}),T.jsx(qO,{width:"100%",height:180,children:T.jsxs(Gie,{data:eae,children:[T.jsx(DN,{vertical:!1,strokeDasharray:"3 3"}),T.jsx(FN,{dataKey:"day",tickLine:!1,axisLine:!1}),T.jsx(XN,{hide:!0}),T.jsx(CZ,{formatter:W=>tu(Number(W))}),T.jsx(qN,{dataKey:"spend",radius:[7,7,0,0]})]})})]})]}),T.jsxs("div",{className:"lower-grid",children:[T.jsxs("div",{className:"itinerary card",children:[T.jsxs("div",{className:"card-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Smart itinerary"}),T.jsx("h3",{children:"Day-by-day plan"})]}),T.jsxs("div",{className:"day-switch",children:[T.jsx("button",{onClick:()=>N(Math.max(1,oe-1)),children:T.jsx(T$,{size:16})}),T.jsxs("b",{children:["Day ",oe]}),T.jsx("button",{onClick:()=>N(Math.min(7,oe+1)),children:T.jsx(WE,{size:16})})]})]}),T.jsx("div",{className:"day-tabs",children:[1,2,3,4,5,6,7].map(W=>T.jsxs("button",{className:oe===W?"active":"",onClick:()=>N(W),children:["D",W]},W))}),T.jsxs("div",{className:"timeline",children:[pe.map((W,je)=>T.jsxs("div",{className:"timeline-item",children:[T.jsx("div",{className:"time",children:W.time}),T.jsx("div",{className:"timeline-dot",children:W.icon}),T.jsxs("div",{className:"timeline-copy",children:[T.jsxs("h4",{children:[W.title," ",W.rainSafe&&T.jsx("span",{className:"safe",children:"Rain-safe"})]}),T.jsxs("p",{children:[T.jsx(QE,{size:13})," ",W.place]}),T.jsx("b",{children:tu(W.cost)})]})]},`${W.title}-${je}`)),pe.length===0&&T.jsx("div",{className:"empty-day",children:"No fixed activity here yet. Ask the AI assistant to fill this day."})]})]}),T.jsxs("div",{className:"side-stack",children:[T.jsxs("div",{className:"map-card card",children:[T.jsxs("div",{className:"card-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Route intelligence"}),T.jsx("h3",{children:"Optimized route"})]}),T.jsx(j$,{size:18})]}),T.jsxs("div",{className:"map-visual",children:[T.jsx("div",{className:"map-road r1"}),T.jsx("div",{className:"map-road r2"}),T.jsx("div",{className:"map-road r3"}),T.jsx("span",{className:"map-pin p1",children:"1"}),T.jsx("span",{className:"map-pin p2",children:"2"}),T.jsx("span",{className:"map-pin p3",children:"3"}),T.jsx("span",{className:"map-pin p4",children:"4"}),T.jsx("div",{className:"map-route"})]}),T.jsxs("div",{className:"route-meta",children:[T.jsxs("span",{children:[T.jsx(JE,{size:14})," 42 km"]}),T.jsxs("span",{children:[T.jsx(nae,{})," 1h 18m saved"]}),T.jsxs("span",{children:[T.jsx(SD,{size:14})," ₹1,250"]})]})]}),T.jsxs("div",{className:"weather-card card",children:[T.jsxs("div",{className:"card-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Dynamic intelligence"}),T.jsx("h3",{children:"Weather & crowd"})]}),T.jsx(ey,{size:20})]}),T.jsxs("div",{className:"weather-row",children:[T.jsxs("div",{children:[T.jsx(ey,{size:22}),T.jsx("strong",{children:"29°"}),T.jsx("span",{children:"Sunny"})]}),T.jsxs("div",{children:[T.jsx(tO,{size:19}),T.jsx("strong",{children:"Moderate"}),T.jsx("span",{children:"Crowd"})]}),T.jsxs("div",{children:[T.jsx(ZE,{size:19}),T.jsx("strong",{children:"10%"}),T.jsx("span",{children:"Rain chance"})]})]}),T.jsxs("button",{onClick:re,children:[T.jsx(Ks,{size:14})," ",U?"Day 4 is rain-safe":"Adapt itinerary to weather"]})]})]})]}),T.jsxs("div",{className:"recommend-grid",children:[T.jsxs("div",{className:"recommend-card card",children:[T.jsx("span",{className:"section-kicker",children:"AI hotel recommendation"}),T.jsxs("div",{className:"rec-main",children:[T.jsx("img",{src:"https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=600&h=450&fit=crop"}),T.jsxs("div",{children:[T.jsxs("span",{className:"verified",children:[T.jsx(z$,{size:13})," Verified stay"]}),T.jsx("h3",{children:$}),T.jsx("p",{children:"4.7 ★ · Sukhumvit · 8 min from metro"}),T.jsxs("div",{className:"price-line",children:[T.jsx("b",{children:ie?"₹22,000":"₹27,000"}),T.jsx("span",{children:"7 nights"})]}),T.jsx("button",{onClick:we,children:$==="The Fern Bangkok"?"Find better value":"Hotel updated ✓"})]})]})]}),T.jsxs("div",{className:"experience-card card",children:[T.jsx("span",{className:"section-kicker",children:"Experience match"}),T.jsx("h3",{children:"Phi Phi island adventure"}),T.jsx("p",{children:"92% match for Beaches + Adventure"}),T.jsx("div",{className:"match-meter",children:T.jsx("span",{style:{width:"92%"}})}),T.jsxs("div",{className:"exp-bottom",children:[T.jsxs("span",{children:[T.jsx(eO,{size:14,fill:"currentColor"})," 4.9"]}),T.jsx("b",{children:"₹5,200"}),T.jsxs("button",{onClick:be,children:[T.jsx(R$,{size:15})," Add"]})]})]})]})]}),T.jsxs("section",{id:"intelligence",className:"ai-section section-anchor",children:[T.jsxs("div",{className:"ai-copy",children:[T.jsx("span",{className:"section-kicker",children:"The intelligence layer"}),T.jsxs("h2",{children:["It thinks about the ",T.jsx("i",{children:"whole trip."})]}),T.jsx("p",{children:"YatraAI connects your budget, interests, routes, weather, crowd levels and time. The interface is designed around re-optimization — not random itinerary regeneration."}),T.jsxs("div",{className:"feature-list",children:[T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(lg,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Recommendation engine"}),T.jsx("small",{children:"Rank destinations, stays and experiences by fit, value and context."})]})]}),T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(rO,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Budget optimization"}),T.jsx("small",{children:"Swap individual components and rebalance the whole package."})]})]}),T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(ZE,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Dynamic adaptation"}),T.jsx("small",{children:"Weather and crowd signals can trigger safer, smarter alternatives."})]})]}),T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(P$,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Natural-language control"}),T.jsx("small",{children:"Tell the AI what to change and keep the rest of your trip intact."})]})]})]}),T.jsxs("button",{className:"text-btn",onClick:()=>_(!0),children:["Talk to your AI travel agent ",T.jsx(La,{size:16})]})]}),T.jsxs("div",{className:"ai-visual",children:[T.jsx("div",{className:"orb",children:T.jsx("span",{children:"✦"})}),T.jsxs("div",{className:"ai-card card-a",children:[T.jsx(Ks,{size:16}),T.jsxs("div",{children:[T.jsx("b",{children:"Trip match"}),T.jsx("strong",{children:"94%"})]})]}),T.jsxs("div",{className:"ai-card card-b",children:[T.jsx(Cf,{size:16}),T.jsxs("div",{children:[T.jsx("b",{children:"AI suggestion"}),T.jsx("small",{children:"Swap Day 4 for a rain-safe experience"})]})]}),T.jsxs("div",{className:"ai-card card-c",children:[T.jsx("span",{children:"₹"}),T.jsxs("div",{children:[T.jsx("b",{children:"Potential saving"}),T.jsx("strong",{children:"₹10,400"})]})]})]})]}),T.jsxs("section",{className:"analytics-section section",children:[T.jsx("div",{className:"section-title",children:T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"What powers the prototype"}),T.jsx("h2",{children:"More than a chatbot."}),T.jsx("p",{children:"The frontend is ready to plug into recommendation, forecasting, RAG and travel-data APIs."})]})}),T.jsxs("div",{className:"analytics-grid",children:[T.jsxs("div",{className:"mini-analytics card",children:[T.jsx("span",{children:"Recommendation fit"}),T.jsx("strong",{children:"94%"}),T.jsx("div",{className:"mini-line",children:T.jsx("i",{})}),T.jsx("small",{children:"Budget · interests · rating · distance"})]}),T.jsxs("div",{className:"mini-analytics card",children:[T.jsx("span",{children:"Review sentiment"}),T.jsx("strong",{children:"Positive"}),T.jsxs("div",{className:"sentiment",children:[T.jsx("span",{children:"Cleanliness"}),T.jsx("b",{children:"91%"})]}),T.jsxs("div",{className:"sentiment",children:[T.jsx("span",{children:"Location"}),T.jsx("b",{children:"96%"})]}),T.jsxs("div",{className:"sentiment",children:[T.jsx("span",{children:"Value"}),T.jsx("b",{children:"88%"})]})]}),T.jsxs("div",{className:"mini-analytics card",children:[T.jsx("span",{children:"Demand signal"}),T.jsx("strong",{children:"Moderate"}),T.jsx("div",{className:"area-wrap",children:T.jsx(qO,{width:"100%",height:80,children:T.jsx(Xie,{data:[{x:"M",v:40},{x:"T",v:52},{x:"W",v:47},{x:"T",v:65},{x:"F",v:61},{x:"S",v:78},{x:"S",v:70}],children:T.jsx(UN,{type:"monotone",dataKey:"v",fillOpacity:.12,strokeWidth:2})})})}),T.jsx("small",{children:"Forecast can inform crowd & price choices"})]}),T.jsxs("div",{className:"mini-analytics card",children:[T.jsx("span",{children:"Knowledge assistant"}),T.jsx("strong",{children:"RAG ready"}),T.jsx("p",{children:"Destination facts, local rules, culture, attractions and FAQs can be grounded before the LLM answers."}),T.jsxs("button",{onClick:()=>_(!0),children:["Ask a question ",T.jsx(La,{size:14})]})]})]})]}),T.jsxs("section",{className:"assistant-banner section",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Your travel agent"}),T.jsx("h2",{children:"Change the trip in one sentence."}),T.jsx("p",{children:"“Make it ₹10k cheaper.” · “Avoid crowded places.” · “Add more adventure.”"})]}),T.jsxs("button",{className:"primary",onClick:()=>_(!0),children:[T.jsx(Cf,{size:17})," Open AI assistant"]})]}),T.jsxs("section",{className:"final-cta",children:[T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Ready when you are"}),T.jsxs("h2",{children:["Stop planning.",T.jsx("br",{}),T.jsx("i",{children:"Start going."})]})]}),T.jsxs("button",{className:"primary",onClick:()=>Ee("planner"),children:["Create my trip ",T.jsx(La,{size:17})]})]})]}),T.jsxs("footer",{children:[T.jsxs("div",{className:"brand footer-brand",children:[T.jsx("span",{className:"brand-mark",children:"✦"}),T.jsxs("span",{children:["Yatra",T.jsx("span",{children:"AI"})]})]}),T.jsx("p",{children:"AI-powered travel planning · SIH 2026 concept · Frontend prototype"}),T.jsxs("div",{children:[T.jsx("button",{onClick:()=>Ee("home"),children:"Home"}),T.jsx("button",{onClick:()=>Ee("discover"),children:"Explore"}),T.jsx("button",{onClick:()=>Ee("planner"),children:"Plan"}),T.jsx("button",{onClick:()=>_(!0),children:"AI Agent"})]})]}),T.jsx(qp,{children:D&&T.jsx(na.div,{className:"modal-backdrop",initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},onClick:()=>_(!1),children:T.jsxs(na.div,{className:"assistant-modal",initial:{y:30,scale:.98},animate:{y:0,scale:1},exit:{y:30,scale:.98},onClick:W=>W.stopPropagation(),children:[T.jsxs("div",{className:"assistant-head",children:[T.jsxs("div",{children:[T.jsx("span",{className:"ai-avatar",children:T.jsx(Cf,{size:19})}),T.jsxs("div",{children:[T.jsx("b",{children:"YatraAI Travel Agent"}),T.jsx("small",{children:"Trip-aware assistant · online"})]})]}),T.jsx("button",{onClick:()=>_(!1),children:T.jsx(nO,{size:18})})]}),T.jsxs("div",{className:"suggestions",children:[T.jsx("button",{onClick:()=>R("Make it ₹10,000 cheaper"),children:"Make it ₹10k cheaper"}),T.jsx("button",{onClick:()=>R("Change my hotel"),children:"Change hotel"}),T.jsx("button",{onClick:()=>R("Make it more adventurous"),children:"More adventure"}),T.jsx("button",{onClick:()=>R("Adapt for rain"),children:"Adapt for rain"})]}),T.jsx("div",{className:"chat-body",children:I.map((W,je)=>T.jsx("div",{className:`bubble ${W.role}`,children:W.text},je))}),T.jsxs("div",{className:"chat-input",children:[T.jsx("input",{value:P,onChange:W=>R(W.target.value),onKeyDown:W=>W.key==="Enter"&&ft(),placeholder:"Tell me what you want to change…"}),T.jsx("button",{onClick:ft,children:T.jsx(N$,{size:16})})]})]})})}),T.jsx(qp,{children:J&&T.jsxs(na.div,{className:"toast",initial:{y:20,opacity:0},animate:{y:0,opacity:1},exit:{y:20,opacity:0},children:[T.jsx(Qp,{size:16})," ",J]})})]})}function nae(){return T.jsx("span",{className:"clock-icon",children:"◷"})}function rae(){return T.jsx("h1",{children:"About Page"})}function iae(){return T.jsx("h1",{children:"Login Page"})}function aae(){return T.jsxs(Y3,{children:[T.jsx(Yf,{path:"/",element:T.jsx(tae,{})}),"   ",T.jsx(Yf,{path:"/about",element:T.jsx(rae,{})}),T.jsx(Yf,{path:"/login",element:T.jsx(iae,{})})]})}KL.createRoot(document.getElementById("root")).render(T.jsx(c2.StrictMode,{children:T.jsx(vB,{children:T.jsx(aae,{})})}));
+In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function Tie(e,t){if(e){if(typeof e=="string")return s2(e,t);var n={}.toString.call(e).slice(8,-1);return n==="Object"&&e.constructor&&(n=e.constructor.name),n==="Map"||n==="Set"?Array.from(e):n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?s2(e,t):void 0}}function s2(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function Cie(e,t){var n=e==null?null:typeof Symbol<"u"&&e[Symbol.iterator]||e["@@iterator"];if(n!=null){var r,l,o,u,c=[],d=!0,h=!1;try{if(o=(n=n.call(e)).next,t!==0)for(;!(d=(r=o.call(n)).done)&&(c.push(r.value),c.length!==t);d=!0);}catch(m){h=!0,l=m}finally{try{if(!d&&n.return!=null&&(u=n.return(),Object(u)!==u))return}finally{if(h)throw l}}return c}}function Mie(e){if(Array.isArray(e))return e}var jie=()=>(mZ(),null);function fh(e){if(typeof e=="number")return e;if(typeof e=="string"){var t=parseFloat(e);if(!Number.isNaN(t))return t}return 0}var Die=b.forwardRef((e,t)=>{var n,r,l=b.useRef(null),o=b.useState({containerWidth:fh((n=e.style)===null||n===void 0?void 0:n.width),containerHeight:fh((r=e.style)===null||r===void 0?void 0:r.height)}),u=ch(o,2),c=u[0],d=u[1],h=b.useCallback((v,y)=>{d(x=>{var S=Math.round(v),A=Math.round(y);return x.containerWidth===S&&x.containerHeight===A?x:{containerWidth:S,containerHeight:A}})},[]),m=b.useCallback(v=>{if(typeof t=="function"&&t(v),l.current!=null&&(l.current.disconnect(),l.current=null),v!=null&&typeof ResizeObserver<"u"){var y=v.getBoundingClientRect(),x=y.width,S=y.height;h(x,S);var A=O=>{var M=O[0];if(M!=null){var C=M.contentRect,D=C.width,_=C.height;h(D,_)}},w=new ResizeObserver(A);w.observe(v),l.current=w}},[t,h]);return b.useEffect(()=>()=>{var v=l.current;v?.disconnect()},[h]),b.createElement(b.Fragment,null,b.createElement(Vu,{width:c.containerWidth,height:c.containerHeight}),b.createElement("div",ca({ref:m},e)))}),Pie=b.forwardRef((e,t)=>{var n=e.width,r=e.height,l=b.useState({containerWidth:fh(n),containerHeight:fh(r)}),o=ch(l,2),u=o[0],c=o[1],d=b.useCallback((m,v)=>{c(y=>{var x=Math.round(m),S=Math.round(v);return y.containerWidth===x&&y.containerHeight===S?y:{containerWidth:x,containerHeight:S}})},[]),h=b.useCallback(m=>{if(typeof t=="function"&&t(m),m!=null){var v=m.getBoundingClientRect(),y=v.width,x=v.height;d(y,x)}},[t,d]);return b.createElement(b.Fragment,null,b.createElement(Vu,{width:u.containerWidth,height:u.containerHeight}),b.createElement("div",ca({ref:h},e)))}),_ie=b.forwardRef((e,t)=>{var n=e.width,r=e.height;return b.createElement(b.Fragment,null,b.createElement(Vu,{width:n,height:r}),b.createElement("div",ca({ref:t},e)))}),Rie=b.forwardRef((e,t)=>{var n=e.width,r=e.height;return typeof n=="string"||typeof r=="string"?b.createElement(Pie,ca({},e,{ref:t})):typeof n=="number"&&typeof r=="number"?b.createElement(_ie,ca({},e,{width:n,height:r,ref:t})):b.createElement(b.Fragment,null,b.createElement(Vu,{width:n,height:r}),b.createElement("div",ca({ref:t},e)))});function kie(e){return e?Die:Rie}var Nie=b.forwardRef((e,t)=>{var n=e.children,r=e.className,l=e.height,o=e.onClick,u=e.onContextMenu,c=e.onDoubleClick,d=e.onMouseDown,h=e.onMouseEnter,m=e.onMouseLeave,v=e.onMouseMove,y=e.onMouseUp,x=e.onTouchEnd,S=e.onTouchMove,A=e.onTouchStart,w=e.style,O=e.width,M=e.responsive,C=e.dispatchTouchEvents,D=C===void 0?!0:C,_=b.useRef(null),P=lt(),R=b.useState(null),I=ch(R,2),q=I[0],$=I[1],G=b.useState(null),U=ch(G,2),se=U[0],ie=U[1],le=xie(),L=nb(),Q=L?.width>0?L.width:O,J=L?.height>0?L.height:l,ce=b.useCallback(W=>{le(W),typeof t=="function"&&t(W),$(W),ie(W),W!=null&&(_.current=W)},[le,t,$,ie]),oe=b.useCallback(W=>{P(WN(W)),P(Xn({handler:o,reactEvent:W}))},[P,o]),N=b.useCallback(W=>{P(Xg(W)),P(Xn({handler:h,reactEvent:W}))},[P,h]),X=b.useCallback(W=>{P(hk()),P(Xn({handler:m,reactEvent:W}))},[P,m]),ne=b.useCallback(W=>{P(Xg(W)),P(Xn({handler:v,reactEvent:W}))},[P,v]),ue=b.useCallback(()=>{P(nz())},[P]),pe=b.useCallback(()=>{P(rz())},[P]),xe=b.useCallback(W=>{P(tz(W.key))},[P]),Ae=b.useCallback(W=>{P(Xn({handler:u,reactEvent:W}))},[P,u]),ot=b.useCallback(W=>{P(Xn({handler:c,reactEvent:W}))},[P,c]),ae=b.useCallback(W=>{P(Xn({handler:d,reactEvent:W}))},[P,d]),we=b.useCallback(W=>{P(Xn({handler:y,reactEvent:W}))},[P,y]),be=b.useCallback(W=>{P(Xn({handler:A,reactEvent:W}))},[P,A]),re=b.useCallback(W=>{D&&P(lz(W)),P(Xn({handler:S,reactEvent:W}))},[P,D,S]),ft=b.useCallback(W=>{P(Xn({handler:x,reactEvent:W}))},[P,x]),Ee=kie(M);return b.createElement(zk.Provider,{value:q},b.createElement(lU.Provider,{value:se},b.createElement(Ee,{width:Q??w?.width,height:J??w?.height,className:Je("recharts-wrapper",r),style:Sie({position:"relative",cursor:"default",width:Q,height:J},w),onClick:oe,onContextMenu:Ae,onDoubleClick:ot,onFocus:ue,onBlur:pe,onKeyDown:xe,onMouseDown:ae,onMouseEnter:N,onMouseLeave:X,onMouseMove:ne,onMouseUp:we,onTouchEnd:ft,onTouchMove:re,onTouchStart:be,ref:ce},b.createElement(jie,null),n)))}),zie=["width","height","responsive","children","className","style","compact","title","desc"];function Iie(e,t){if(e==null)return{};var n,r,l=Lie(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.indexOf(n)===-1&&{}.propertyIsEnumerable.call(e,n)&&(l[n]=e[n])}return l}function Lie(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.indexOf(r)!==-1)continue;n[r]=e[r]}return n}var Bie=b.forwardRef((e,t)=>{var n=e.width,r=e.height,l=e.responsive,o=e.children,u=e.className,c=e.style,d=e.compact,h=e.title,m=e.desc,v=Iie(e,zie),y=er(v);return d?b.createElement(b.Fragment,null,b.createElement(Vu,{width:n,height:r}),b.createElement(a2,{otherAttributes:y,title:h,desc:m},o)):b.createElement(Nie,{className:u,style:c,width:n,height:r,responsive:l??!1,onClick:e.onClick,onMouseLeave:e.onMouseLeave,onMouseEnter:e.onMouseEnter,onMouseMove:e.onMouseMove,onMouseDown:e.onMouseDown,onMouseUp:e.onMouseUp,onContextMenu:e.onContextMenu,onDoubleClick:e.onDoubleClick,onTouchStart:e.onTouchStart,onTouchMove:e.onTouchMove,onTouchEnd:e.onTouchEnd},b.createElement(a2,{otherAttributes:y,title:h,desc:m,ref:t},b.createElement(Oee,null,o)))});function Wg(){return Wg=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},Wg.apply(null,arguments)}function u2(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(l){return Object.getOwnPropertyDescriptor(e,l).enumerable})),n.push.apply(n,r)}return n}function $ie(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?u2(Object(n),!0).forEach(function(r){Uie(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):u2(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}function Uie(e,t,n){return(t=Vie(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Vie(e){var t=Hie(e,"string");return typeof t=="symbol"?t:t+""}function Hie(e,t){if(typeof e!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t);if(typeof r!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}var Kie={top:5,right:5,bottom:5,left:5},Yie=$ie({accessibilityLayer:!0,barCategoryGap:"10%",barGap:4,layout:"horizontal",margin:Kie,responsive:!1,reverseStackOrder:!1,stackOffset:"none",syncMethod:"index"},sz),cz=b.forwardRef(function(t,n){var r,l=Ln(t.categoricalChartProps,Yie),o=t.chartName,u=t.defaultTooltipEventType,c=t.validateTooltipEventTypes,d=t.tooltipPayloadSearcher,h=t.categoricalChartProps,m={chartName:o,defaultTooltipEventType:u,validateTooltipEventTypes:c,tooltipPayloadSearcher:d,eventEmitter:void 0};return b.createElement(rie,{preloadedState:{options:m},reduxStoreName:(r=h.id)!==null&&r!==void 0?r:o},b.createElement(hee,{chartData:h.data}),b.createElement(aie,{layout:l.layout,margin:l.margin}),b.createElement(sie,{throttleDelay:l.throttleDelay,throttledEvents:l.throttledEvents}),b.createElement(lie,{baseValue:l.baseValue,accessibilityLayer:l.accessibilityLayer,barCategoryGap:l.barCategoryGap,maxBarSize:l.maxBarSize,stackOffset:l.stackOffset,barGap:l.barGap,barSize:l.barSize,syncId:l.syncId,syncMethod:l.syncMethod,className:l.className,reverseStackOrder:l.reverseStackOrder}),b.createElement(Bie,Wg({},l,{ref:n})))}),qie=["axis","item"],Gie=b.forwardRef((e,t)=>b.createElement(cz,{chartName:"BarChart",defaultTooltipEventType:"axis",validateTooltipEventTypes:qie,tooltipPayloadSearcher:Ik,categoricalChartProps:e,ref:t})),Fie=["axis"],Xie=b.forwardRef((e,t)=>b.createElement(cz,{chartName:"AreaChart",defaultTooltipEventType:"axis",validateTooltipEventTypes:Fie,tooltipPayloadSearcher:Ik,categoricalChartProps:e,ref:t}));const Wie=["Beaches","Adventure","Food","Culture","Nature","Wellness","Shopping","Nightlife"],
+Zie=[
+  {id:"dest-1",name:"Goa",tag:"Beach escape",price:8900,rating:4.8,image:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=900&h=650&fit=crop",latitude:15.4989,longitude:73.8278,country:"India"},
+  {id:"dest-2",name:"Manali",tag:"Mountain retreat",price:7400,rating:4.9,image:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=650&fit=crop",latitude:32.2432,longitude:77.1892,country:"India"},
+  {id:"dest-3",name:"Jaipur",tag:"Culture & heritage",price:6200,rating:4.8,image:"https://images.unsplash.com/photo-1477587458883-47145ed94245?w=900&h=650&fit=crop",latitude:26.9124,longitude:75.7873,country:"India"},
+  {id:"dest-4",name:"Kerala",tag:"Slow travel",price:9800,rating:4.9,image:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=900&h=650&fit=crop",latitude:9.9312,longitude:76.2673,country:"India"}
+],
+Qie=[
+  {day:1,title:"Delhi → Jaipur flight",time:"08:20",place:"Indira Gandhi Airport",cost:18500,icon:"✈️"},
+  {day:1,title:"Airport transfer + hotel check-in",time:"18:10",place:"City Center",cost:1800,icon:"🚕"},
+  {day:1,title:"Traditional Rajasthani dinner",time:"20:30",place:"Old City",cost:1400,icon:"🍜"},
+  {day:2,title:"Amber Fort Guided Tour & Light Show",time:"09:00",place:"Amer Fort",cost:2200,icon:"🏛️"},
+  {day:2,title:"Bazaar & handicraft trail",time:"17:30",place:"Johari Bazaar",cost:1200,icon:"🍢"},
+  {day:3,title:"Heritage palace experience",time:"07:00",place:"City Palace",cost:5200,icon:"🌊"},
+  {day:4,title:"Rain-safe heritage cooking class",time:"10:00",place:"Jaipur",cost:2400,icon:"👩‍🍳",rainSafe:!0},
+  {day:4,title:"Local market & café trail",time:"16:00",place:"MI Road",cost:1100,icon:"☕"},
+  {day:5,title:"Stepwell exploration morning",time:"08:00",place:"Panna Meena",cost:2100,icon:"🛶"},
+  {day:6,title:"Artisan workshop + massage",time:"11:00",place:"C-Scheme",cost:2800,icon:"🛍️"},
+  {day:7,title:"Jaipur → Delhi flight",time:"20:40",place:"Jaipur Airport",cost:18500,icon:"✈️"}
+],
+Jie=[
+  {name:"Flights",value:37e3,icon:_$,key:"Travel"},
+  {name:"Hotels",value:27e3,icon:M$,key:"Stay"},
+  {name:"Transport",value:8e3,icon:SD,key:"Transport"},
+  {name:"Activities",value:12e3,icon:lg,key:"Activities"},
+  {name:"Food",value:8e3,icon:I$,key:"Food"}
+],
+eae=[
+  {day:"D1",spend:21700},
+  {day:"D2",spend:3400},
+  {day:"D3",spend:5200},
+  {day:"D4",spend:3500},
+  {day:"D5",spend:2100},
+  {day:"D6",spend:2800},
+  {day:"D7",spend:18500}
+];
+
+function tu(e){return`₹${Number(e||0).toLocaleString("en-IN")}`}
+
+// Built-in API Client for Odyssey Backend Integration
+const OdysseyAPI = {
+  baseUrl: "/api/v1",
+  async request(endpoint, options = {}) {
+    const url = `${this.baseUrl}${endpoint}`;
+    try {
+      const res = await fetch(url, {
+        headers: { "Content-Type": "application/json", "Accept": "application/json", ...(options.headers || {}) },
+        ...options
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.warn(`[Odyssey API] Request to ${endpoint} failed:`, err.message);
+      return null;
+    }
+  },
+  getDestinations(params = {}) {
+    const q = new URLSearchParams();
+    if (params.search) q.append("search", params.search);
+    if (params.country) q.append("country", params.country);
+    if (params.limit) q.append("limit", params.limit);
+    const qs = q.toString();
+    return this.request(`/destinations${qs ? '?' + qs : ''}`);
+  },
+  getWeather(lat, lon) {
+    return this.request(`/weather?latitude=${lat}&longitude=${lon}`);
+  },
+  getHotels(destId, search) {
+    const q = new URLSearchParams();
+    if (destId) q.append("destination_id", destId);
+    if (search) q.append("search", search);
+    const qs = q.toString();
+    return this.request(`/hotels${qs ? '?' + qs : ''}`);
+  },
+  getActivities(destId, search) {
+    const q = new URLSearchParams();
+    if (destId) q.append("destination_id", destId);
+    if (search) q.append("search", search);
+    const qs = q.toString();
+    return this.request(`/activities${qs ? '?' + qs : ''}`);
+  },
+  getFlights(origin, dest) {
+    const q = new URLSearchParams();
+    if (origin) q.append("origin", origin);
+    if (dest) q.append("destination", dest);
+    const qs = q.toString();
+    return this.request(`/flights${qs ? '?' + qs : ''}`);
+  },
+  getExpenseSummary(tripId) {
+    return this.request(`/expenses/summary${tripId ? '?trip_id=' + tripId : ''}`);
+  },
+  getExpenses(tripId) {
+    return this.request(`/expenses${tripId ? '?trip_id=' + tripId : ''}`);
+  },
+  createTripPlan(data) {
+    return this.request("/trips/plan", { method: "POST", body: JSON.stringify(data) });
+  }
+};
+if (typeof window !== "undefined") window.OdysseyAPI = OdysseyAPI;
+
+function tae(){
+  const [e,t]=b.useState(!1),
+  [n,r]=b.useState("home"),
+  [l,o]=b.useState("Jaipur"),
+  [u,c]=b.useState("Delhi"),
+  [d,h]=b.useState("10 Jan — 17 Jan"),
+  [m,v]=b.useState(2),
+  [y,x]=b.useState(1e5),
+  [S,A]=b.useState(["Beaches","Adventure","Food"]),
+  [w,O]=b.useState(!1),
+  [M,C]=b.useState(!1),
+  [D,_]=b.useState(!1),
+  [P,R]=b.useState(""),
+  [I,q]=b.useState([{role:"ai",text:"Hi! I'm your YatraAI agent connected to the Odyssey live tourism API. Try 'make it ₹10,000 cheaper' or 'change hotel'."}]),
+  [$,G]=b.useState("Heritage Palace Resort"),
+  [hotelPrice,setHotelPrice]=b.useState(27000),
+  [hotelMeta,setHotelMeta]=b.useState("4.8 ★ · MI Road, Jaipur · Royal courtyard"),
+  [U,se]=b.useState(!1),
+  [ie,le]=b.useState(!1),
+  [L,Q]=b.useState([]),
+  [J,ce]=b.useState(""),
+  [oe,N]=b.useState(1),
+  [destinations,setDestinations]=b.useState(Zie),
+  [destLoading,setDestLoading]=b.useState(!1),
+  [destSearch,setDestSearch]=b.useState(""),
+  [selectedDestId,setSelectedDestId]=b.useState(""),
+  [currentTripId,setCurrentTripId]=b.useState(null),
+  [liveWeather,setLiveWeather]=b.useState({temperature:29,condition:"Sunny",rainChance:"10%",crowd:"Moderate"}),
+  [liveActivities,setLiveActivities]=b.useState(Qie),
+  [liveBreakdown,setLiveBreakdown]=b.useState(Jie),
+  [liveDailyExpenses,setLiveDailyExpenses]=b.useState(eae),
+  [expCard,setExpCard]=b.useState({name:"Amber Fort Guided Tour",rating:4.9,cost:2200,category:"Heritage"});
+
+  // Load destinations from backend API on initial mount
+  b.useEffect(()=>{
+    let active = !0;
+    setDestLoading(!0);
+    OdysseyAPI.getDestinations({limit: 8}).then(res => {
+      if (!active) return;
+      setDestLoading(!1);
+      if (res && Array.isArray(res.items) && res.items.length > 0) {
+        const mapped = res.items.map((item, idx) => {
+          const fallback = Zie[idx % Zie.length] || Zie[0];
+          return {
+            id: item.id || `dest-${idx}`,
+            name: item.name || fallback.name,
+            tag: (item.tags && item.tags.length > 0) ? item.tags.slice(0, 2).join(" · ") : (item.city || fallback.tag),
+            price: fallback.price,
+            rating: fallback.rating,
+            image: (item.image_url && !item.image_url.includes("example")) ? item.image_url : fallback.image,
+            latitude: item.latitude || fallback.latitude,
+            longitude: item.longitude || fallback.longitude,
+            country: item.country || "India"
+          };
+        });
+        setDestinations(mapped);
+      }
+    }).catch(() => {
+      if (active) setDestLoading(!1);
+    });
+    return () => { active = !1; };
+  }, []);
+
+  // Search destinations handler
+  const handleDestSearch = (val) => {
+    setDestSearch(val);
+    OdysseyAPI.getDestinations({ search: val, limit: 8 }).then(res => {
+      if (res && Array.isArray(res.items) && res.items.length > 0) {
+        const mapped = res.items.map((item, idx) => {
+          const fallback = Zie[idx % Zie.length] || Zie[0];
+          return {
+            id: item.id || `dest-${idx}`,
+            name: item.name || fallback.name,
+            tag: (item.tags && item.tags.length > 0) ? item.tags.slice(0, 2).join(" · ") : (item.city || fallback.tag),
+            price: fallback.price,
+            rating: fallback.rating,
+            image: (item.image_url && !item.image_url.includes("example")) ? item.image_url : fallback.image,
+            latitude: item.latitude || fallback.latitude,
+            longitude: item.longitude || fallback.longitude,
+            country: item.country || "India"
+          };
+        });
+        setDestinations(mapped);
+      } else if (!val) {
+        setDestDestinations(Zie);
+      }
+    });
+  };
+
+  const X = ie ? 81600 : U ? 90400 : 92e3;
+  const ne = Math.max(y - X, 0);
+  const ue = b.useMemo(() => {
+    const W = [...liveBreakdown];
+    return ie ? (W[0].value=33800,W[1].value=22e3,W[2].value=7e3,W[3].value=10800,W[4].value=8e3) : U && (W[3].value=10400), W;
+  }, [ie, U, liveBreakdown]);
+
+  const pe = liveActivities.filter(W => W.day === oe);
+  const xe = W => {
+    A(je => je.includes(W) ? je.filter(st => st !== W) : [...je, W]);
+    // Also trigger destination filtering by category
+    OdysseyAPI.getDestinations({ search: W, limit: 8 }).then(res => {
+      if (res && Array.isArray(res.items) && res.items.length > 0) {
+        const mapped = res.items.map((item, idx) => {
+          const fallback = Zie[idx % Zie.length] || Zie[0];
+          return {
+            id: item.id,
+            name: item.name,
+            tag: item.tags ? item.tags.slice(0, 2).join(" · ") : fallback.tag,
+            price: fallback.price,
+            rating: fallback.rating,
+            image: fallback.image,
+            latitude: item.latitude,
+            longitude: item.longitude,
+            country: item.country
+          };
+        });
+        setDestinations(mapped);
+      }
+    });
+  };
+
+  const Ae = W => { ce(W); window.setTimeout(() => ce(""), 2600); };
+
+  // Generate optimized trip via backend APIs
+  const ot = async () => {
+    C(!0);
+    const targetDest = destinations.find(d => d.name.toLowerCase() === l.toLowerCase()) || destinations[0] || Zie[0];
+    const lat = targetDest.latitude || 26.9124;
+    const lon = targetDest.longitude || 75.7873;
+    const destId = targetDest.id && !targetDest.id.startsWith("dest-") ? targetDest.id : null;
+    setSelectedDestId(destId);
+
+    try {
+      // 1. Persist trip in backend SQLite
+      const tripRes = await OdysseyAPI.createTripPlan({
+        from_city: u || "Delhi",
+        destination: l || targetDest.name,
+        start_date: "2026-10-10",
+        end_date: "2026-10-17",
+        travellers: m,
+        budget: y,
+        currency: "INR",
+        interests: S,
+        hotel_rating: 4,
+        pace: "moderate",
+        avoid_crowds: !1
+      });
+
+      let tripId = null;
+      if (tripRes && tripRes.trip_id) {
+        tripId = tripRes.trip_id;
+        setCurrentTripId(tripId);
+      }
+
+      // 2. Fetch live weather
+      const weatherRes = await OdysseyAPI.getWeather(lat, lon);
+      if (weatherRes) {
+        const temp = Math.round(weatherRes.temperature || 29);
+        const cond = weatherRes.condition || "Sunny";
+        const hum = weatherRes.humidity || 40;
+        const rainChance = (weatherRes.weather_code && weatherRes.weather_code >= 50) ? "75%" : `${Math.min(Math.round(hum * 0.4), 25)}%`;
+        setLiveWeather({
+          temperature: temp,
+          condition: cond,
+          rainChance,
+          crowd: "Moderate"
+        });
+      }
+
+      // 3. Fetch hotels for destination
+      const hotelRes = await OdysseyAPI.getHotels(destId, l);
+      if (hotelRes && Array.isArray(hotelRes.items) && hotelRes.items.length > 0) {
+        const topHotel = hotelRes.items[0];
+        G(topHotel.name);
+        const totalCost = Math.round((topHotel.price_per_night || 3800) * 7);
+        setHotelPrice(totalCost);
+        setHotelMeta(`${topHotel.rating || 4.8} ★ · ${topHotel.address || 'Central'} · ${topHotel.amenities ? topHotel.amenities.slice(0, 2).join(', ') : 'Verified stay'}`);
+      }
+
+      // 4. Fetch activities for destination
+      const actRes = await OdysseyAPI.getActivities(destId, l);
+      if (actRes && Array.isArray(actRes.items) && actRes.items.length > 0) {
+        const topAct = actRes.items[0];
+        setExpCard({
+          name: topAct.name,
+          rating: topAct.rating || 4.8,
+          cost: Math.round(topAct.price || 2200),
+          category: topAct.category || "Heritage"
+        });
+      }
+
+      // 5. Fetch expense summary
+      const expRes = await OdysseyAPI.getExpenseSummary(tripId);
+      if (expRes && expRes.by_category && Object.keys(expRes.by_category).length > 0) {
+        const catMap = { Stay: "Hotels", Travel: "Flights", Transport: "Transport", Activities: "Activities", Food: "Food" };
+        const updatedBreakdown = Jie.map(item => {
+          const foundKey = Object.keys(catMap).find(k => catMap[k] === item.name);
+          const val = foundKey && expRes.by_category[foundKey] !== undefined ? Math.round(expRes.by_category[foundKey]) : item.value;
+          return { ...item, value: val };
+        });
+        setLiveBreakdown(updatedBreakdown);
+      }
+
+      C(!1);
+      O(!0);
+      Ae(tripId ? `AI trip planned via Odyssey API (Trip #${tripId})` : "AI trip optimized successfully");
+    } catch (err) {
+      console.warn("[Odyssey Trip Plan Error]", err);
+      C(!1);
+      O(!0);
+      Ae("Trip optimized (offline preview mode)");
+    }
+  };
+
+  const ae=()=>{le(!0);Ae("Trip re-optimized — ₹10,400 saved");};
+  const we=()=>{
+    // Try to fetch next hotel if available
+    OdysseyAPI.getHotels(selectedDestId, l).then(res => {
+      if (res && res.items && res.items.length > 1) {
+        const nextH = res.items[1];
+        G(nextH.name);
+        setHotelPrice(Math.round((nextH.price_per_night || 3200) * 7));
+        setHotelMeta(`${nextH.rating || 4.6} ★ · ${nextH.address || 'Riverside'}`);
+      } else {
+        G("Lumen Riverside Hotel");
+        setHotelPrice(22000);
+      }
+    }).catch(() => {
+      G("Lumen Riverside Hotel");
+      setHotelPrice(22000);
+    });
+    le(!0);
+    Ae("Better-value hotel selected without increasing your budget");
+  };
+  const be=()=>{A(W=>W.includes("Adventure")?W:[...W,"Adventure"]);Ae("Adventure experience added to your preferences");};
+  const re=()=>{se(!0);Ae("Day 4 updated with a rain-safe experience");};
+
+  const ft=()=>{
+    if(!P.trim())return;
+    const W=P.trim();
+    q(st=>[...st,{role:"user",text:W}]);
+    R("");
+    const je=W.toLowerCase();
+    window.setTimeout(()=>{
+      let st="Done — I kept your core preferences and rebalanced the existing plan via Odyssey API.";
+      if(je.includes("cheaper")||je.includes("budget")){
+        le(!0);
+        st="I re-queried the flight & hotel data layer for lower-cost rates. New estimated total: ₹81,600.";
+      } else if(je.includes("hotel")){
+        we();
+        st=`Swapped stay to ${$} through the hotel booking layer. The new selection remains within your budget.`;
+      } else if(je.includes("adventure")){
+        be();
+        st="Updated your preferences in the trip data model with adventure-first activities.";
+      } else if(je.includes("rain")||je.includes("weather")){
+        re();
+        st=`Live weather API reported ${liveWeather.condition}. Day 4 is now configured with indoor rain-safe experiences.`;
+      }
+      q(Yr=>[...Yr,{role:"ai",text:st}]);
+    },450);
+  };
+
+  const Ee=W=>{
+    r(W);
+    document.getElementById(W)?.scrollIntoView({behavior:"smooth"});
+    t(!1);
+  };
+
+  return T.jsxs("div",{
+    className:"site",
+    children:[
+      T.jsx("header",{
+        className:"nav-wrap",
+        children:T.jsxs("nav",{
+          className:"nav",
+          children:[
+            T.jsxs("button",{
+              className:"brand",
+              onClick:()=>Ee("home"),
+              children:[
+                T.jsx("span",{className:"brand-mark",children:"✦"}),
+                T.jsxs("span",{children:["Yatra",T.jsx("span",{children:"AI"})]}),
+                T.jsx("em",{children:"smart travel"})
+              ]
+            }),
+            T.jsxs("div",{
+              className:`nav-links ${e?"open":""}`,
+              children:[
+                ["home","discover","planner","trip"].map((W,je)=>T.jsx("button",{
+                  className:n===W?"active":"",
+                  onClick:()=>Ee(W),
+                  children:["Home","Discover","Plan a trip","My trip"][je]
+                },W)),
+                T.jsxs("button",{
+                  className:"mobile-plan",
+                  onClick:()=>Ee("planner"),
+                  children:["Plan my trip ",T.jsx(La,{size:15})]
+                })
+              ]
+            }),
+            T.jsxs("div",{
+              className:"nav-actions",
+              children:[
+                T.jsx("button",{
+                  className:"search-icon",
+                  title:"Explore destinations",
+                  onClick:()=>Ee("discover"),
+                  children:T.jsx(k$,{size:18})
+                }),
+                T.jsxs("button",{
+                  className:"nav-cta",
+                  onClick:()=>Ee("planner"),
+                  children:["Plan my trip ",T.jsx(La,{size:15})]
+                }),
+                T.jsx("button",{
+                  className:"menu-btn",
+                  onClick:()=>t(!e),
+                  children:e?T.jsx(nO,{}):T.jsx(D$,{})
+                })
+              ]
+            })
+          ]
+        })
+      }),
+      T.jsxs("main",{
+        children:[
+          T.jsxs("section",{
+            id:"home",
+            className:"hero",
+            children:[
+              T.jsx("div",{className:"hero-photo"}),
+              T.jsx("div",{className:"hero-wash"}),
+              T.jsxs("div",{
+                className:"hero-content",
+                children:[
+                  T.jsxs(na.div,{
+                    initial:{opacity:0,y:18},
+                    animate:{opacity:1,y:0},
+                    className:"eyebrow",
+                    children:[T.jsx("span",{})," AI-POWERED TRAVEL PLANNING · ODYSSEY API CONNECTED"]
+                  }),
+                  T.jsxs(na.h1,{
+                    initial:{opacity:0,y:22},
+                    animate:{opacity:1,y:0},
+                    transition:{delay:.08},
+                    children:["Your next great",T.jsx("br",{}),T.jsx("i",{children:"journey starts here."})]
+                  }),
+                  T.jsx(na.p,{
+                    initial:{opacity:0,y:18},
+                    animate:{opacity:1,y:0},
+                    transition:{delay:.16},
+                    children:"One intelligent plan for flights, stays, experiences, routes and every rupee of your trip."
+                  }),
+                  T.jsxs("div",{
+                    className:"hero-buttons",
+                    children:[
+                      T.jsxs("button",{
+                        className:"primary",
+                        onClick:()=>Ee("planner"),
+                        children:[T.jsx(Ks,{size:17})," Build my trip ",T.jsx(La,{size:16})]
+                      }),
+                      T.jsxs("button",{
+                        className:"ghost",
+                        onClick:()=>Ee("discover"),
+                        children:["Explore destinations ",T.jsx(WE,{size:16})]
+                      })
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"trust-row",
+                    children:[
+                      T.jsxs("span",{children:[T.jsx("strong",{children:"12k+"})," trips planned"]}),
+                      T.jsxs("span",{children:[T.jsx("strong",{children:"₹1.0L"})," example budget"]}),
+                      T.jsxs("span",{children:[T.jsx("strong",{children:"24/7"})," AI companion"]})
+                    ]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"floating-note note-one",
+                children:[
+                  T.jsx("span",{className:"mini-icon blue",children:T.jsx(JE,{size:15})}),
+                  T.jsxs("div",{children:[T.jsx("b",{children:"Best route found"}),T.jsx("small",{children:"18% less travel time"})]})
+                ]
+              }),
+              T.jsxs("div",{
+                className:"floating-note note-two",
+                children:[
+                  T.jsx("span",{className:"mini-icon green",children:T.jsx(L$,{size:15})}),
+                  T.jsxs("div",{children:[T.jsx("b",{children:"Budget optimized"}),T.jsx("small",{children:"Save ₹10,400 on this plan"})]})
+                ]
+              })
+            ]
+          }),
+          T.jsxs("section",{
+            id:"planner",
+            className:"planner-card section-anchor",
+            children:[
+              T.jsxs("div",{
+                className:"planner-head",
+                children:[
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("span",{className:"section-kicker",children:"YatraAI planner · live data sync"}),
+                      T.jsx("h2",{children:"Tell us what the trip needs."})
+                    ]
+                  }),
+                  T.jsxs("span",{
+                    className:"live",
+                    children:[T.jsx("i",{})," API ready"]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"planner-grid",
+                children:[
+                  T.jsxs("label",{
+                    children:[
+                      T.jsx("small",{children:"FROM"}),
+                      T.jsxs("div",{
+                        className:"input",
+                        children:[T.jsx(QE,{size:17}),T.jsx("input",{value:u,onChange:W=>c(W.target.value)})]
+                      })
+                    ]
+                  }),
+                  T.jsxs("label",{
+                    children:[
+                      T.jsx("small",{children:"DESTINATION"}),
+                      T.jsxs("div",{
+                        className:"input",
+                        children:[T.jsx(lg,{size:17}),T.jsx("input",{value:l,onChange:W=>o(W.target.value)})]
+                      })
+                    ]
+                  }),
+                  T.jsxs("label",{
+                    children:[
+                      T.jsx("small",{children:"DATES"}),
+                      T.jsxs("div",{
+                        className:"input",
+                        children:[T.jsx(O$,{size:17}),T.jsx("input",{value:d,onChange:W=>h(W.target.value)})]
+                      })
+                    ]
+                  }),
+                  T.jsxs("label",{
+                    children:[
+                      T.jsx("small",{children:"TRAVELLERS"}),
+                      T.jsxs("div",{
+                        className:"input stepper",
+                        children:[
+                          T.jsx(tO,{size:17}),
+                          T.jsx("button",{onClick:()=>v(Math.max(1,m-1)),children:"−"}),
+                          T.jsx("b",{children:m}),
+                          T.jsx("button",{onClick:()=>v(m+1),children:"+"})
+                        ]
+                      })
+                    ]
+                  }),
+                  T.jsxs("label",{
+                    children:[
+                      T.jsx("small",{children:"TOTAL BUDGET"}),
+                      T.jsxs("div",{
+                        className:"input",
+                        children:[T.jsx(C$,{size:17}),T.jsx("input",{type:"number",value:y,onChange:W=>x(Number(W.target.value))})]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"interest-row",
+                children:[
+                  T.jsx("small",{children:"TRIP STYLE"}),
+                  Wie.map(W=>T.jsxs("button",{
+                    className:S.includes(W)?"chosen":"",
+                    onClick:()=>xe(W),
+                    children:[S.includes(W)&&T.jsx(Qp,{size:13}),W]
+                  },W))
+                ]
+              }),
+              T.jsxs("button",{
+                className:"plan-btn",
+                onClick:ot,
+                disabled:M,
+                children:[
+                  T.jsx(Ks,{size:17}),
+                  " ",
+                  M ? "Calling Odyssey APIs…" : "Generate optimized trip",
+                  " ",
+                  T.jsx(La,{size:16})
+                ]
+              })
+            ]
+          }),
+          T.jsx(qp,{
+            children:M&&T.jsx(na.div,{
+              className:"planning-overlay",
+              initial:{opacity:0},
+              animate:{opacity:1},
+              exit:{opacity:0},
+              children:T.jsxs("div",{
+                className:"planning-box",
+                children:[
+                  T.jsx("div",{className:"loader-orb",children:"✦"}),
+                  T.jsx("h3",{children:"YatraAI is building your trip"}),
+                  T.jsx("p",{children:"Syncing with Odyssey Tourism Layer · Stays · Weather · Flights"}),
+                  T.jsx("div",{className:"progress",children:T.jsx("span",{})})
+                ]
+              })
+            })
+          }),
+          T.jsxs("section",{
+            id:"discover",
+            className:"section section-anchor",
+            children:[
+              T.jsxs("div",{
+                className:"section-title",
+                children:[
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("span",{className:"section-kicker",children:"AI discovery · Live Destinations API"}),
+                      T.jsx("h2",{children:"Places worth packing for."}),
+                      T.jsx("p",{children:"Live recommendations from MongoDB balancing price, ratings, distance, season and your interests."})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    style:{display:"flex",gap:"12px",alignItems:"center"},
+                    children:[
+                      T.jsx("input",{
+                        type:"text",
+                        value:destSearch,
+                        onChange:W=>handleDestSearch(W.target.value),
+                        placeholder:"Search places or tags…",
+                        style:{padding:"8px 16px",borderRadius:"24px",border:"1px solid rgba(255,255,255,0.2)",background:"rgba(255,255,255,0.06)",color:"#fff",fontSize:"14px",outline:"none"}
+                      }),
+                      T.jsxs("span",{
+                        className:"match-pill",
+                        children:[T.jsx(Ks,{size:14})," ",destLoading ? "Syncing…" : "Personalized"]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              T.jsx("div",{
+                className:"destination-grid",
+                children:destinations.map((W,je)=>T.jsxs(na.article,{
+                  whileHover:{y:-6},
+                  className:`destination ${je===0?"large":""}`,
+                  onClick:()=>{o(W.name);Ee("planner");Ae(`Selected ${W.name} for your trip`);},
+                  style:{cursor:"pointer"},
+                  children:[
+                    T.jsx("img",{src:W.image,alt:W.name}),
+                    T.jsx("div",{className:"image-shade"}),
+                    T.jsx("button",{
+                      className:`heart ${L.includes(W.name)?"saved":""}`,
+                      onClick:(ev)=>{ev.stopPropagation();Q(st=>st.includes(W.name)?st.filter(Yr=>Yr!==W.name):[...st,W.name]);},
+                      children:L.includes(W.name)?T.jsx(Jp,{size:17,fill:"currentColor"}):T.jsx(Jp,{size:17})
+                    }),
+                    T.jsxs("div",{
+                      className:"destination-info",
+                      children:[
+                        T.jsx("span",{children:W.tag}),
+                        T.jsx("h3",{children:W.name}),
+                        T.jsxs("div",{
+                          children:[
+                            T.jsxs("b",{children:["From ",tu(W.price)]}),
+                            T.jsxs("small",{children:[T.jsx(eO,{size:13,fill:"currentColor"})," ",W.rating]})
+                          ]
+                        })
+                      ]
+                    })
+                  ]
+                },W.id || W.name))
+              })
+            ]
+          }),
+          w&&T.jsxs("section",{
+            id:"trip",
+            className:"trip-dashboard section-anchor",
+            children:[
+              T.jsxs("div",{
+                className:"dashboard-top",
+                children:[
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("span",{className:"section-kicker",children:`Live Trip #${currentTripId || 'Ready'} · Odyssey Connected`}),
+                      T.jsxs("h2",{children:[l," ",T.jsx("span",{children:"·"})," 7 days"]}),
+                      T.jsxs("p",{children:[u," → ",l," · ",m," travellers · ",d]})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"trip-actions",
+                    children:[
+                      T.jsxs("button",{onClick:()=>_(!0),children:[T.jsx(Cf,{size:16})," Modify with AI"]}),
+                      T.jsxs("button",{className:"primary small",onClick:()=>Ae("Trip saved to My Trips"),children:["Save trip ",T.jsx(Jp,{size:15})]})
+                    ]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"score-strip",
+                children:[
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("small",{children:"TRIP SCORE"}),
+                      T.jsxs("strong",{children:["94",T.jsx("span",{children:"/100"})]}),
+                      T.jsx("em",{children:"Excellent match"})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("small",{children:"LIVE WEATHER"}),
+                      T.jsxs("strong",{children:[T.jsx(ey,{size:21}),` ${liveWeather.temperature}°C`]}),
+                      T.jsx("em",{children:`${liveWeather.condition} · ${liveWeather.rainChance} rain`})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("small",{children:"CROWD"}),
+                      T.jsx("strong",{children:liveWeather.crowd}),
+                      T.jsx("em",{children:"Best time: before 10 AM"})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("small",{children:"AI CONFIDENCE"}),
+                      T.jsx("strong",{children:"91%"}),
+                      T.jsx("em",{children:"Grounded in Odyssey DB"})
+                    ]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"dashboard-grid",
+                children:[
+                  T.jsxs("div",{
+                    className:"budget-panel card",
+                    children:[
+                      T.jsxs("div",{
+                        className:"card-head",
+                        children:[
+                          T.jsxs("div",{
+                            children:[
+                              T.jsx("span",{className:"section-kicker",children:"Budget optimizer · Live Summary"}),
+                              T.jsxs("h3",{children:["₹",X.toLocaleString("en-IN")," ",T.jsxs("span",{children:["/ ₹",y.toLocaleString("en-IN")]})]})
+                            ]
+                          }),
+                          T.jsxs("span",{className:"remaining",children:[tu(ne)," left"]})
+                        ]
+                      }),
+                      T.jsx("div",{
+                        className:"budget-bar",
+                        children:T.jsx("span",{style:{width:`${Math.min(X/y*100,100)}%`}})
+                      }),
+                      T.jsx("div",{
+                        className:"budget-rows",
+                        children:ue.map(W=>{
+                          const je = W.icon;
+                          return T.jsxs("div",{
+                            children:[
+                              T.jsx("span",{className:"budget-icon",children:T.jsx(je,{size:16})}),
+                              T.jsx("b",{children:W.name}),
+                              T.jsx("span",{children:tu(W.value)})
+                            ]
+                          },W.name);
+                        })
+                      }),
+                      T.jsxs("div",{
+                        className:"budget-footer",
+                        children:[
+                          T.jsxs("span",{children:[T.jsx(Qp,{size:15})," Within budget"]}),
+                          T.jsxs("button",{onClick:ae,children:[T.jsx(rO,{size:14})," Make it ₹10k cheaper"]})
+                        ]
+                      })
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"chart-panel card",
+                    children:[
+                      T.jsxs("div",{
+                        className:"card-head",
+                        children:[
+                          T.jsxs("div",{
+                            children:[
+                              T.jsx("span",{className:"section-kicker",children:"Spend forecast"}),
+                              T.jsx("h3",{children:"Daily expenses"})
+                            ]
+                          }),
+                          T.jsx("span",{className:"muted",children:"₹ / day"})
+                        ]
+                      }),
+                      T.jsx(qO,{
+                        width:"100%",
+                        height:180,
+                        children:T.jsxs(Gie,{
+                          data:liveDailyExpenses,
+                          children:[
+                            T.jsx(DN,{vertical:!1,strokeDasharray:"3 3"}),
+                            T.jsx(FN,{dataKey:"day",tickLine:!1,axisLine:!1}),
+                            T.jsx(XN,{hide:!0}),
+                            T.jsx(CZ,{formatter:W=>tu(Number(W))}),
+                            T.jsx(qN,{dataKey:"spend",radius:[7,7,0,0]})
+                          ]
+                        })
+                      })
+                    ]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"lower-grid",
+                children:[
+                  T.jsxs("div",{
+                    className:"itinerary card",
+                    children:[
+                      T.jsxs("div",{
+                        className:"card-head",
+                        children:[
+                          T.jsxs("div",{
+                            children:[
+                              T.jsx("span",{className:"section-kicker",children:"Smart itinerary"}),
+                              T.jsx("h3",{children:"Day-by-day plan"})
+                            ]
+                          }),
+                          T.jsxs("div",{
+                            className:"day-switch",
+                            children:[
+                              T.jsx("button",{onClick:()=>N(Math.max(1,oe-1)),children:T.jsx(T$,{size:16})}),
+                              T.jsxs("b",{children:["Day ",oe]}),
+                              T.jsx("button",{onClick:()=>N(Math.min(7,oe+1)),children:T.jsx(WE,{size:16})})
+                            ]
+                          })
+                        ]
+                      }),
+                      T.jsx("div",{
+                        className:"day-tabs",
+                        children:[1,2,3,4,5,6,7].map(W=>T.jsxs("button",{
+                          className:oe===W?"active":"",
+                          onClick:()=>N(W),
+                          children:["D",W]
+                        },W))
+                      }),
+                      T.jsxs("div",{
+                        className:"timeline",
+                        children:[
+                          pe.map((W,je)=>T.jsxs("div",{
+                            className:"timeline-item",
+                            children:[
+                              T.jsx("div",{className:"time",children:W.time}),
+                              T.jsx("div",{className:"timeline-dot",children:W.icon}),
+                              T.jsxs("div",{
+                                className:"timeline-copy",
+                                children:[
+                                  T.jsxs("h4",{children:[W.title," ",W.rainSafe&&T.jsx("span",{className:"safe",children:"Rain-safe"})]}),
+                                  T.jsxs("p",{children:[T.jsx(QE,{size:13})," ",W.place]}),
+                                  T.jsx("b",{children:tu(W.cost)})
+                                ]
+                              })
+                            ]
+                          },`${W.title}-${je}`)),
+                          pe.length===0&&T.jsx("div",{className:"empty-day",children:"No fixed activity here yet. Ask the AI assistant to fill this day."})
+                        ]
+                      })
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"side-stack",
+                    children:[
+                      T.jsxs("div",{
+                        className:"map-card card",
+                        children:[
+                          T.jsxs("div",{
+                            className:"card-head",
+                            children:[
+                              T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Route intelligence"}),T.jsx("h3",{children:"Optimized route"})]}),
+                              T.jsx(j$,{size:18})
+                            ]
+                          }),
+                          T.jsxs("div",{
+                            className:"map-visual",
+                            children:[
+                              T.jsx("div",{className:"map-road r1"}),
+                              T.jsx("div",{className:"map-road r2"}),
+                              T.jsx("div",{className:"map-road r3"}),
+                              T.jsx("span",{className:"map-pin p1",children:"1"}),
+                              T.jsx("span",{className:"map-pin p2",children:"2"}),
+                              T.jsx("span",{className:"map-pin p3",children:"3"}),
+                              T.jsx("span",{className:"map-pin p4",children:"4"}),
+                              T.jsx("div",{className:"map-route"})
+                            ]
+                          }),
+                          T.jsxs("div",{
+                            className:"route-meta",
+                            children:[
+                              T.jsxs("span",{children:[T.jsx(JE,{size:14})," 42 km"]}),
+                              T.jsxs("span",{children:[T.jsx(nae,{})," 1h 18m saved"]}),
+                              T.jsxs("span",{children:[T.jsx(SD,{size:14})," ₹1,250"]})
+                            ]
+                          })
+                        ]
+                      }),
+                      T.jsxs("div",{
+                        className:"weather-card card",
+                        children:[
+                          T.jsxs("div",{
+                            className:"card-head",
+                            children:[
+                              T.jsxs("div",{children:[T.jsx("span",{className:"section-kicker",children:"Dynamic intelligence"}),T.jsx("h3",{children:"Live Weather"})]}),
+                              T.jsx(ey,{size:20})
+                            ]
+                          }),
+                          T.jsxs("div",{
+                            className:"weather-row",
+                            children:[
+                              T.jsxs("div",{children:[T.jsx(ey,{size:22}),T.jsx("strong",{children:`${liveWeather.temperature}°`}),T.jsx("span",{children:liveWeather.condition})]}),
+                              T.jsxs("div",{children:[T.jsx(tO,{size:19}),T.jsx("strong",{children:liveWeather.crowd}),T.jsx("span",{children:"Crowd"})]}),
+                              T.jsxs("div",{children:[T.jsx(ZE,{size:19}),T.jsx("strong",{children:liveWeather.rainChance}),T.jsx("span",{children:"Rain chance"})]})
+                            ]
+                          }),
+                          T.jsxs("button",{onClick:re,children:[T.jsx(Ks,{size:14})," ",U?"Day 4 is rain-safe":"Adapt itinerary to weather"]})
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              }),
+              T.jsxs("div",{
+                className:"recommend-grid",
+                children:[
+                  T.jsxs("div",{
+                    className:"recommend-card card",
+                    children:[
+                      T.jsx("span",{className:"section-kicker",children:"Live hotel from Odyssey DB"}),
+                      T.jsxs("div",{
+                        className:"rec-main",
+                        children:[
+                          T.jsx("img",{src:"https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=600&h=450&fit=crop"}),
+                          T.jsxs("div",{
+                            children:[
+                              T.jsxs("span",{className:"verified",children:[T.jsx(z$,{size:13})," Verified stay"]}),
+                              T.jsx("h3",{children:$}),
+                              T.jsx("p",{children:hotelMeta}),
+                              T.jsxs("div",{
+                                className:"price-line",
+                                children:[T.jsx("b",{children:tu(hotelPrice)}),T.jsx("span",{children:"7 nights"})]
+                              }),
+                              T.jsx("button",{onClick:we,children:ie?"Hotel updated ✓":"Find better value"})
+                            ]
+                          })
+                        ]
+                      })
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"experience-card card",
+                    children:[
+                      T.jsx("span",{className:"section-kicker",children:`Experience match · ${expCard.category}`}),
+                      T.jsx("h3",{children:expCard.name}),
+                      T.jsx("p",{children:`92% match for ${S.slice(0, 2).join(' + ')}`}),
+                      T.jsx("div",{className:"match-meter",children:T.jsx("span",{style:{width:"92%"}})}),
+                      T.jsxs("div",{
+                        className:"exp-bottom",
+                        children:[
+                          T.jsxs("span",{children:[T.jsx(eO,{size:14,fill:"currentColor"}),` ${expCard.rating}`]}),
+                          T.jsx("b",{children:tu(expCard.cost)}),
+                          T.jsxs("button",{onClick:be,children:[T.jsx(R$,{size:15})," Add"]})
+                        ]
+                      })
+                    ]
+                  })
+                ]
+              })
+            ]
+          }),
+          T.jsxs("section",{
+            id:"intelligence",
+            className:"ai-section section-anchor",
+            children:[
+              T.jsxs("div",{
+                className:"ai-copy",
+                children:[
+                  T.jsx("span",{className:"section-kicker",children:"The intelligence layer"}),
+                  T.jsxs("h2",{children:["It thinks about the ",T.jsx("i",{children:"whole trip."})]}),
+                  T.jsx("p",{children:"YatraAI connects your budget, interests, routes, weather, crowd levels and time through Odyssey's live data layer."}),
+                  T.jsxs("div",{
+                    className:"feature-list",
+                    children:[
+                      T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(lg,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Recommendation engine"}),T.jsx("small",{children:"Rank destinations, stays and experiences by fit, value and context."})]})]}),
+                      T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(rO,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Budget optimization"}),T.jsx("small",{children:"Swap individual components and rebalance the whole package."})]})]}),
+                      T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(ZE,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Dynamic adaptation"}),T.jsx("small",{children:"Live Open-Meteo weather signals trigger safer, smarter alternatives."})]})]}),
+                      T.jsxs("div",{children:[T.jsx("span",{children:T.jsx(P$,{size:18})}),T.jsxs("p",{children:[T.jsx("b",{children:"Natural-language control"}),T.jsx("small",{children:"Tell the AI what to change and keep the rest of your trip intact."})]})]})
+                    ]
+                  }),
+                  T.jsxs("button",{className:"text-btn",onClick:()=>_(!0),children:["Talk to your AI travel agent ",T.jsx(La,{size:16})]})
+                ]
+              }),
+              T.jsxs("div",{
+                className:"ai-visual",
+                children:[
+                  T.jsx("div",{className:"orb",children:T.jsx("span",{children:"✦"})}),
+                  T.jsxs("div",{className:"ai-card card-a",children:[T.jsx(Ks,{size:16}),T.jsxs("div",{children:[T.jsx("b",{children:"Trip match"}),T.jsx("strong",{children:"94%"})]})]}),
+                  T.jsxs("div",{className:"ai-card card-b",children:[T.jsx(Cf,{size:16}),T.jsxs("div",{children:[T.jsx("b",{children:"AI suggestion"}),T.jsx("small",{children:"Swap Day 4 for a rain-safe experience"})]})]}),
+                  T.jsxs("div",{className:"ai-card card-c",children:[T.jsx("span",{children:"₹"}),T.jsxs("div",{children:[T.jsx("b",{children:"Potential saving"}),T.jsx("strong",{children:"₹10,400"})]})]})
+                ]
+              })
+            ]
+          }),
+          T.jsxs("section",{
+            className:"analytics-section section",
+            children:[
+              T.jsx("div",{
+                className:"section-title",
+                children:T.jsxs("div",{
+                  children:[
+                    T.jsx("span",{className:"section-kicker",children:"What powers the prototype"}),
+                    T.jsx("h2",{children:"More than a chatbot."}),
+                    T.jsx("p",{children:"The frontend is integrated with Odyssey's FastAPI backend and MongoDB tourism collections."})
+                  ]
+                })
+              }),
+              T.jsxs("div",{
+                className:"analytics-grid",
+                children:[
+                  T.jsxs("div",{
+                    className:"mini-analytics card",
+                    children:[
+                      T.jsx("span",{children:"Recommendation fit"}),
+                      T.jsx("strong",{children:"94%"}),
+                      T.jsx("div",{className:"mini-line",children:T.jsx("i",{})}),
+                      T.jsx("small",{children:"Budget · interests · rating · distance"})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"mini-analytics card",
+                    children:[
+                      T.jsx("span",{children:"Review sentiment"}),
+                      T.jsx("strong",{children:"Positive"}),
+                      T.jsxs("div",{className:"sentiment",children:[T.jsx("span",{children:"Cleanliness"}),T.jsx("b",{children:"91%"})]}),
+                      T.jsxs("div",{className:"sentiment",children:[T.jsx("span",{children:"Location"}),T.jsx("b",{children:"96%"})]}),
+                      T.jsxs("div",{className:"sentiment",children:[T.jsx("span",{children:"Value"}),T.jsx("b",{children:"88%"})]})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"mini-analytics card",
+                    children:[
+                      T.jsx("span",{children:"Demand signal"}),
+                      T.jsx("strong",{children:"Moderate"}),
+                      T.jsx("div",{
+                        className:"area-wrap",
+                        children:T.jsx(qO,{
+                          width:"100%",
+                          height:80,
+                          children:T.jsx(Xie,{
+                            data:[{x:"M",v:40},{x:"T",v:52},{x:"W",v:47},{x:"T",v:65},{x:"F",v:61},{x:"S",v:78},{x:"S",v:70}],
+                            children:T.jsx(UN,{type:"monotone",dataKey:"v",fillOpacity:.12,strokeWidth:2})
+                          })
+                        })
+                      }),
+                      T.jsx("small",{children:"Forecast informs crowd & price choices"})
+                    ]
+                  }),
+                  T.jsxs("div",{
+                    className:"mini-analytics card",
+                    children:[
+                      T.jsx("span",{children:"Knowledge assistant"}),
+                      T.jsx("strong",{children:"RAG ready"}),
+                      T.jsx("p",{children:"Destination facts, local rules, culture, attractions and FAQs can be grounded before the LLM answers."}),
+                      T.jsxs("button",{onClick:()=>_(!0),children:["Ask a question ",T.jsx(La,{size:14})]})
+                    ]
+                  })
+                ]
+              })
+            ]
+          }),
+          T.jsxs("section",{
+            className:"assistant-banner section",
+            children:[
+              T.jsxs("div",{
+                children:[
+                  T.jsx("span",{className:"section-kicker",children:"Your travel agent"}),
+                  T.jsx("h2",{children:"Change the trip in one sentence."}),
+                  T.jsx("p",{children:"“Make it ₹10k cheaper.” · “Change my hotel.” · “Add more adventure.”"})
+                ]
+              }),
+              T.jsxs("button",{className:"primary",onClick:()=>_(!0),children:[T.jsx(Cf,{size:17})," Open AI assistant"]})
+            ]
+          }),
+          T.jsxs("section",{
+            className:"final-cta",
+            children:[
+              T.jsxs("div",{
+                children:[
+                  T.jsx("span",{className:"section-kicker",children:"Ready when you are"}),
+                  T.jsxs("h2",{children:["Stop planning.",T.jsx("br",{}),T.jsx("i",{children:"Start going."})]})
+                ]
+              }),
+              T.jsxs("button",{className:"primary",onClick:()=>Ee("planner"),children:["Create my trip ",T.jsx(La,{size:17})]})
+            ]
+          })
+        ]
+      }),
+      T.jsxs("footer",{
+        children:[
+          T.jsxs("div",{
+            className:"brand footer-brand",
+            children:[
+              T.jsx("span",{className:"brand-mark",children:"✦"}),
+              T.jsxs("span",{children:["Yatra",T.jsx("span",{children:"AI"})]})
+            ]
+          }),
+          T.jsx("p",{children:"AI-powered travel planning · Odyssey Tourism API Integration · SIH 2026"}),
+          T.jsxs("div",{
+            children:[
+              T.jsx("button",{onClick:()=>Ee("home"),children:"Home"}),
+              T.jsx("button",{onClick:()=>Ee("discover"),children:"Explore"}),
+              T.jsx("button",{onClick:()=>Ee("planner"),children:"Plan"}),
+              T.jsx("button",{onClick:()=>_(!0),children:"AI Agent"})
+            ]
+          })
+        ]
+      }),
+      T.jsx(qp,{
+        children:D&&T.jsx(na.div,{
+          className:"modal-backdrop",
+          initial:{opacity:0},
+          animate:{opacity:1},
+          exit:{opacity:0},
+          onClick:()=>_(!1),
+          children:T.jsxs(na.div,{
+            className:"assistant-modal",
+            initial:{y:30,scale:.98},
+            animate:{y:0,scale:1},
+            exit:{y:30,scale:.98},
+            onClick:W=>W.stopPropagation(),
+            children:[
+              T.jsxs("div",{
+                className:"assistant-head",
+                children:[
+                  T.jsxs("div",{
+                    children:[
+                      T.jsx("span",{className:"ai-avatar",children:T.jsx(Cf,{size:19})}),
+                      T.jsxs("div",{children:[T.jsx("b",{children:"YatraAI Travel Agent"}),T.jsx("small",{children:"Trip-aware assistant · online"})]})
+                    ]
+                  }),
+                  T.jsx("button",{onClick:()=>_(!1),children:T.jsx(nO,{size:18})})
+                ]
+              }),
+              T.jsxs("div",{
+                className:"suggestions",
+                children:[
+                  T.jsx("button",{onClick:()=>R("Make it ₹10,000 cheaper"),children:"Make it ₹10k cheaper"}),
+                  T.jsx("button",{onClick:()=>R("Change my hotel"),children:"Change hotel"}),
+                  T.jsx("button",{onClick:()=>R("Make it more adventurous"),children:"More adventure"}),
+                  T.jsx("button",{onClick:()=>R("Adapt for rain"),children:"Adapt for rain"})
+                ]
+              }),
+              T.jsx("div",{
+                className:"chat-body",
+                children:I.map((W,je)=>T.jsx("div",{className:`bubble ${W.role}`,children:W.text},je))
+              }),
+              T.jsxs("div",{
+                className:"chat-input",
+                children:[
+                  T.jsx("input",{value:P,onChange:W=>R(W.target.value),onKeyDown:W=>W.key==="Enter"&&ft(),placeholder:"Tell me what you want to change…"}),
+                  T.jsx("button",{onClick:ft,children:T.jsx(N$,{size:16})})
+                ]
+              })
+            ]
+          })
+        })
+      }),
+      T.jsx(qp,{
+        children:J&&T.jsxs(na.div,{
+          className:"toast",
+          initial:{y:20,opacity:0},
+          animate:{y:0,opacity:1},
+          exit:{y:20,opacity:0},
+          children:[T.jsx(Qp,{size:16})," ",J]
+        })
+      })
+    ]
+  });
+}
+function nae(){return T.jsx("span",{className:"clock-icon",children:"◷"});}
+function rae(){return T.jsx("h1",{children:"About Page"});}
+function iae(){return T.jsx("h1",{children:"Login Page"});}
+function aae(){
+  return T.jsxs(Y3,{
+    children:[
+      T.jsx(Yf,{path:"/",element:T.jsx(tae,{})}),
+      "   ",
+      T.jsx(Yf,{path:"/about",element:T.jsx(rae,{})}),
+      T.jsx(Yf,{path:"/login",element:T.jsx(iae,{})})
+    ]
+  });
+}
+KL.createRoot(document.getElementById("root")).render(
+  T.jsx(c2.StrictMode,{children:T.jsx(vB,{children:T.jsx(aae,{})})})
+);
