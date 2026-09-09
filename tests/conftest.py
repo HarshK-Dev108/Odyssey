@@ -2,6 +2,7 @@ import pytest
 import pytest_asyncio
 import httpx
 from mongomock_motor import AsyncMongoMockClient
+from uuid import uuid4
 from app.main import app
 from app.core.mongodb import get_database, db_manager
 
@@ -32,3 +33,27 @@ async def client(mock_mongo_db):
     app.dependency_overrides.clear()
     db_manager.client = orig_client
     db_manager.db = orig_db
+
+
+@pytest_asyncio.fixture
+async def auth_headers(client):
+    email = f"test-{uuid4().hex}@odyssey.com"
+    registration = await client.post(
+        "/api/v1/users/",
+        params={
+            "name": "Authenticated Test User",
+            "email": email,
+            "password": "password123",
+        },
+    )
+    assert registration.status_code == 200
+
+    login = await client.post(
+        "/api/v1/users/login",
+        params={"email": email, "password": "password123"},
+    )
+    assert login.status_code == 200
+
+    return {
+        "Authorization": f"Bearer {login.json()['access_token']}"
+    }

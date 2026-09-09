@@ -222,10 +222,25 @@ async def test_activity_crud_and_filters(client):
 # ==============================================================================
 
 @pytest.mark.asyncio
-async def test_expense_crud_and_summary(client):
+async def test_expense_crud_and_summary(client, auth_headers):
+    trip_res = await client.post(
+        "/api/v1/trips/plan",
+        json={
+            "from_city": "Delhi",
+            "destination": "Goa",
+            "start_date": "2026-05-01",
+            "end_date": "2026-05-03",
+            "travellers": 1,
+            "budget": 5000,
+        },
+        headers=auth_headers,
+    )
+    assert trip_res.status_code == 200
+    trip_id = trip_res.json()["trip_id"]
+
     # 1. Create 2 expenses for trip_id=1
     exp1 = {
-        "trip_id": 1,
+        "trip_id": trip_id,
         "category": "Food",
         "title": "Traditional Dinner",
         "amount": 1500.0,
@@ -234,36 +249,49 @@ async def test_expense_crud_and_summary(client):
         "notes": "Chokhi Dhani"
     }
     exp2 = {
-        "trip_id": 1,
+        "trip_id": trip_id,
         "category": "Stay",
         "title": "Hotel Room Advance",
         "amount": 3500.0,
         "currency": "INR",
         "expense_date": "2026-03-15"
     }
-    res1 = await client.post("/api/v1/expenses", json=exp1)
-    res2 = await client.post("/api/v1/expenses", json=exp2)
+    res1 = await client.post("/api/v1/expenses", json=exp1, headers=auth_headers)
+    res2 = await client.post("/api/v1/expenses", json=exp2, headers=auth_headers)
     assert res1.status_code == 201
     assert res2.status_code == 201
     id1 = res1.json()["id"]
     id2 = res2.json()["id"]
 
     # 2. Validation error (negative amount)
-    bad_amt = await client.post("/api/v1/expenses", json={**exp1, "amount": -50.0})
+    bad_amt = await client.post(
+        "/api/v1/expenses",
+        json={**exp1, "amount": -50.0},
+        headers=auth_headers,
+    )
     assert bad_amt.status_code == 422
 
     # 3. List filtered by trip_id
-    list_res = await client.get("/api/v1/expenses?trip_id=1")
+    list_res = await client.get(
+        f"/api/v1/expenses?trip_id={trip_id}",
+        headers=auth_headers,
+    )
     assert list_res.status_code == 200
     assert list_res.json()["total"] == 2
 
     # Filter by category
-    food_res = await client.get("/api/v1/expenses?trip_id=1&category=Food")
+    food_res = await client.get(
+        f"/api/v1/expenses?trip_id={trip_id}&category=Food",
+        headers=auth_headers,
+    )
     assert food_res.status_code == 200
     assert food_res.json()["total"] == 1
 
     # 4. Aggregated summary
-    summary_res = await client.get("/api/v1/expenses/summary?trip_id=1")
+    summary_res = await client.get(
+        f"/api/v1/expenses/summary?trip_id={trip_id}",
+        headers=auth_headers,
+    )
     assert summary_res.status_code == 200
     summary = summary_res.json()
     assert summary["total_expenses"] == 2
@@ -272,13 +300,23 @@ async def test_expense_crud_and_summary(client):
     assert summary["by_category"]["Stay"] == 3500.0
 
     # 5. Update and Delete
-    up_res = await client.put(f"/api/v1/expenses/{id1}", json={"amount": 1600.0})
+    up_res = await client.put(
+        f"/api/v1/expenses/{id1}",
+        json={"amount": 1600.0},
+        headers=auth_headers,
+    )
     assert up_res.status_code == 200
     assert up_res.json()["amount"] == 1600.0
 
-    assert (await client.delete(f"/api/v1/expenses/{id1}")).status_code == 204
-    assert (await client.delete(f"/api/v1/expenses/{id2}")).status_code == 204
-    assert (await client.get(f"/api/v1/expenses/{id1}")).status_code == 404
+    assert (await client.delete(
+        f"/api/v1/expenses/{id1}", headers=auth_headers
+    )).status_code == 204
+    assert (await client.delete(
+        f"/api/v1/expenses/{id2}", headers=auth_headers
+    )).status_code == 204
+    assert (await client.get(
+        f"/api/v1/expenses/{id1}", headers=auth_headers
+    )).status_code == 404
 
 
 # ==============================================================================
@@ -359,7 +397,7 @@ async def test_weather_timeout_failure(client):
 # ==============================================================================
 
 @pytest.mark.asyncio
-async def test_existing_health_and_trips_intact(client):
+async def test_existing_health_and_trips_intact(client, auth_headers):
     # Health endpoint
     h_res = await client.get("/api/v1/health")
     assert h_res.status_code == 200
@@ -375,9 +413,13 @@ async def test_existing_health_and_trips_intact(client):
         "budget": 25000.0,
         "interests": ["Beach", "Food"]
     }
-    trip_res = await client.post("/api/v1/trips/plan", json=trip_payload)
+    trip_res = await client.post(
+        "/api/v1/trips/plan",
+        json=trip_payload,
+        headers=auth_headers,
+    )
     assert trip_res.status_code == 200
-    assert trip_res.json()["message"] == "Trip created successfully"
+    assert trip_res.json()["message"] == "AI travel plan created successfully"
 
     # User registration and login endpoint exists
     user_res = await client.post(

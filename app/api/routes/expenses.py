@@ -4,8 +4,13 @@ import re
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from sqlalchemy.orm import Session
 
 from app.core.mongodb import get_database, is_valid_object_id, str_to_object_id, serialize_doc
+from app.core.auth import get_current_user
+from app.core.database import get_db
+from app.models.trip import Trip
+from app.models.user import User
 from app.schemas.expense import (
     ExpenseCreate,
     ExpenseUpdate,
@@ -22,6 +27,46 @@ router = APIRouter(
 COLLECTION_NAME = "expenses"
 
 
+def _require_owned_trip(trip_id: int, db: Session, user: User) -> Trip:
+    trip = db.query(Trip).filter(
+        Trip.id == trip_id,
+        Trip.user_id == user.id,
+    ).first()
+
+    if trip is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Trip not found",
+        )
+
+    return trip
+
+
+async def _get_owned_expense(
+    expense_id: str,
+    mongo_db: AsyncIOMotorDatabase,
+    sql_db: Session,
+    user: User,
+) -> dict:
+    if not is_valid_object_id(expense_id):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid expense ID format: '{expense_id}'",
+        )
+
+    document = await mongo_db[COLLECTION_NAME].find_one(
+        {"_id": str_to_object_id(expense_id)}
+    )
+    if not document:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Expense with ID '{expense_id}' not found",
+        )
+
+    _require_owned_trip(document.get("trip_id"), sql_db, user)
+    return document
+
+
 @router.get(
     "/summary",
     response_model=ExpenseSummaryResponse,
@@ -31,11 +76,22 @@ COLLECTION_NAME = "expenses"
 )
 async def get_expense_summary(
     trip_id: Optional[int] = Query(None, description="Filter summary by SQLite Trip ID"),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db: AsyncIOMotorDatabase = Depends(get_database),
+    sql_db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> ExpenseSummaryResponse:
     match_stage = {}
     if trip_id is not None:
+        _require_owned_trip(trip_id, sql_db, current_user)
         match_stage["trip_id"] = trip_id
+    else:
+        owned_trip_ids = [
+            trip.id
+            for trip in sql_db.query(Trip.id).filter(
+                Trip.user_id == current_user.id
+            ).all()
+        ]
+        match_stage["trip_id"] = {"$in": owned_trip_ids}
 
     pipeline = []
     if match_stage:
@@ -83,12 +139,23 @@ async def list_expenses(
     category: Optional[str] = Query(None, description="Filter by category (Food, Stay, Travel, etc.)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db: AsyncIOMotorDatabase = Depends(get_database),
+    sql_db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> ExpenseListResponse:
     query = {}
 
     if trip_id is not None:
+        _require_owned_trip(trip_id, sql_db, current_user)
         query["trip_id"] = trip_id
+    else:
+        owned_trip_ids = [
+            trip.id
+            for trip in sql_db.query(Trip.id).filter(
+                Trip.user_id == current_user.id
+            ).all()
+        ]
+        query["trip_id"] = {"$in": owned_trip_ids}
 
     if category:
         query["category"] = {"$regex": f"^{re.escape(category.strip())}$", "$options": "i"}
@@ -121,20 +188,11 @@ async def list_expenses(
 )
 async def get_expense(
     id: str,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db: AsyncIOMotorDatabase = Depends(get_database),
+    sql_db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> ExpenseResponse:
-    if not is_valid_object_id(id):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid expense ID format: '{id}'"
-        )
-
-    doc = await db[COLLECTION_NAME].find_one({"_id": str_to_object_id(id)})
-    if not doc:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Expense with ID '{id}' not found"
-        )
+    doc = await _get_owned_expense(id, db, sql_db, current_user)
 
     return ExpenseResponse(**serialize_doc(doc))
 
@@ -148,8 +206,11 @@ async def get_expense(
 )
 async def create_expense(
     payload: ExpenseCreate,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db: AsyncIOMotorDatabase = Depends(get_database),
+    sql_db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> ExpenseResponse:
+    _require_owned_trip(payload.trip_id, sql_db, current_user)
     now = datetime.now(timezone.utc)
     doc_data = payload.model_dump()
     # Serialize date to isoformat string or datetime for mongo
@@ -173,23 +234,18 @@ async def create_expense(
 async def update_expense(
     id: str,
     payload: ExpenseUpdate,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db: AsyncIOMotorDatabase = Depends(get_database),
+    sql_db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> ExpenseResponse:
-    if not is_valid_object_id(id):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid expense ID format: '{id}'"
-        )
+    existing = await _get_owned_expense(id, db, sql_db, current_user)
 
     update_fields = {k: v for k, v in payload.model_dump(exclude_unset=True).items()}
     if not update_fields:
-        doc = await db[COLLECTION_NAME].find_one({"_id": str_to_object_id(id)})
-        if not doc:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Expense with ID '{id}' not found"
-            )
-        return ExpenseResponse(**serialize_doc(doc))
+        return ExpenseResponse(**serialize_doc(existing))
+
+    if "trip_id" in update_fields:
+        _require_owned_trip(update_fields["trip_id"], sql_db, current_user)
 
     if "expense_date" in update_fields and hasattr(update_fields["expense_date"], "isoformat"):
         update_fields["expense_date"] = update_fields["expense_date"].isoformat()
@@ -217,13 +273,11 @@ async def update_expense(
 )
 async def delete_expense(
     id: str,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db: AsyncIOMotorDatabase = Depends(get_database),
+    sql_db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> None:
-    if not is_valid_object_id(id):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid expense ID format: '{id}'"
-        )
+    await _get_owned_expense(id, db, sql_db, current_user)
 
     result = await db[COLLECTION_NAME].delete_one({"_id": str_to_object_id(id)})
     if result.deleted_count == 0:
