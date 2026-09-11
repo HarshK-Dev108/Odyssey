@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17332f" />
+  <title>Odyssey — Sign In & Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/index-BUVUdf7g.css" />
+  <style>
+    :root {
+      --ink: #172b2a;
+      --muted: #6e7975;
+      --green: #0f6258;
+      --green2: #174f49;
+      --cream: #f5f4ee;
+      --paper: #ffffff;
+      --line: #e1e4dc;
+      --soft: #eef2ec;
+      --gold: #c89a48;
+      --danger: #b33927;
+      --danger-bg: #fdf2f0;
+      --success: #2e7d32;
+      --success-bg: #edf7ed;
+      --shadow: 0 24px 70px rgba(23, 43, 42, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      background: #f5f4ee;
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient background orbs */
+    .bg-decor {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-decor .orb-top {
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(15, 98, 88, 0.12) 0%, rgba(245, 244, 238, 0) 70%);
+      filter: blur(40px);
+    }
+    .bg-decor .orb-bottom {
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 154, 72, 0.1) 0%, rgba(245, 244, 238, 0) 70%);
+      filter: blur(40px);
+    }
+
+    /* Auth Header */
+    .auth-nav {
+      position: relative;
+      z-index: 2;
+      width: min(1240px, calc(100% - 48px));
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+    .brand-link .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+    .brand-link em {
+      font-size: 10px;
+      color: var(--muted);
+      font-style: normal;
+      font-weight: 400;
+      background: var(--soft);
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-left: 4px;
+    }
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+      transition: all 0.2s ease;
+    }
+    .nav-back:hover {
+      color: var(--green);
+      border-color: var(--green);
+      background: #fff;
+    }
+
+    /* Main Auth Container */
+    .auth-container {
+      position: relative;
+      z-index: 1;
+      width: min(480px, calc(100% - 32px));
+      margin: 20px auto 60px;
+    }
+
+    .auth-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 36px 32px;
+      box-shadow: 0 30px 80px rgba(23, 43, 42, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .auth-head {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--soft);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .auth-head h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .auth-head p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--soft);
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 24px;
+      gap: 4px;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 10px 14px;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Forms */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+    .form-group label a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .form-group label a:hover {
+      text-decoration: underline;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-wrap .field-icon {
+      position: absolute;
+      left: 14px;
+      color: #9ba4a0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+    .input-wrap input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fdfdfb;
+      border-radius: 13px;
+      padding: 12px 14px 12px 42px;
+      font-size: 14px;
+      color: var(--ink);
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+    .input-wrap input:focus {
+      border-color: var(--green);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(15, 98, 88, 0.12);
+    }
+    .input-wrap .toggle-pwd {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ba4a0;
+      padding: 4px;
+      display: grid;
+      place-items: center;
+      transition: color 0.2s ease;
+    }
+    .input-wrap .toggle-pwd:hover {
+      color: var(--ink);
+    }
+
+    /* Options row */
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-label input[type="checkbox"] {
+      accent-color: var(--green);
+      width: 15px;
+      height: 15px;
+    }
+
+    /* Password Strength Bar */
+    .pwd-strength {
+      display: none;
+      margin-top: 4px;
+    }
+    .pwd-strength-bars {
+      display: flex;
+      gap: 4px;
+      height: 4px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .pwd-strength-bar {
+      flex: 1;
+      background: #e1e4dc;
+      border-radius: 2px;
+      transition: background 0.3s ease;
+    }
+    .pwd-strength-text {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      background: var(--green);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 10px 25px rgba(15, 98, 88, 0.25);
+      margin-top: 6px;
+    }
+    .submit-btn:hover {
+      background: var(--green2);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 98, 88, 0.32);
+    }
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Demo Account Pill */
+    .demo-strip {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 14px;
+      background: #fafaf7;
+      border: 1px dashed var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .demo-strip-copy {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .demo-strip-copy strong {
+      display: block;
+      color: var(--ink);
+      font-size: 12px;
+    }
+    .demo-btn {
+      border: 1px solid var(--green);
+      background: #ffffff;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 11px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .demo-btn:hover {
+      background: var(--green);
+      color: #ffffff;
+    }
+
+    /* Alerts */
+    .alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.5;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      animation: fadeIn 0.25s ease;
+    }
+    .alert.error {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid rgba(179, 57, 39, 0.2);
+    }
+    .alert.success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(46, 125, 50, 0.2);
+    }
+    .alert.show {
+      display: flex;
+    }
+
+    /* Profile Card when already logged in */
+    .logged-in-box {
+      display: none;
+      text-align: center;
+      padding: 10px 0;
+    }
+    .user-avatar-large {
+      width: 70px;
+      height: 70px;
+      border-radius: 22px;
+      background: var(--green);
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 12px 30px rgba(15, 98, 88, 0.25);
+    }
+    .logged-in-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin: 0 0 4px;
+    }
+    .logged-in-box p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 24px;
+    }
+    .logged-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Footer text */
+    .auth-footer-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 11px;
+      color: #8c9691;
+    }
+    .auth-footer-note a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-page">
+    <div class="bg-decor">
+      <div class="orb-top"></div>
+      <div class="orb-bottom"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="auth-nav">
+      <a href="/" class="brand-link">
+        <span class="brand-mark">✦</span>
+        <span>Yatra<span style="color:var(--green)">AI</span></span>
+        <em>Odyssey travel</em>
+      </a>
+      <a href="/" class="nav-back">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Explore
+      </a>
+    </header>
+
+    <!-- Main Container -->
+    <div class="auth-container">
+      <div class="auth-card">
+
+        <!-- Status & Error Alerts -->
+        <div id="alertBox" class="alert">
+          <span id="alertIcon">⚠️</span>
+          <span id="alertMessage">Error message</span>
+        </div>
+
+        <!-- Already Logged-in State -->
+        <div id="loggedInState" class="logged-in-box">
+          <div id="userAvatarLarge" class="user-avatar-large">U</div>
+          <span class="auth-badge">✦ Active Session</span>
+          <h2 id="userNameDisplay">Welcome back</h2>
+          <p id="userEmailDisplay">user@odyssey.com</p>
+          <div class="logged-actions">
+            <a href="/" class="submit-btn" style="text-decoration:none;">
+              Continue to Travel Planner
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <button type="button" id="logoutBtn" class="demo-btn" style="padding:11px; font-size:13px;">
+              Sign Out from this Device
+            </button>
+          </div>
+        </div>
+
+        <!-- Auth Form Tabs & Content -->
+        <div id="authFormWrapper">
+          <div class="auth-head">
+            <span class="auth-badge">✦ Odyssey Intelligence</span>
+            <h1 id="formHeading">Welcome back</h1>
+            <p id="formSubheading">Sign in to access your AI travel plans, custom itineraries & saved destinations.</p>
+          </div>
+
+          <!-- Switcher Tabs -->
+          <div class="auth-tabs">
+            <button type="button" id="tabSignIn" class="tab-btn active" onclick="switchAuthTab('signin')">Sign In</button>
+            <button type="button" id="tabSignUp" class="tab-btn" onclick="switchAuthTab('signup')">Create Account</button>
+          </div>
+
+          <!-- Sign In Form -->
+          <form id="signInForm" class="auth-form" onsubmit="handleSignIn(event)">
+            <div class="form-group">
+              <label for="signinEmail">Email Address</label>
+              <div class="input-wrap">
+                <span class="field-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <input type="email" id="signinEmail" required placeholder="you@odyssey.com" autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signinPassword">
+                Password
+                <a href="javascript:void(0)" onclick="showAlert('info', 'Please contact support or sign up with a new account for password reset.')">Forgot?</a>
+              </label>
+              <div class="input-wrap">
+                <span class="field-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input type="password" id="signinPassword" required placeholder="••••••••" autocomplete="current-password" />
+                <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('signinPassword', this)" title="Toggle password visibility">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="checkbox-label">
+                <input type="checkbox" id="rememberMe" checked />
+                <span>Remember this device</span>
+              </label>
+              <span style="font-size:11px; color:#8c9691;">Secure 256-bit JWT</span>
+            </div>
+
+            <button type="submit" id="signinSubmitBtn" class="submit-btn">
+              <span>Sign In to Odyssey</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <!-- Quick Demo Account Shortcut -->
+            <div class="demo-strip">
+              <div class="demo-strip-copy">
+                <strong>Evaluation Quick-Fill</strong>
+                Auto-fill demo user credentials to test immediately
+              </div>
+              <button type="button" class="demo-btn" onclick="fillDemoCredentials()">Try Demo</button>
+            </div>
+          </form>
+
+          <!-- Sign Up (Create Account) Form -->
+          <form id="signUpForm" class="auth-form" style="display:none;" onsubmit="handleSignUp(event)">
+            <div class="form-group">
+              <label for="signupName">Full Name</label>
+              <div class="input-wrap">
+                <span class="field-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <input type="text" id="signupName" required placeholder="e.g. Archan Panda" autocomplete="name" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signupEmail">Email Address</label>
+              <div class="input-wrap">
+                <span class="field-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <input type="email" id="signupEmail" required placeholder="you@example.com" autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="signupPassword">Create Password</label>
+              <div class="input-wrap">
+                <span class="field-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input type="password" id="signupPassword" required minlength="6" placeholder="At least 6 characters" oninput="checkPasswordStrength(this.value)" autocomplete="new-password" />
+                <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('signupPassword', this)" title="Toggle password visibility">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div id="pwdStrength" class="pwd-strength">
+                <div class="pwd-strength-bars">
+                  <div class="pwd-strength-bar" id="str1"></div>
+                  <div class="pwd-strength-bar" id="str2"></div>
+                  <div class="pwd-strength-bar" id="str3"></div>
+                </div>
+                <span class="pwd-strength-text" id="pwdStrengthText">Strength</span>
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="checkbox-label">
+                <input type="checkbox" id="acceptTerms" required checked />
+                <span>I agree to the Terms & Privacy Policy</span>
+              </label>
+            </div>
+
+            <button type="submit" id="signupSubmitBtn" class="submit-btn">
+              <span>Create Odyssey Account</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <div class="auth-footer-note">
+          Protected by Odyssey AI Smart Travel Planner · <a href="/">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = window.__API_BASE__ || '/api/v1';
+
+    // Check if user is already logged in on load
+    document.addEventListener('DOMContentLoaded', () => {
+      checkExistingSession();
+    });
+
+    function checkExistingSession() {
+      const token = localStorage.getItem('odyssey_token');
+      const userRaw = localStorage.getItem('odyssey_user');
+
+      if (token && userRaw) {
+        try {
+          const user = JSON.parse(userRaw);
+          document.getElementById('authFormWrapper').style.display = 'none';
+          document.getElementById('loggedInState').style.display = 'block';
+          document.getElementById('userNameDisplay').textContent = user.name || 'Traveler';
+          document.getElementById('userEmailDisplay').textContent = user.email || '';
+          document.getElementById('userAvatarLarge').textContent = (user.name ? user.name.charAt(0) : 'U').toUpperCase();
+        } catch {
+          // invalid format, show form
+        }
+      }
+    }
+
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+      localStorage.removeItem('odyssey_token');
+      localStorage.removeItem('odyssey_user');
+      document.getElementById('loggedInState').style.display = 'none';
+      document.getElementById('authFormWrapper').style.display = 'block';
+      showAlert('info', 'You have been signed out.');
+    });
+
+    function switchAuthTab(tab) {
+      hideAlert();
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabSignUp = document.getElementById('tabSignUp');
+      const signInForm = document.getElementById('signInForm');
+      const signUpForm = document.getElementById('signUpForm');
+      const heading = document.getElementById('formHeading');
+      const subheading = document.getElementById('formSubheading');
+
+      if (tab === 'signin') {
+        tabSignIn.classList.add('active');
+        tabSignUp.classList.remove('active');
+        signInForm.style.display = 'flex';
+        signUpForm.style.display = 'none';
+        heading.textContent = 'Welcome back';
+        subheading.textContent = 'Sign in to access your AI travel plans, custom itineraries & saved destinations.';
+      } else {
+        tabSignUp.classList.add('active');
+        tabSignIn.classList.remove('active');
+        signUpForm.style.display = 'flex';
+        signInForm.style.display = 'none';
+        heading.textContent = 'Create your account';
+        subheading.textContent = 'Join Odyssey to generate optimized itineraries, track budgets, and explore.';
+      }
+    }
+
+    function togglePasswordVisibility(fieldId, btn) {
+      const field = document.getElementById(fieldId);
+      if (field.type === 'password') {
+        field.type = 'text';
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+      } else {
+        field.type = 'password';
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+      }
+    }
+
+    function checkPasswordStrength(pwd) {
+      const meter = document.getElementById('pwdStrength');
+      if (!pwd) {
+        meter.style.display = 'none';
+        return;
+      }
+      meter.style.display = 'block';
+
+      const s1 = document.getElementById('str1');
+      const s2 = document.getElementById('str2');
+      const s3 = document.getElementById('str3');
+      const txt = document.getElementById('pwdStrengthText');
+
+      s1.style.background = '#e1e4dc';
+      s2.style.background = '#e1e4dc';
+      s3.style.background = '#e1e4dc';
+
+      if (pwd.length < 6) {
+        s1.style.background = '#b33927';
+        txt.textContent = 'Too short (min 6 characters)';
+        txt.style.color = '#b33927';
+      } else if (pwd.length < 9) {
+        s1.style.background = '#c89a48';
+        s2.style.background = '#c89a48';
+        txt.textContent = 'Fair strength';
+        txt.style.color = '#c89a48';
+      } else {
+        s1.style.background = '#2e7d32';
+        s2.style.background = '#2e7d32';
+        s3.style.background = '#2e7d32';
+        txt.textContent = 'Strong password';
+        txt.style.color = '#2e7d32';
+      }
+    }
+
+    function fillDemoCredentials() {
+      document.getElementById('signinEmail').value = 'traveler@odyssey.com';
+      document.getElementById('signinPassword').value = 'odyssey2026';
+      showAlert('info', 'Demo credentials loaded. Click "Sign In to Odyssey" to test.');
+    }
+
+    function showAlert(type, message) {
+      const alertBox = document.getElementById('alertBox');
+      const alertIcon = document.getElementById('alertIcon');
+      const alertMessage = document.getElementById('alertMessage');
+
+      alertBox.className = `alert show ${type}`;
+      alertIcon.textContent = type === 'error' ? '✕' : type === 'success' ? '✓' : 'ℹ';
+      alertMessage.textContent = message;
+    }
+
+    function hideAlert() {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.className = 'alert';
+    }
+
+    // Handles user login via FastAPI /api/v1/users/login
+    async function handleSignIn(e) {
+      e.preventDefault();
+      hideAlert();
+
+      const email = document.getElementById('signinEmail').value.trim();
+      const password = document.getElementById('signinPassword').value;
+      const btn = document.getElementById('signinSubmitBtn');
+
+      if (!email || !password) {
+        showAlert('error', 'Please enter your email and password.');
+        return;
+      }
+
+      btn.disabled = true;
+      const originalBtnContent = btn.innerHTML;
+      btn.innerHTML = `<span class="spinner"></span> Signing in…`;
+
+      try {
+        // FastAPI expects query parameters: /api/v1/users/login?email=...&password=...
+        const url = `${API_BASE}/users/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+        
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ email, password }) // Also send in body for resilience
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          const detailMsg = data.detail || data.message || `Sign in failed (HTTP ${response.status})`;
+          throw new Error(detailMsg);
+        }
+
+        // Save session
+        if (data.access_token) {
+          localStorage.setItem('odyssey_token', data.access_token);
+          localStorage.setItem('odyssey_user', JSON.stringify({
+            id: data.user_id,
+            name: data.name,
+            email: data.email
+          }));
+        }
+
+        showAlert('success', `Welcome back, ${data.name || 'traveler'}! Redirecting…`);
+        
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 800);
+
+      } catch (err) {
+        console.error('Sign in error:', err);
+        showAlert('error', err.message || 'Unable to sign in. Please verify your credentials or server connection.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnContent;
+      }
+    }
+
+    // Handles user registration via FastAPI /api/v1/users/?name=...&email=...&password=...
+    async function handleSignUp(e) {
+      e.preventDefault();
+      hideAlert();
+
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const btn = document.getElementById('signupSubmitBtn');
+
+      if (!name || !email || !password) {
+        showAlert('error', 'Please fill in all fields.');
+        return;
+      }
+
+      btn.disabled = true;
+      const originalBtnContent = btn.innerHTML;
+      btn.innerHTML = `<span class="spinner"></span> Creating account…`;
+
+      try {
+        // FastAPI expects query parameters: /api/v1/users/?name=...&email=...&password=...
+        const url = `${API_BASE}/users/?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+        
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          const detailMsg = data.detail || data.message || `Registration failed (HTTP ${response.status})`;
+          throw new Error(detailMsg);
+        }
+
+        showAlert('success', `Account created successfully! Signing in…`);
+
+        // Automatically log in with new credentials
+        setTimeout(async () => {
+          try {
+            const loginUrl = `${API_BASE}/users/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+            const loginRes = await fetch(loginUrl, { method: 'POST' });
+            const loginData = await loginRes.json().catch(() => ({}));
+            if (loginRes.ok && loginData.access_token) {
+              localStorage.setItem('odyssey_token', loginData.access_token);
+              localStorage.setItem('odyssey_user', JSON.stringify({
+                id: loginData.user_id,
+                name: loginData.name,
+                email: loginData.email
+              }));
+              window.location.href = '/';
+              return;
+            }
+          } catch (e) {
+            // fallback: switch to sign in tab
+          }
+          switchAuthTab('signin');
+          document.getElementById('signinEmail').value = email;
+          document.getElementById('signinPassword').value = '';
+          showAlert('success', 'Account created! Please sign in with your password.');
+        }, 700);
+
+      } catch (err) {
+        console.error('Sign up error:', err);
+        showAlert('error', err.message || 'Registration error. Email may already be registered.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnContent;
+      }
+    }
+  </script>
+</body>
+</html>

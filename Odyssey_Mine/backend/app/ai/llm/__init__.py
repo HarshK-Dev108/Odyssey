@@ -1,0 +1,1 @@
+"""Optional LLM integrations; deterministic services remain the source of truth."""

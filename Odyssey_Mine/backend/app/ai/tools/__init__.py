@@ -1,0 +1,1 @@
+"""Descriptions for safe assistant tool calls."""
