@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.core.database import Base
 
@@ -20,4 +21,10 @@ class User(Base):
     password_hash = Column(
         String,
         nullable=False
+    )
+
+    trips = relationship(
+        "Trip",
+        back_populates="owner",
+        cascade="all, delete-orphan"
     )

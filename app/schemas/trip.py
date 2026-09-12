@@ -42,3 +42,67 @@ class TripRequest(BaseModel):
         if self.end_date <= self.start_date:
             raise ValueError("end_date must be after start_date")
         return self
+
+
+class TripUpdateRequest(BaseModel):
+    from_city: str | None = Field(None, min_length=2)
+    destination: str | None = Field(None, min_length=2)
+
+    start_date: date | None = None
+    end_date: date | None = None
+
+    travellers: int | None = Field(None, ge=1)
+    budget: float | None = Field(None, gt=0)
+
+    currency: str | None = None
+
+    interests: list[str] | None = None
+
+    hotel_rating: int | None = Field(None, ge=1, le=5)
+    pace: str | None = None
+    avoid_crowds: bool | None = None
+
+    @field_validator("pace")
+    @classmethod
+    def validate_pace(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip().casefold()
+        if normalized not in {"relaxed", "moderate", "active"}:
+            raise ValueError("pace must be relaxed, moderate, or active")
+        return normalized
+
+    @field_validator("currency")
+    @classmethod
+    def validate_currency(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip().upper()
+        if len(normalized) != 3 or not normalized.isalpha():
+            raise ValueError("currency must be a three-letter code")
+        return normalized
+
+    @model_validator(mode="after")
+    def validate_dates(self):
+        if self.start_date is not None and self.end_date is not None:
+            if self.end_date <= self.start_date:
+                raise ValueError("end_date must be after start_date")
+        return self
+
+
+class TripResponse(BaseModel):
+    id: int
+    trip_id: int
+    user_id: int | None = None
+    from_city: str
+    destination: str
+    start_date: date
+    end_date: date
+    travellers: int
+    budget: float
+    currency: str = "INR"
+    interests: list[str] = Field(default_factory=list)
+    hotel_rating: int = 3
+    pace: str = "moderate"
+    avoid_crowds: bool = False
+    ai_plan: dict | list | None = None
