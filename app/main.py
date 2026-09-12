@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-from app.api.routes import health, trips, users, optimization, assistant, itineraries
+from app.api.routes import health, trips, users, optimization, assistant, itineraries, ai
 from app.api.routes.tourism import tourism_router
 from app.core.database import Base, engine, ensure_legacy_schema
 from app.core.mongodb import connect_to_mongo, close_mongo_connection, get_database
@@ -56,3 +56,4 @@ app.include_router(tourism_router)
 app.include_router(optimization.router)
 app.include_router(assistant.router)
 app.include_router(itineraries.router)
+app.include_router(ai.router)
