@@ -33,6 +33,12 @@ class Trip(Base):
     ai_plan = Column(JSON, nullable=True)
 
     owner = relationship("User", back_populates="trips")
+    itinerary = relationship(
+        "Itinerary",
+        back_populates="trip",
+        uselist=False,
+        cascade="all, delete-orphan"
+    )
 
     @property
     def user(self):
