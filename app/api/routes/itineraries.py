@@ -14,6 +14,7 @@ from app.schemas.itinerary import (
     FlightsSelectionRequest,
     ActivityMutationRequest,
 )
+from app.schemas.generator import ItineraryGenerationResponse
 from app.services.itinerary_service import (
     get_or_create_itinerary,
     validate_hotel_id,
@@ -21,6 +22,7 @@ from app.services.itinerary_service import (
     validate_activity_id,
     recalculate_itinerary_cost,
 )
+from app.services.itinerary_generator_service import generate_intelligent_itinerary
 
 router = APIRouter(
     prefix="/api/v1/trips",
@@ -250,3 +252,18 @@ async def mutate_trip_activities(
     db.commit()
     db.refresh(itinerary)
     return itinerary
+
+
+@router.post("/{trip_id}/generate", response_model=ItineraryGenerationResponse)
+async def generate_trip_itinerary(
+    trip_id: int,
+    db: Session = Depends(get_db),
+    mongo_db: AsyncIOMotorDatabase = Depends(get_database),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Intelligently generate, score, schedule and persist a complete trip itinerary
+    from MongoDB catalogue data, respecting trip pace, budget, and live weather.
+    """
+    trip = _get_user_trip(trip_id, db, current_user)
+    return await generate_intelligent_itinerary(trip, db, mongo_db)
