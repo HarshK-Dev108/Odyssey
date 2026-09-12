@@ -46,6 +46,10 @@ def ensure_legacy_schema():
                 "ON trips (user_id)"
             )
         )
+        if "ai_plan" not in trip_columns:
+            connection.execute(
+                text("ALTER TABLE trips ADD COLUMN ai_plan JSON")
+            )
 
 
 def get_db():

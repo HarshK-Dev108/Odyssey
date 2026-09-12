@@ -2,12 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.core.auth import get_current_user
 from app.core.security import (
     hash_password,
     verify_password,
     create_access_token
 )
 from app.models.user import User
+from app.models.trip import Trip
 
 
 router = APIRouter(
@@ -94,3 +96,37 @@ def login_user(
         "access_token": access_token,
         "token_type": "bearer"
     }
+
+
+def serialize_trip(trip: Trip) -> dict:
+    return {
+        "trip_id": trip.id,
+        "id": trip.id,
+        "user_id": trip.user_id,
+        "from_city": trip.from_city,
+        "destination": trip.destination,
+        "start_date": trip.start_date,
+        "end_date": trip.end_date,
+        "travellers": trip.travellers,
+        "budget": trip.budget,
+        "currency": trip.currency,
+        "interests": trip.interests,
+        "hotel_rating": trip.hotel_rating,
+        "pace": trip.pace,
+        "avoid_crowds": trip.avoid_crowds,
+        "ai_plan": trip.ai_plan
+    }
+
+
+@router.get("/me/trips")
+def get_current_user_trips(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    trips = (
+        db.query(Trip)
+        .filter(Trip.user_id == current_user.id)
+        .order_by(Trip.id.desc())
+        .all()
+    )
+    return [serialize_trip(trip) for trip in trips]

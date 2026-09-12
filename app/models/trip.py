@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, Date, JSON, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 from app.core.database import Base
 
@@ -30,3 +31,9 @@ class Trip(Base):
 
     # Stores the latest AI-generated/optimized travel plan
     ai_plan = Column(JSON, nullable=True)
+
+    owner = relationship("User", back_populates="trips")
+
+    @property
+    def user(self):
+        return self.owner

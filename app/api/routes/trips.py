@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from sqlalchemy.orm import Session
 
-from app.schemas.trip import TripRequest
+from app.schemas.trip import TripRequest, TripUpdateRequest
 from app.core.database import get_db
 from app.core.auth import get_current_user
 from app.models.trip import Trip
@@ -33,6 +33,38 @@ travel_agent = TravelAgent(
     budget_optimizer=budget_optimizer,
     itinerary_generator=itinerary_generator
 )
+
+
+def serialize_trip(trip: Trip) -> dict:
+    return {
+        "trip_id": trip.id,
+        "id": trip.id,
+        "user_id": trip.user_id,
+        "from_city": trip.from_city,
+        "destination": trip.destination,
+        "start_date": trip.start_date,
+        "end_date": trip.end_date,
+        "travellers": trip.travellers,
+        "budget": trip.budget,
+        "currency": trip.currency,
+        "interests": trip.interests,
+        "hotel_rating": trip.hotel_rating,
+        "pace": trip.pace,
+        "avoid_crowds": trip.avoid_crowds,
+        "ai_plan": trip.ai_plan
+    }
+
+
+def _get_user_trip(trip_id: int, db: Session, user: User) -> Trip:
+    trip = db.query(Trip).filter(
+        Trip.id == trip_id,
+        Trip.user_id == user.id,
+    ).first()
+
+    if not trip:
+        raise HTTPException(status_code=404, detail="Trip not found")
+
+    return trip
 
 
 @router.post("/plan")
@@ -102,33 +134,74 @@ async def create_trip_plan(
     }
 
 
+@router.get("/")
+def list_trips(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    trips = (
+        db.query(Trip)
+        .filter(Trip.user_id == current_user.id)
+        .order_by(Trip.id.desc())
+        .all()
+    )
+    return [serialize_trip(trip) for trip in trips]
+
+
 @router.get("/{trip_id}")
 def get_trip(
     trip_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    trip = _get_user_trip(trip_id, db, current_user)
+    return serialize_trip(trip)
 
-    trip = db.query(Trip).filter(
-        Trip.id == trip_id,
-        Trip.user_id == current_user.id,
-    ).first()
 
-    if not trip:
-        raise HTTPException(status_code=404, detail="Trip not found")
+@router.put("/{trip_id}")
+@router.patch("/{trip_id}")
+def update_trip(
+    trip_id: int,
+    payload: TripUpdateRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    trip = _get_user_trip(trip_id, db, current_user)
+
+    update_data = payload.model_dump(exclude_unset=True)
+
+    # Validate date consistency if dates are updated
+    start_date = update_data.get("start_date", trip.start_date)
+    end_date = update_data.get("end_date", trip.end_date)
+    if end_date <= start_date:
+        raise HTTPException(
+            status_code=400,
+            detail="end_date must be after start_date"
+        )
+
+    for field, value in update_data.items():
+        setattr(trip, field, value)
+
+    db.commit()
+    db.refresh(trip)
+
+    res = serialize_trip(trip)
+    res["message"] = "Trip updated successfully"
+    return res
+
+
+@router.delete("/{trip_id}")
+def delete_trip(
+    trip_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    trip = _get_user_trip(trip_id, db, current_user)
+
+    db.delete(trip)
+    db.commit()
 
     return {
-        "trip_id": trip.id,
-        "from_city": trip.from_city,
-        "destination": trip.destination,
-        "start_date": trip.start_date,
-        "end_date": trip.end_date,
-        "travellers": trip.travellers,
-        "budget": trip.budget,
-        "currency": trip.currency,
-        "interests": trip.interests,
-        "hotel_rating": trip.hotel_rating,
-        "pace": trip.pace,
-        "avoid_crowds": trip.avoid_crowds,
-        "ai_plan": trip.ai_plan
+        "message": "Trip deleted successfully",
+        "trip_id": trip_id
     }
